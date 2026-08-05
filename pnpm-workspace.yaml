@@ -1,0 +1,17 @@
+packages:
+  - packages/*
+
+#minimumReleaseAge: 10080
+
+onlyBuiltDependencies:
+  - '@openapitools/openapi-generator-cli'
+  - esbuild
+
+ignoredBuiltDependencies:
+  - '@nestjs/core'
+
+allowBuilds:
+  '@nestjs/core': true
+  '@openapitools/openapi-generator-cli': true
+  esbuild: true
+  vue-demi: true

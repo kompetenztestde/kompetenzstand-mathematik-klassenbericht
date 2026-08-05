@@ -1,0 +1,65 @@
+.pageContainer{
+    background-color: var(--color--white, white);
+    margin: 16px 16px 0px 16px;
+    border-radius: 10px;
+    min-height: calc(100dvh - 10dvh - 40px);;
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #eee;
+  padding: 16px;
+}
+
+.chartTitle {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column; 
+  gap: 6px;
+}
+
+.controlsContainer {
+  display: flex;
+  align-items: center;
+  gap: 24px; 
+}
+
+.checkboxLabel {
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.checkboxLabel input {
+  cursor: pointer;
+}
+
+.legendButton {
+  background-color: #f8f9fa;
+  border: 1px solid #ccd0d4;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.legendButton:hover {
+  background-color: #f0f1f2;
+  border-color: #b5bcc2;
+}
+
+.legendButton:active {
+  background-color: #e4e6e8;
+}

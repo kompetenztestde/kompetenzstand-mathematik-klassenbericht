@@ -1,0 +1,21 @@
+:root {
+  --color-berry: #b00fbf;
+  --color-navigation-blue: #001dab;
+  --color-turquise: #87f9f5;
+  --color-turquise-light: #deffff;
+  --color-white: #ffffff;
+  --color-pink: #ff00d4;
+  --color-waterblue: #4866ed;
+  --color-waterblue_2: #5c7cfd;
+  --color-waterblue_3: #7f9dff;
+  --color-waterblue_4: #7cb9ff;
+  --color-waterblue_5: #a1c5ff;
+  --color-waterblue_6: #b3d3ff;
+  --color-waterblue-10: #deedff;
+  --color-waterblue-11: #eef5fe;
+
+  --color-black: #000;
+
+  --page-max-width: 1338px;
+  --page-gutter: 20px;
+}

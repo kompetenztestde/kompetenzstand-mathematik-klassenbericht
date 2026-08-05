@@ -1,0 +1,7 @@
+{
+  "nullSafeAdditionalProps": true,
+  "typescriptThreePlus": true,
+  "disallowAdditionalPropertiesIfNotPresent": false,
+  "allowUnicodeIdentifiers": true,
+  "supportsES6": true
+}

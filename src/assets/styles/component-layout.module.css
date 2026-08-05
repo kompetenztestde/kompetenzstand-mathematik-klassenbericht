@@ -1,0 +1,62 @@
+.baseCard {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    min-height: calc(100dvh - 10dvh - 40px);
+    width: 100%;
+    max-width: 1030px;
+    border-radius: 20px;
+    background: var(--white, #fff);
+    box-shadow: 0 0 20px 0 rgba(34, 92, 115, 0.1);
+    overflow: hidden;
+}
+
+.baseIllustration {
+    /* border-radius: 20px 0 0 20px; */
+    background: var(--turquise-light, #deffff);
+    box-shadow: 0 0 20px 0 rgba(34, 92, 115, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.baseContentArea {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    gap: 20px;
+}
+
+.baseText {
+    color: var(--Navigation-Blue, #001dab);
+    font-family: 'League Spartan';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px;
+}
+
+@media (max-width: 768px) {
+    .baseCard {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+    .baseIllustration {
+        height: auto;
+        min-height: 80px;
+        padding: 15px;
+        /* border-radius: 20px 20px 0 0; */
+    }
+
+    .baseContentArea {
+        padding: 20px;
+        gap: 15px;
+    }
+
+    .baseText {
+        font-size: 18px;
+        line-height: 24px;
+    }
+}
