@@ -1,8 +1,8 @@
-.pageContainer{
-    background-color: var(--color--white, white);
-    margin: 16px 16px 0px 16px;
-    border-radius: 10px;
-    min-height: calc(100dvh - 10dvh - 40px);;
+.pageContainer {
+  background-color: var(--color--white, white);
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
 }
 
 .chartHeader {
@@ -10,34 +10,48 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 24px;
-  border-bottom: 1px solid #eee;
   padding: 16px;
+  grid-column: 1 / -1;
 }
 
 .chartTitle {
-  margin: 0;
-  font-size: 1.5rem;
+  margin: unset;
+
+  color: var(--color-black, #000);
+
+  /* tablet/H2 */
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.08; /* 108.333% */
 }
 
 .checkboxGroup {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 6px;
 }
 
 .controlsContainer {
   display: flex;
-  align-items: center;
-  gap: 24px; 
+  align-items: flex-start;
+  gap: 32px;
 }
 
 .checkboxLabel {
-  font-size: 0.85rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
   user-select: none;
+
+  color: var(--color-black, #000);
+
+  /* tablet/body */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.31; /* 131.25% */
 }
 
 .checkboxLabel input {
@@ -45,21 +59,105 @@
 }
 
 .legendButton {
-  background-color: #f8f9fa;
-  border: 1px solid #ccd0d4;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  padding: 6px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.baseCheckbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  flex-shrink: 0;
+  margin: 0;
+  border: 1.5px solid var(--color-navigation-blue, #001dab);
 }
 
-.legendButton:hover {
-  background-color: #f0f1f2;
-  border-color: #b5bcc2;
+.classCheckbox {
+  composes: baseCheckbox;
+  background-color: var(--sds-color-background-default-default, #ffffff);
 }
 
-.legendButton:active {
-  background-color: #e4e6e8;
+.countryCheckbox {
+  composes: baseCheckbox;
+  background-color: var(--waterblue_6, #b3d3ff);
+}
+
+.schoolCheckbox {
+  composes: baseCheckbox;
+  background-color: var(--turquise, #87f9f5);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.isDisabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.isDisabled .baseCheckbox {
+  cursor: not-allowed;
+}
+
+.checkIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--color-navigation-blue, var(--Navigation-Blue, #001dab));
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.buttonIcon {
+  display: flex;
+  width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  aspect-ratio: 1/1;
+  border-radius: 50px;
+  background: var(--white, #fff);
+  box-shadow: 0 0 6px 0 rgba(0, 32, 137, 0.25);
+}
+
+.buttonLabel {
+  color: var(--color-navigation-blue, #001dab);
+
+  /* tablet/label */
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.06; /* 105.556% */
+}
+
+.buttonIconSpan {
+  color: var(--color-navigation-blue, #001dab);
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
