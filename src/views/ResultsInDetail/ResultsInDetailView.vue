@@ -3,6 +3,8 @@ import { useAllUserItemsNew } from '@/composables/useUserItems'
 import styles from './styles.module.css'
 import { computed, ref, watch } from 'vue'
 import type { ItemsStudentsDataInner } from '@tba3/api-new'
+import CrossIcon from './icons/CrossIcon.svg?component'
+import CloseIcon from './icons/CloseIcon.svg?component'
 
 const { data } = useAllUserItemsNew()
 const radioButtonTexts = ['Allgemein', 'Kompetenzstufe', 'Anforderungsbereich', 'Leitidee']
@@ -24,26 +26,26 @@ function getItems(user: ItemsStudentsDataInner) {
 }
 
 const competenceColors: Record<string, string> = {
-  '1': '#E3F2FD',
-  '2': '#BBDEFB',
-  '3': '#90CAF9',
-  '4': '#64B5F6',
-  '5': '#42A5F5',
-  '6': '#2196F3',
+  '1': '#2DD8FF',
+  '2': '#0BC0F2',
+  '3': '#01ABE9',
+  '4': '#008DEB',
+  '5': '#017DDC',
+  '6': '#024DE3',
 }
 
 const cognitiveColors: Record<string, string> = {
-  '1': '#E8F5E9',
-  '2': '#A5D6A7',
-  '3': '#66BB6A',
+  '1': '#EF74FB',
+  '2': '#D433D0',
+  '3': '#971ABD',
 }
 
 const coreIdeaColors: Record<string, string> = {
-  '1': '#FFF3E0',
-  '2': '#FFE0B2',
-  '3': '#FFCC80',
-  '4': '#FFB74D',
-  '5': '#FFA726',
+  '1': '#BBF066',
+  '2': '#89E849',
+  '3': '#27E586',
+  '4': '#0DCFAF',
+  '5': '#01999F',
 }
 
 function getCorrectItemsCount(user: ItemsStudentsDataInner): number {
@@ -100,6 +102,25 @@ function getCrossIndicator(
   return ''
 }
 
+function hasCrossIndicator(
+  type: 'musprache' | 'wiederh8' | 'blsf',
+  user: ItemsStudentsDataInner,
+): boolean {
+  if (type === 'musprache') {
+    return !isNaN(getLanguage(user))
+  }
+
+  if (type === 'wiederh8') {
+    return !isNaN(getClassRepeateruser(user))
+  }
+
+  if (type === 'blsf') {
+    return getBLSF(user) === 1
+  }
+
+  return false
+}
+
 function toggleSort(key: 'score' | 'hnote' | 'user') {
   if (sortKey.value === key) {
     sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
@@ -150,9 +171,15 @@ function getMetadataValue(obj: any): string {
 function getItemStyle(item: any) {
   const freq = item.descriptiveStatistics?.frequency
 
-  if (freq === -1) return { backgroundColor: notWorkedOn.value ? '#555555' : '#9e9e9e' }
-  if (freq === 0) return { backgroundColor: '#9e9e9e' }
-  if (currentViewMode.value === 'Allgemein') return { backgroundColor: '#006400' }
+  if (freq === -1) return { backgroundColor: notWorkedOn.value ? '#FFF' : '#EAEAEA' }
+  if (freq === 0) {
+    return {
+      backgroundColor: '#EAEAEA',
+      backgroundImage:
+        'linear-gradient(135deg, transparent calc(50% - 1.5px), #9e9e9e calc(50% - 1px), #9e9e9e calc(50% + 1px), transparent calc(50% + 1.5px))',
+    }
+  }
+  if (currentViewMode.value === 'Allgemein') return { backgroundColor: '#008574' }
 
   const params = item.parameters
   const modeMappings: Record<string, { param: any; colors: Record<string, string> }> = {
@@ -179,13 +206,17 @@ watch(
   },
 )
 
-// Reaktive Zustände für die Filter/Aktionen in thirdRow
+const showLegendPopup = ref(false)
+
+function toggleLegendPopup() {
+  showLegendPopup.value = !showLegendPopup.value
+}
+
 const showNumbers = ref(false)
 const showNotWorkedOn = ref(false)
 const fitToScreen = ref(false)
 const maximizeArea = ref(false)
 
-// Klick-Handler für die Buttons in der 3. Zeile
 function toggleShowNumbers() {
   showNumbers.value = !showNumbers.value
 }
@@ -204,186 +235,7 @@ function toggleMaximizeArea() {
 </script>
 
 <template>
-  <!-- <div :class="styles.mainHeaderContainer"> -->
-  <!-- <h2 :class="styles.title">Ergebnisse im Detail</h2> -->
-
-  <!-- <div :class="styles.headRow">
-      <div :class="styles.verticalGroup">
-        <label v-for="mode in radioButtonTexts" :key="'radio-' + mode" :class="styles.labelRow">
-          <input type="radio" name="detail-options" :value="mode" v-model="currentViewMode" />
-          <span>{{ mode }}</span>
-        </label>
-      </div>
-
-      <div :class="styles.verticalGroup">
-        <label :class="styles.labelRow">
-          <input type="checkbox" />
-          <span>Aufgaben-Nummer</span>
-        </label>
-        <label :class="styles.labelRow">
-          <input type="checkbox" v-model="notWorkedOn" />
-          <span>Nicht bearbeitete Aufgaben</span>
-        </label>
-        <label :class="styles.labelRow">
-          <input type="checkbox" v-model="groupWrongTasks" />
-          <span>Falsch gelöste Aufgaben gruppieren</span>
-        </label>
-        <label :class="styles.labelRow">
-          <input type="checkbox" />
-          <span>Fit-to-Screen</span>
-        </label>
-      </div>
-    </div>
-
-    <div :class="styles.metaGrid">
-      <div :class="styles.gridCell" style="grid-area: 1 / 1"><strong>Metadaten</strong></div>
-      <div :class="styles.gridCell" style="grid-area: 2 / 1">Kompetenzstufe</div>
-      <div :class="styles.gridCell" style="grid-area: 3 / 1">Anforderungsbereich</div>
-      <div :class="styles.gridCell" style="grid-area: 4 / 1">Leitidee</div>
-
-      <div :class="styles.gridCell" style="grid-area: 2 / 2">
-        <div :class="styles.legendRow">
-          <div
-            v-for="(color, n) in competenceColors"
-            :key="'legend-comp-' + n"
-            :class="styles.legendSquare"
-            :style="{ backgroundColor: color }"
-          >
-            {{ n }}
-          </div>
-        </div>
-      </div>
-      <div :class="styles.gridCell" style="grid-area: 3 / 2">
-        <div :class="styles.legendRow">
-          <div
-            v-for="(color, roman) in cognitiveColors"
-            :key="'legend-cog-' + roman"
-            :class="styles.legendSquare"
-            :style="{ backgroundColor: color }"
-          >
-            {{ roman }}
-          </div>
-        </div>
-      </div>
-      <div :class="styles.gridCell" style="grid-area: 4 / 2">
-        <div :class="styles.legendRow">
-          <div
-            v-for="(color, n) in coreIdeaColors"
-            :key="'legend-idea-' + n"
-            :class="styles.legendSquare"
-            :style="{ backgroundColor: color }"
-          >
-            {{ n }}
-          </div>
-        </div>
-      </div>
-
-      <div :class="styles.gridCell" style="grid-area: 1 / 3">
-        <strong>Aufgabe allgemein</strong>
-      </div>
-      <div :class="styles.gridCell" style="grid-area: 2 / 3 / span 3 / 3">
-        <div :class="styles.verticalGroup">
-          <div :class="styles.labelRow">
-            <div :class="[styles.legendSquare, styles.bgDarkGreen]"></div>
-            <span>richtig</span>
-          </div>
-          <div :class="styles.labelRow">
-            <div :class="[styles.legendSquare, styles.bgGray]"></div>
-            <span>falsch</span>
-          </div>
-          <div :class="styles.labelRow">
-            <div :class="[styles.legendSquare, styles.bgDarkGray]"></div>
-            <span>nicht bearbeitet</span>
-          </div>
-        </div>
-      </div>
-    </div> -->
-  <!-- </div> -->
-  <!-- <div :class="styles.tableWrapper">
-    <div :class="styles.tableContainer">
-      <div :class="styles.tableHeaderRow">
-        <div
-          :class="[styles.metaHeaderColumn, styles.narrowColumn]"
-          title="Muttersprache (nicht null)"
-        >
-          Sprache
-        </div>
-        <div
-          :class="[styles.metaHeaderColumn, styles.narrowColumn]"
-          title="Klassenwiederholer (nicht null)"
-        >
-          Wiederh.
-        </div>
-        <div :class="[styles.metaHeaderColumn, styles.narrowColumn]" title="BLSF (Wert ist 1)">
-          BLSF
-        </div>
-        <div :class="[styles.userHeaderColumn, styles.sortableHeader]" @click="toggleSort('user')">
-          User Code
-          <span v-if="sortKey === 'user'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
-        </div>
-        <div
-          :class="[styles.itemsHeaderColumn, styles.sortableHeader]"
-          @click="toggleSort('score')"
-        >
-          Aufgaben-Ergebnisse (Items 1-43)
-          <span v-if="sortKey === 'score'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
-        </div>
-
-        <div
-          :class="[styles.hNoteHeaderColumn, styles.sortableHeader]"
-          @click="toggleSort('hnote')"
-        >
-          Halbjahresnote
-          <span v-if="sortKey === 'hnote'">{{ sortDirection === 'asc' ? '▼' : '▲' }}</span>
-        </div>
-      </div>
-
-      <div v-if="sortedData.length" :class="styles.tableBody">
-        <div
-          v-for="user in sortedData"
-          :key="user.code || Math.random().toString()"
-          :class="styles.tableRow"
-        >
-          <div :class="[styles.metaColumn, styles.narrowColumn]">
-            {{ getCrossIndicator('musprache', user) }}
-          </div>
-          <div :class="[styles.metaColumn, styles.narrowColumn]">
-            {{ getCrossIndicator('wiederh8', user) }}
-          </div>
-          <div :class="[styles.metaColumn, styles.narrowColumn]">
-            {{ getCrossIndicator('blsf', user) }}
-          </div>
-          <div :class="styles.userColumn">
-            {{ user.code || 'Unbekannt' }}
-          </div>
-          <div :class="styles.itemsColumn">
-            <div
-              v-for="item in getItems(user)"
-              :key="item.iqbId"
-              :class="styles.itemBadge"
-              :style="getItemStyle(item)"
-              :title="
-                `
-Aufgabe: ${item.name || 'Unbekannt'}
-IQB-ID: ${item.iqbId || '-'}
-Frequenz: ${item.descriptiveStatistics?.frequency ?? 0}
----------------------------
-Kompetenzstufe: ${getMetadataValue(item.parameters?.competenceLevel) || '-'}
-Anforderungsbereich: ${getMetadataValue(item.parameters?.cognitiveDemandLevel) || '-'}
-Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
-    `.trim()
-              "
-            ></div>
-          </div>
-          <div :class="styles.hNoteColumn">
-            {{ getHNote(user) }}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <div :class="styles.resultsInDetailContainer">
+  <div :class="[styles.resultsInDetailContainer, 'noPaddingPage']">
     <div :class="styles.controlheaderContainer">
       <div :class="styles.firstRow">
         <h2 :class="styles.title">Ergebnisse im Detail</h2>
@@ -395,8 +247,9 @@ Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
         </button>
       </div>
       <div :class="styles.secondRow">
-        <button @click="currentViewMode = 'Allgemein'"
-        :class="[styles.defaultContainer, currentViewMode === 'Allgemein' && styles.activeMode]" 
+        <button
+          @click="currentViewMode = 'Allgemein'"
+          :class="[styles.defaultContainer, currentViewMode === 'Allgemein' && styles.activeMode]"
         >
           <span>Allgemein</span>
           <div :class="styles.legendRow">
@@ -405,8 +258,11 @@ Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
             <div :class="[styles.legendSquare, styles.notWorkedOnLegend]">n. bearb.</div>
           </div>
         </button>
-       <button
-          :class="[styles.competenceContainer, currentViewMode === 'Kompetenzstufe' && styles.activeMode]"
+        <button
+          :class="[
+            styles.competenceContainer,
+            currentViewMode === 'Kompetenzstufe' && styles.activeMode,
+          ]"
           @click="currentViewMode = 'Kompetenzstufe'"
         >
           <span>Kompetenzstufe</span>
@@ -421,8 +277,11 @@ Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
             </div>
           </div>
         </button>
-       <button
-          :class="[styles.requirementsContainer, currentViewMode === 'Anforderungsbereich' && styles.activeMode]"
+        <button
+          :class="[
+            styles.requirementsContainer,
+            currentViewMode === 'Anforderungsbereich' && styles.activeMode,
+          ]"
           @click="currentViewMode = 'Anforderungsbereich'"
         >
           <span>Anforderungsbereich</span>
@@ -438,7 +297,10 @@ Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
           </div>
         </button>
         <button
-          :class="[styles.guidingIdeasContainer, currentViewMode === 'Leitidee' && styles.activeMode]"
+          :class="[
+            styles.guidingIdeasContainer,
+            currentViewMode === 'Leitidee' && styles.activeMode,
+          ]"
           @click="currentViewMode = 'Leitidee'"
         >
           <span>Leitidee</span>
@@ -509,41 +371,85 @@ Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
         </button>
       </div>
     </div>
-    <div :class="styles.tableWrapper">
+    <div
+      :class="[
+        styles.tableWrapper,
+        maximizeArea && styles.maximized,
+        fitToScreen && styles.fitToScreenMode,
+      ]"
+    >
       <div :class="styles.tableContainer">
         <div :class="styles.tableHeaderRow">
-          <div
-            :class="[styles.metaHeaderColumn, styles.narrowColumn]"
-            title="Muttersprache (nicht null)"
-          >
-            Sprache
-          </div>
-          <div
-            :class="[styles.metaHeaderColumn, styles.narrowColumn]"
-            title="Klassenwiederholer (nicht null)"
-          >
-            Wiederh.
-          </div>
-          <div :class="[styles.metaHeaderColumn, styles.narrowColumn]" title="BLSF (Wert ist 1)">
-            BLSF
+          <template v-if="maximizeArea">
+            <div
+              :class="[styles.metaHeaderColumn, styles.narrowColumn, styles.combinedMetaHeader]"
+              title="Sprache | Wiederholer | BLSF"
+              @click="toggleLegendPopup"
+            ></div>
+          </template>
+
+          <template v-else>
+            <div
+              :class="[styles.metaHeaderColumn, styles.narrowColumn]"
+              title="BL/SF: Bes. Lernschwierigkeiten/Sonderpädagogischer Förderbedarf"
+              @click="toggleLegendPopup"
+            >
+              BLSF
+            </div>
+            <div
+              :class="[styles.metaHeaderColumn, styles.narrowColumn]"
+              title="KW: Klasse wiederholt"
+              @click="toggleLegendPopup"
+            >
+              KW
+            </div>
+            <div :class="[styles.metaHeaderColumn, styles.narrowColumn]" title="HB: Hochbegabung">
+              HB
+            </div>
+            <div
+              :class="[styles.metaHeaderColumn, styles.narrowColumn]"
+              title="MND: Muttersprache n. Deutsch"
+              @click="toggleLegendPopup"
+            >
+              MND
+            </div>
+          </template>
+
+          <div v-if="showLegendPopup" :class="styles.popupOverlay" @click="showLegendPopup = false">
+            <div :class="styles.popupContent" @click.stop>
+              <div :class="styles.popupHeader">
+                <div :class="styles.popupHeaderRow">
+                  <span :class="styles.popupTitle">Schüler*innen Merkmale</span>
+                  <CloseIcon aria-hidden="true" @click="showLegendPopup = false" />
+                </div>
+              </div>
+              <div :class="styles.popupBody">
+                <div :class="styles.popupRow">
+                  <strong>BL/SF:</strong>Bes. Lernschwierigkeiten / Sonderpädagogischer Förderbedarf
+                </div>
+                <div :class="styles.popupRow"><strong>KW:</strong> Klasse wiederholt</div>
+                <div :class="styles.popupRow"><strong>HB:</strong> Hochbegabung</div>
+                <div :class="styles.popupRow"><strong>MND:</strong> Muttersprache n. Deutsch</div>
+              </div>
+            </div>
           </div>
           <div
             :class="[styles.userHeaderColumn, styles.sortableHeader]"
             @click="toggleSort('user')"
           >
-            User Code
+            {{ maximizeArea ? 'SuS' : 'Schüler*innen' }}
             <span v-if="sortKey === 'user'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
           </div>
           <div
             :class="[styles.itemsHeaderColumn, styles.sortableHeader]"
             @click="toggleSort('score')"
           >
-            Aufgaben-Ergebnisse (Items 1-43)
+            Aufgaben-Lösungshäufigkeit
             <span v-if="sortKey === 'score'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
           </div>
 
           <div
-            :class="[styles.hNoteHeaderColumn, styles.sortableHeader]"
+            :class="[styles.hNoteHeaderColumn, styles.sortableHeader, styles.stickyRight]"
             @click="toggleSort('hnote')"
           >
             Halbjahresnote
@@ -557,17 +463,37 @@ Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
             :key="user.code || Math.random().toString()"
             :class="styles.tableRow"
           >
-            <div :class="[styles.metaColumn, styles.narrowColumn]">
-              {{ getCrossIndicator('musprache', user) }}
-            </div>
-            <div :class="[styles.metaColumn, styles.narrowColumn]">
-              {{ getCrossIndicator('wiederh8', user) }}
-            </div>
-            <div :class="[styles.metaColumn, styles.narrowColumn]">
-              {{ getCrossIndicator('blsf', user) }}
-            </div>
-            <div :class="styles.userColumn">
-              {{ user.code || 'Unbekannt' }}
+            <template v-if="maximizeArea">
+              <div
+                :class="[
+                  styles.metaColumn,
+                  styles.narrowColumn,
+                  styles.combinedMetaColumn,
+                  styles.stickyLeft,
+                ]"
+              >
+                <div :class="styles.infoIcon">
+                  <span :class="styles.infoLabel">i</span>
+                </div>
+              </div>
+            </template>
+
+            <template v-else>
+              <div :class="[styles.metaColumn, styles.narrowColumn, styles.stickyLeftBLSF]">
+                <CrossIcon v-if="hasCrossIndicator('blsf', user)" aria-hidden="true" />
+              </div>
+              <div :class="[styles.metaColumn, styles.narrowColumn, styles.stickyLeftKW]">
+                <CrossIcon v-if="hasCrossIndicator('wiederh8', user)" aria-hidden="true" />
+              </div>
+              <div :class="[styles.metaColumn, styles.narrowColumn, styles.stickyLeftHB]">
+                <CrossIcon aria-hidden="true" />
+              </div>
+              <div :class="[styles.metaColumn, styles.narrowColumn, styles.stickyLeftMND]">
+                <CrossIcon v-if="hasCrossIndicator('musprache', user)" aria-hidden="true" />
+              </div>
+            </template>
+            <div :class="[styles.userColumn, styles.stickyLeftUsers]">
+              {{ user.code || 'Unbekannt !!!!!!!!!!!!!!!' }}
             </div>
             <div :class="styles.itemsColumn">
               <div
@@ -588,9 +514,7 @@ Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
                 "
               ></div>
             </div>
-            <div :class="styles.hNoteColumn">
-              {{ getHNote(user) }}
-            </div>
+            <div :class="[styles.hNoteColumn, styles.fixedRight]">{{ getHNote(user) }}</div>
           </div>
         </div>
       </div>
