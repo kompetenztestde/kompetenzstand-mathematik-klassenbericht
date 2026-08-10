@@ -80,28 +80,6 @@ function getLanguage(user: ItemsStudentsDataInner): number | typeof NaN {
   return typeof musprache === 'number' ? musprache : NaN
 }
 
-function getCrossIndicator(
-  type: 'musprache' | 'wiederh8' | 'blsf',
-  user: ItemsStudentsDataInner,
-): string {
-  if (type === 'musprache') {
-    const val = getLanguage(user)
-    return !isNaN(val) ? '✗' : ''
-  }
-
-  if (type === 'wiederh8') {
-    const val = getClassRepeateruser(user)
-    return !isNaN(val) ? '✗' : ''
-  }
-
-  if (type === 'blsf') {
-    const val = getBLSF(user)
-    return val === 1 ? '✗' : ''
-  }
-
-  return ''
-}
-
 function hasCrossIndicator(
   type: 'musprache' | 'wiederh8' | 'blsf',
   user: ItemsStudentsDataInner,
@@ -240,6 +218,30 @@ function extractTaskNumber(text: string) {
 
   return match ? match[0] : ''
 }
+
+const romanNumbers: Record<string, string> = {
+  '1': 'I',
+  '2': 'II',
+  '3': 'III',
+}
+
+function getCompetenceTextColor(key: string): string {
+  return Number(key) <= 3 ? '#000000' : '#ffffff'
+}
+
+function getCoreIdeaTextColor(key: string, totalCount: number): string {
+  return Number(key) === totalCount ? '#ffffff' : '#000000'
+}
+
+const selectedUserForPopup = ref<ItemsStudentsDataInner | null>(null)
+
+function openUserPopup(user: ItemsStudentsDataInner) {
+  selectedUserForPopup.value = user
+}
+
+function closeUserPopup() {
+  selectedUserForPopup.value = null
+}
 </script>
 
 <template>
@@ -279,7 +281,7 @@ function extractTaskNumber(text: string) {
               v-for="(color, n) in competenceColors"
               :key="'legend-comp-' + n"
               :class="styles.legendSquare"
-              :style="{ backgroundColor: color }"
+              :style="{ backgroundColor: color, color: getCompetenceTextColor(String(n)) }"
             >
               {{ n }}
             </div>
@@ -295,12 +297,12 @@ function extractTaskNumber(text: string) {
           <span>Anforderungsbereich</span>
           <div :class="styles.legendRow">
             <div
-              v-for="(color, roman) in cognitiveColors"
-              :key="'legend-cog-' + roman"
+              v-for="(color, n) in cognitiveColors"
+              :key="'legend-cog-' + n"
               :class="styles.legendSquare"
-              :style="{ backgroundColor: color }"
+              :style="{ backgroundColor: color, color: '#ffffff' }"
             >
-              {{ roman }}
+              {{ romanNumbers[n] || n }}
             </div>
           </div>
         </button>
@@ -317,7 +319,10 @@ function extractTaskNumber(text: string) {
               v-for="(color, n) in coreIdeaColors"
               :key="'legend-idea-' + n"
               :class="styles.legendSquare"
-              :style="{ backgroundColor: color }"
+              :style="{
+                backgroundColor: color,
+                color: getCoreIdeaTextColor(String(n), Object.keys(coreIdeaColors).length),
+              }"
             >
               {{ n }}
             </div>
@@ -448,6 +453,7 @@ function extractTaskNumber(text: string) {
             {{ maximizeArea ? 'SuS' : 'Schüler*innen' }}
             <span v-if="sortKey === 'user'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
           </div>
+
           <div
             :class="[styles.itemsHeaderColumn, styles.sortableHeader]"
             @click="toggleSort('score')"
@@ -462,6 +468,41 @@ function extractTaskNumber(text: string) {
           >
             Halbjahresnote
             <span v-if="sortKey === 'hnote'">{{ sortDirection === 'asc' ? '▼' : '▲' }}</span>
+          </div>
+        </div>
+
+        <div v-if="selectedUserForPopup" :class="styles.popupOverlay" @click="closeUserPopup">
+          <div :class="styles.popupContent" @click.stop>
+            <div :class="styles.popupHeader">
+              <div :class="styles.popupHeaderRow">
+                <span :class="styles.popupTitle">
+                  {{ selectedUserForPopup.code || 'Unbekannt' }}
+                </span>
+                <CloseIcon aria-hidden="true" @click="closeUserPopup" style="cursor: pointer" />
+              </div>
+            </div>
+            <div :class="styles.popupBody">
+              <div :class="styles.popupRow">
+                <strong>Gelöste Aufgaben:</strong>
+                {{ getCorrectItemsCount(selectedUserForPopup) }}
+              </div>
+              <div :class="styles.popupRow">
+                <strong>Halbjahresnote:</strong>
+                {{ isNaN(getHNote(selectedUserForPopup)) ? '-' : getHNote(selectedUserForPopup) }}
+              </div>
+              <div :class="styles.popupRow">
+                <strong>Sonderpäd. Förderbedarf (BLSF):</strong>
+                {{ hasCrossIndicator('blsf', selectedUserForPopup) ? 'Ja' : 'Nein' }}
+              </div>
+              <div :class="styles.popupRow">
+                <strong>Klasse wiederholt (KW):</strong>
+                {{ hasCrossIndicator('wiederh8', selectedUserForPopup) ? 'Ja' : 'Nein' }}
+              </div>
+              <div :class="styles.popupRow">
+                <strong>Muttersprache nicht Deutsch (MND):</strong>
+                {{ hasCrossIndicator('musprache', selectedUserForPopup) ? 'Ja' : 'Nein' }}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -500,7 +541,7 @@ function extractTaskNumber(text: string) {
                 <CrossIcon v-if="hasCrossIndicator('musprache', user)" aria-hidden="true" />
               </div>
             </template>
-            <div :class="[styles.userColumn, styles.stickyLeftUsers]">
+            <div @click="openUserPopup(user)" :class="[styles.userColumn, styles.stickyLeftUsers, styles.clickableUser]">
               {{ user.code || 'Unbekannt !!!!!!!!!!!!!!!' }}
             </div>
             <div :class="styles.itemsColumn">

@@ -811,3 +811,12 @@
 .popupCloseBtn:hover {
   color: #000;
 }
+
+.clickableUser {
+  cursor: pointer;
+}
+
+.clickableUser:hover {
+  text-decoration: underline;
+  color: var(--color-navigation-blue, #001dab);
+}
