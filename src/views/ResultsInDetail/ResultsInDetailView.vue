@@ -232,6 +232,14 @@ function toggleFitToScreen() {
 function toggleMaximizeArea() {
   maximizeArea.value = !maximizeArea.value
 }
+
+function extractTaskNumber(text: string) {
+  if (!text) return ''
+
+  const match = text.match(/\d+([.,]\d+)?/)
+
+  return match ? match[0] : ''
+}
 </script>
 
 <template>
@@ -512,7 +520,9 @@ Anforderungsbereich: ${getMetadataValue(item.parameters?.cognitiveDemandLevel) |
 Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
     `.trim()
                 "
-              ></div>
+              >
+                <span v-if="showNumbers">{{ extractTaskNumber(item.name ?? '') }}</span>
+              </div>
             </div>
             <div :class="[styles.hNoteColumn, styles.fixedRight]">{{ getHNote(user) }}</div>
           </div>
