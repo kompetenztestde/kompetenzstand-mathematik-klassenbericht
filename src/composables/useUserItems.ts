@@ -180,11 +180,19 @@ export function getBestAndWorstExercises() {
         }
         const stats = taskStats[item.iqbId]!
 
-        const freq = item.descriptiveStatistics?.frequency ?? 0
-        const score = freq === 1 ? 1 : 0
+        // const freq = item.descriptiveStatistics?.frequency ?? 0
+        // const score = freq === 1 ? 1 : 0
 
-        stats.totalFrequency += score
-        stats.userCount++
+        // stats.totalFrequency += score
+        // stats.userCount++
+        const freq = item.descriptiveStatistics?.frequency ?? -1
+
+        if (freq !== -1) {
+          if (freq === 1) {
+            stats.totalFrequency += 1
+          }
+          stats.userCount++
+        }
       })
     })
 
