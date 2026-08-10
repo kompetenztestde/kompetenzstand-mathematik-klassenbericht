@@ -483,8 +483,14 @@ function closeUserPopup() {
             </div>
             <div :class="styles.popupBody">
               <div :class="styles.popupRow">
-                <strong>Gelöste Aufgaben:</strong>
-                {{ getCorrectItemsCount(selectedUserForPopup) }}
+                <span :class="styles.resultStudentText">{{ getCorrectItemsCount(selectedUserForPopup) }} von
+                {{ getItems(selectedUserForPopup).length }} richtig gelöst ({{
+                  Math.round(
+                    100 *
+                      (getCorrectItemsCount(selectedUserForPopup) /
+                        getItems(selectedUserForPopup).length),
+                  )
+                }}%)</span>
               </div>
               <div :class="styles.popupRow">
                 <strong>Halbjahresnote:</strong>
@@ -541,7 +547,10 @@ function closeUserPopup() {
                 <CrossIcon v-if="hasCrossIndicator('musprache', user)" aria-hidden="true" />
               </div>
             </template>
-            <div @click="openUserPopup(user)" :class="[styles.userColumn, styles.stickyLeftUsers, styles.clickableUser]">
+            <div
+              @click="openUserPopup(user)"
+              :class="[styles.userColumn, styles.stickyLeftUsers, styles.clickableUser]"
+            >
               {{ user.code || 'Unbekannt !!!!!!!!!!!!!!!' }}
             </div>
             <div :class="styles.itemsColumn">
