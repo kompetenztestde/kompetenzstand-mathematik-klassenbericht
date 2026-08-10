@@ -227,3 +227,36 @@ export function getBestAndWorstExercises() {
     }
   })
 }
+
+
+export function useGroupInfo() {
+  const query = useQuery({
+    queryKey: ['group-info-base'],
+    queryFn: async () => {
+      const config = await inioApiConfiguration()
+      const api = new ReportDataTba3Api(config)
+      
+      const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdItemsGet({
+        tgId: 270,
+        groupId: 1001,
+        testId: 9524,
+        type: 'group',
+      })
+
+      console.log("GROUPNAME:",response.data )
+
+      return {
+        groupName: response.data?.groupData?.groupName ?? '',
+        studentsData: response.data?.studentsData ?? [],
+      }
+    },
+    staleTime: 1000 * 60 * 60,
+  })
+
+  const groupName = computed(() => query.data.value?.groupName ?? '')
+
+  return {
+    ...query,
+    groupName,
+  }
+}

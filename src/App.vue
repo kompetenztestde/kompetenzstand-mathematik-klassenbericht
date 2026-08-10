@@ -15,6 +15,7 @@ import IconPageRight from '@/assets/svgs/page_right.svg?component'
 import InfoIcon from '@/themes/icons/info.svg?component'
 import competenceTexts from '@/assets/competence_guidingideas_texts.json'
 import { useModalStore } from './stores/modalStore'
+import { useGroupInfo } from './composables/useUserItems.ts'
 
 const router = useRouter()
 const route = useRoute()
@@ -31,6 +32,8 @@ const { allSteps } = useNavigation(
   guidingIdeaTopPerformers,
   badPerformers,
 )
+
+const { groupName } = useGroupInfo()
 
 const currentIndex = computed(() => {
   const pathSegments = route.path.split('/').filter(Boolean)
@@ -88,12 +91,6 @@ const goTo = (newIndex: number) => {
 const isHome = computed(() => route.path === '/step-1' || route.path === '/')
 const isSecond = computed(() => route.path === '/step-2')
 
-// const appBackground = computed(() => {
-//   if (isHome.value || isSecond.value) {
-//     return { background: 'linear-gradient(180deg, #87F9F5 0%, #FFF 90.2%)' }
-//   }
-//   return { backgroundColor: 'var(--color-turquise)' }
-// })
 const modalStore = useModalStore()
 
 const title = competenceTexts.start.title
@@ -111,7 +108,7 @@ const showDetails = () => {
 </script>
 
 <template>
-   <div :class="styles.grid">
+  <div :class="styles.grid">
     <main :class="[styles.mainBody, styles.gridContent, { 'no-padding': isHome || isSecond }]">
       <RouterView :key="route.fullPath" />
     </main>
@@ -121,7 +118,11 @@ const showDetails = () => {
     <footer v-if="!isHome" role="contentinfo">
       <nav :aria-label="t('accessibility.pagination')" :class="styles.navigationBar">
         <div :class="styles.reportDiv">
-          <h2 :class="styles.reportH1">{{ t('home.feedback') }}</h2>
+          <div :class="styles.titleContainer">
+            <h1 :class="styles.reportH1">Klasse {{groupName}}</h1>
+            <h2 :class="styles.reportH2">{{ t('home.feedback') }}</h2>
+          </div>
+
           <button
             type="button"
             @click="showDetails"
@@ -165,4 +166,3 @@ const showDetails = () => {
     </footer>
   </div>
 </template>
-

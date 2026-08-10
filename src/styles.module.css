@@ -1,232 +1,249 @@
 .appWrapper {
-    display: flex;
-    flex-direction: column;
-    background-color: var(--color-turquise);
-    transition: background 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-turquise);
+  transition: background 0.5s ease;
 
-    height: 100dvh;
-    overflow: hidden;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 .content {
-    flex: 1;
-    overflow-y: auto;
-    height: calc(100dvh - 10dvh - 40px);
+  flex: 1;
+  overflow-y: auto;
+  height: calc(100dvh - 10dvh - 40px);
 }
 
 .navigationBar {
-    position: relative;
-    flex-shrink: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 10dvh;
+  position: relative;
+  flex-shrink: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10dvh;
 
-    background: var(--color-turquise);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px 15px 20px;
-    z-index: 100;
+  background: var(--color-turquise);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px 15px 20px;
+  z-index: 100;
 }
 
 .navBtn {
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
 }
 
 .navBtn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .reportDiv {
-    display: flex;
-    align-items: flex-end;
+  display: flex;
+  align-items: flex-end;
 }
 
 @media (min-width: 768px) {
-    .navigationBar {
-        padding: 0px 20px 0px 20px;
-    }
+  .navigationBar {
+    padding: 0px 20px 0px 20px;
+  }
 }
 
 @media (max-width: 900px) {
-    .reportH1 {
-        display: none;
-    }
+  .reportH1 {
+    display: none;
+  }
 
-    .reportDiv {
-        display: none;
-    }
+  .reportDiv {
+    display: none;
+  }
 }
 
 .pageIndicator {
-    display: flex;
-    gap: 15px;
-    align-items: center;
+  display: flex;
+  gap: 15px;
+  align-items: center;
 
-    list-style: none;
+  list-style: none;
 }
 
 .dot {
-    display: block;
-    cursor: pointer;
-    background-color: var(--color-navigation-blue);
-    border: none;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    padding: 0;
+  display: block;
+  cursor: pointer;
+  background-color: var(--color-navigation-blue);
+  border: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  padding: 0;
 
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 
 .dot.active {
-    background-color: var(--color-navigation-blue);
-    transform: scale(1);
+  background-color: var(--color-navigation-blue);
+  transform: scale(1);
 }
 
 .dot.active::after {
-    content: '';
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    background-color: var(--color-navigation-blue);
-    border-radius: 50%;
-    border: 1px solid var(--color-navigation-blue);
+  content: '';
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: var(--color-navigation-blue);
+  border-radius: 50%;
+  border: 1px solid var(--color-navigation-blue);
 }
 
 .appWrapper .content.no-padding {
-    padding-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .dot.active::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 
-    background-color: var(--color-white);
-    border: 1px solid var(--color-navigation-blue);
-    border-radius: 50%;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-navigation-blue);
+  border-radius: 50%;
 
-    z-index: -1;
+  z-index: -1;
 }
 
 .dot:focus-visible,
 .navBtn:focus-visible {
-    outline: 2px solid var(--color-navigation-blue);
-    outline-offset: 4px;
+  outline: 2px solid var(--color-navigation-blue);
+  outline-offset: 4px;
 }
 
 .flexContainer {
-    display: flex;
+  display: flex;
 }
 
 .infoButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
 }
 
 .infoButton:focus-visible {
-    outline: 2px solid var(--color-navigation-blue);
-    outline-offset: 2px;
+  outline: 2px solid var(--color-navigation-blue);
+  outline-offset: 2px;
+}
+
+.reportH2 {
+  margin: unset;
+
+  color: var(--Navigation-Blue, #001dab);
+
+  /* tablet/label */
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.06; /* 105.556% */
 }
 
 .reportH1 {
-    margin: unset;
+
+  /* tablet/H2 */
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px; /* 108.333% */
 }
 
 .grid {
-    display: grid;
-    grid-template-columns:
-        minmax(var(--page-gutter), 1fr)
-        minmax(0, var(--page-max-width))
-        minmax(var(--page-gutter), 1fr);
-    height: 100dvh;
-    grid-template-rows: 1fr auto;
-    overflow: hidden;
+  display: grid;
+  grid-template-columns:
+    minmax(var(--page-gutter), 1fr)
+    minmax(0, var(--page-max-width))
+    minmax(var(--page-gutter), 1fr);
+  height: 100dvh;
+  grid-template-rows: 1fr auto;
+  overflow: hidden;
 }
 
 .head {
-    background-color: var(--color-lightgrey);
-    border-bottom: 1px solid var(--color-grey);
+  background-color: var(--color-lightgrey);
+  border-bottom: 1px solid var(--color-grey);
 }
 
 .gridSubgrid {
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: span 3;
-    align-self: start;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: span 3;
+  align-self: start;
 }
 
 .gridContent {
-    grid-column: 1 / 12;
-    grid-row: 1 / 2;
-    height: 100%;
+  grid-column: 1 / 12;
+  grid-row: 1 / 2;
+  height: 100%;
 }
 
 .mainBody {
-    justify-content: start;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: 1fr;
-    column-gap: var(--page-gutter);
-    row-gap: 24px;
+  justify-content: start;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1fr;
+  column-gap: var(--page-gutter);
+  row-gap: 24px;
 
-    padding: 25px 25px 0 25px;
-    overflow-y: auto;
-    height: calc(100% - 25px);
-    overflow-y: auto;
-    box-sizing: border-box;
+  padding: 25px 25px 0 25px;
+  overflow-y: auto;
+  height: calc(100% - 25px);
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .grid footer {
-    grid-column: 1 / -1;
-    grid-row: 2 / 3;
-    z-index: 10;
+  grid-column: 1 / -1;
+  grid-row: 2 / 3;
+  z-index: 10;
 }
 
 .mainBody:has(:global(.noPaddingPage)) {
-    padding: 0 !important;
-    height: 100% !important;
+  padding: 0 !important;
+  height: 100% !important;
 }
 
 .mainBody:has(:global(.noOverflowPage)) {
-    overflow-y: hidden;
+  overflow-y: hidden;
 }
 
 @media (max-width: 767px) {
-    .mainBody {
-        grid-template-columns: repeat(6, 1fr);
+  .mainBody {
+    grid-template-columns: repeat(6, 1fr);
 
-        padding: 10px 10px 0 10px;
-        height: calc(100% - 10px);
-    }
+    padding: 10px 10px 0 10px;
+    height: calc(100% - 10px);
+  }
 
-    .mainBody:has(:global(.noPaddingPage)) {
-        padding: 0 !important;
-        height: 100% !important;
-    }
+  .mainBody:has(:global(.noPaddingPage)) {
+    padding: 0 !important;
+    height: 100% !important;
+  }
 
-    .pageIndicator {
-        gap: 12px;
-    }
+  .pageIndicator {
+    gap: 12px;
+  }
 }
