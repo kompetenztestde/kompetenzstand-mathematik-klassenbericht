@@ -8,7 +8,7 @@
     "start": "Start",
     "info": "i",
     "question": "Über diese Rückmeldung",
-    "feedback":"Klassenückmeldung zu Vera 8 Mathemathik"
+    "feedback": "Klassenückmeldung zu Vera 8 Mathemathik"
   },
   "specialView": {
     "title": "Das ist uns aufgefallen",
@@ -52,20 +52,104 @@
     "homogenity": "Homogenität der Klasse",
     "resultGuidingIdeas": "Abschneiden in Leitideen",
     "homogeneous": "Eher homogene Klasse",
-    "heterogeneous": "Eher heterogene Klasse"
+    "heterogeneous": "Eher heterogene Klasse",
+    "classTooltip": "Klasse",
+    "noImage": "Kein Bild für {title}",
+    "arrowUp": "Höherer Wert im Vergleich",
+    "arrowDown": "Niedrigerer Wert im Vergleich",
+    "homogeneityModalTitle": "Ihre Klasse",
+    "homogeneityModalText": "In Ihrer Klasse sind die Leistungsunterschiede zwischen den Lernenden höher als im Landesdurchschnitt. Das bedeutet, dass Ihre Lerngruppe insgesamt vergleichsweise heterogen ist.",
+    "homogeneityInfoAriaLabel": "Informationen zu Ihrer Klasse anzeigen"
   },
-  "resultInDetails": {},
+  "resultInDetailsHelp": {
+    "title": "Ergebnisse im Detail – Hilfe & Bedienung",
+    "viewModeTitle": "1. Ansichten wählen",
+    "viewModeDesc": "Wählen Sie oben die Farbkodierung der Aufgaben:",
+    "viewModeGeneral": "Unterscheidung nach richtig, falsch und nicht bearbeitet.",
+    "viewModeDomain": "Zeigt die fachlichen Eigenschaften der gelösten Aufgaben farblich an.",
+
+    "optionsTitle": "2. Ansichts-Optionen",
+    "optShowNumbers": "Blendet Aufgabennummern in den Kästchen ein.",
+    "optShowNotWorkedOn": "Hebt nicht bearbeitete Aufgaben ab.",
+    "optGroupTasks": "Sortiert gelöste Aufgaben nach vorne.",
+    "optFitToScreen": "Optimiert die Tabellengröße für kleine oder große Bildschirme.",
+
+    "detailsTitle": "3. Schüler-Merkmale & Details",
+    "detailsFeatures": "Klicken Sie auf ein Kürzel in der Tabelle (z. B. BL/SF, KW, MND) oder einen Schüler-Code, um Detailinformationen aufzurufen.",
+    "detailsItems": "Klicken Sie auf einzelne Aufgaben-Kästchen, um die konkrete IQB-ID und Kennzahlen der Aufgabe zu sehen.",
+
+    "sortingTitle": "4. Sortierung",
+    "sortingDesc": "Klicken Sie auf die Spaltenköpfe (z. B. Schüler*innen, Aufgaben-Lösungshäufigkeit oder Halbjahresnote), um die Tabelle zu sortieren."
+  },
+  "resultInDetails": {
+    "title": "Ergebnisse im Detail",
+    "howItWorks": "So funktioniert`s",
+    "general": "Allgemein",
+    "correct": "richtig",
+    "wrong": "falsch",
+    "notWorkedOn": "n. bearb.",
+    "competenceLevel": "Kompetenzstufe",
+    "cognitiveDemand": "Anforderungsbereich",
+    "coreIdea": "Leitidee",
+    "showNumbers": "Nummern anzeigen",
+    "showNotWorkedOn": "Nicht bearbeitet anzeigen",
+    "groupTasks": "Aufgaben gruppieren",
+    "fitToScreen": "Fit-to-Screen",
+    "maximizeArea": "Aufgaben Bereich maximieren",
+    "studentFeatures": "Schüler*innen Merkmale",
+    "blsfTooltip": "BL/SF: Bes. Lernschwierigkeiten/Sonderpädagogischer Förderbedarf",
+    "blsfLabel": "BL/SF:",
+    "blsfDesc": "Bes. Lernschwierigkeiten / Sonderpädagogischer Förderbedarf",
+    "kwTooltip": "KW: Klasse wiederholt",
+    "kwLabel": "KW:",
+    "kwDesc": "Klasse wiederholt",
+    "hbTooltip": "HB: Hochbegabung",
+    "hbLabel": "HB:",
+    "hbDesc": "Hochbegabung",
+    "mndTooltip": "MND: Muttersprache n. Deutsch",
+    "mndLabel": "MND:",
+    "mndDesc": "Muttersprache n. Deutsch",
+    "sus": "SuS",
+    "students": "Schüler*innen",
+    "taskSolutionFrequency": "Aufgaben-Lösungshäufigkeit",
+    "halfYearGrade": "Halbjahresnote",
+    "unknown": "Unbekannt",
+    "solvedCorrectly": "{count} von {total} richtig gelöst ({percent}%)",
+    "specialEdNeeds": "Sonderpäd. Förderbedarf (BLSF):",
+    "classRepeated": "Klasse wiederholt (KW):",
+    "motherTongueNotGerman": "Muttersprache nicht Deutsch (MND):",
+    "yes": "Ja",
+    "no": "Nein",
+    "task": "Aufgabe:",
+    "statusFrequency": "Status / Häufigkeit:"
+  },
   "classResultsInSubTopics": {
     "total": "Gesamt",
     "coreIdea": "Leitidee",
-    "competence": "Kompetenz",
+    "competence": "Prozessbezogene Kompetenz",
     "cognitive": "Anforderungsbereich",
     "competenceLevel": "Kompetenzstufe",
     "title": "Ergebnisse der Klasse in Teilbereichen",
     "legend": "Legende",
     "mean": "Ihr Klassendurchschnitt",
     "meanComp": "Korrigierter Landesmittelwert",
-    "meanSchool": "Schuldurchschnitt (bisher nur Deko)"
+    "meanSchool": "Schuldurchschnitt (bisher nur Deko)",
+    "yAxisName": "Klassendurchschnitt\nerreichter Punkte (%)",
+    "chartA11yLabel": "Balkendiagramm der Ergebnisse der Klasse in den verschiedenen Teilbereichen im Vergleich zum Landesmittelwert.",
+    "toggleIndexHint": "Klicken Sie auf ein Label der X-Achse, um diesen Bereich aus der Filterung auszuschließen.",
+    "ariaShowMean": "Klassendurchschnitt im Diagramm anzeigen",
+    "ariaShowMeanComp": "Landesmittelwert im Diagramm anzeigen",
+    "ariaShowMeanSchool": "Schuldurchschnitt im Diagramm anzeigen"
+  },
+  "subTopicsHelp": {
+    "title": "Legende & Farbbedeutung",
+    "description": "Die Farben im Diagramm kennzeichnen die verschiedenen Auswertungsbereiche sowie den Vergleichswert:",
+    "total": "Gesamtergebnis über alle Aufgaben hinweg.",
+    "coreIdea": "Ergebnisse aufgeteilt nach den mathematischen / fachlichen Leitideen.",
+    "competence": "Ergebnisse aufgeteilt nach den spezifischen Kompetenzbereichen.",
+    "cognitive": "Ergebnisse aufgeteilt nach Anforderungsbereichen (I, II, III).",
+    "competenceLevel": "Ergebnisse aufgeteilt nach den erreichten Kompetenzstufen.",
+    "meanComp": "Vergleichswert (z. B. Landesschnitt) im direkten Gegenüberstellen."
   },
   "ideasForFuture": {
     "firstAdvice": {
@@ -115,12 +199,16 @@
     "title": "Top Aufgaben",
     "text": "Aufgaben, die innerhalb Ihrer Klasse im Vergleich mit dem Landesmittelwert besonders gut gelöst wurden:",
     "mean": "Klassendurchschnitt",
-    "meanComp": "Landesmittelwert"
+    "meanComp": "Landesmittelwert",
+    "classResult": "Klassendurchschnitt: {percent}%",
+    "countryResult": "Landesmittelwert: {percent}%"
   },
   "worstExercises": {
     "title": "Flop Aufgaben",
     "text": "Aufgaben, die innerhalb Ihrer Klasse im Vergleich mit dem Landesmittelwert weniger gut gelöst wurden:",
     "mean": "Klassendurchschnitt",
-    "meanComp": "Landesmittelwert"
+    "meanComp": "Landesmittelwert",
+    "classResult": "Klassendurchschnitt: {percent}%",
+    "countryResult": "Landesmittelwert: {percent}%"
   }
 }

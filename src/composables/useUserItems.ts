@@ -247,6 +247,7 @@ export function useGroupInfo() {
 
       return {
         groupName: response.data?.groupData?.groupName ?? '',
+        items: response.data?.groupData?.items ?? [],
         studentsData: response.data?.studentsData ?? [],
       }
     },
@@ -254,9 +255,11 @@ export function useGroupInfo() {
   })
 
   const groupName = computed(() => query.data.value?.groupName ?? '')
+  const items = computed(() => query.data.value?.items ?? [])
 
   return {
     ...query,
     groupName,
+    items,
   }
 }

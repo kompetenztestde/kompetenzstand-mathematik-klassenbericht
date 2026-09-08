@@ -6,7 +6,6 @@ import { getBestAndWorstExercises } from '@/composables/useUserItems'
 const exercisesAnalysis = getBestAndWorstExercises()
 </script>
 
-
 <template>
   <div :class="styles.page">
     <div :class="styles.headRow">
@@ -45,6 +44,9 @@ const exercisesAnalysis = getBestAndWorstExercises()
                   styles.statValueClass,
                   { [`${styles.isHigher}`]: task.currentMean >= task.referenceValue },
                 ]"
+                :aria-label="
+                  t('worstExercises.classResult', { percent: (task.currentMean * 100).toFixed(1) })
+                "
               >
                 {{ (task.currentMean * 100).toFixed(1) }}%
               </span>
@@ -66,6 +68,11 @@ const exercisesAnalysis = getBestAndWorstExercises()
                   styles.statValueCountry,
                   { [`${styles.isHigher}`]: task.referenceValue > task.currentMean },
                 ]"
+                :aria-label="
+                  t('worstExercises.countryResult', {
+                    percent: (task.referenceValue * 100).toFixed(1),
+                  })
+                "
               >
                 {{ (task.referenceValue * 100).toFixed(1) }}%
               </span>

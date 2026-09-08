@@ -44,6 +44,9 @@ const { t } = useI18n()
                   styles.statValueClass,
                   { [`${styles.isHigher}`]: task.currentMean >= task.currentMean - task.deviation },
                 ]"
+                :aria-label="
+                  t('bestExercises.classResult', { percent: (task.currentMean * 100).toFixed(1) })
+                "
               >
                 {{ (task.currentMean * 100).toFixed(1) }}%
               </span>
@@ -65,6 +68,9 @@ const { t } = useI18n()
                   styles.statValueCountry,
                   { [`${styles.isHigher}`]: task.currentMean >= task.currentMean - task.deviation },
                 ]"
+                :aria-label="
+                  t('bestExercises.countryResult', { percent: (task.deviation * 100).toFixed(1) })
+                "
               >
                 {{ (task.deviation * 100).toFixed(1) }}%
               </span>

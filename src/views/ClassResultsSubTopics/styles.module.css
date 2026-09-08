@@ -9,12 +9,12 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 24px;
-  padding: 16px;
   grid-column: 1 / -1;
+  height: max-content;
 }
 
 .chartTitle {
+  grid-column: 1 / -1;
   margin: unset;
 
   color: var(--color-black, #000);
@@ -44,8 +44,6 @@
   align-items: center;
   gap: 8px;
   user-select: none;
-
-  color: var(--color-black, #000);
 
   /* tablet/body */
   font-size: 16px;
@@ -81,22 +79,20 @@
   transition: all 0.2s ease-in-out;
   flex-shrink: 0;
   margin: 0;
-  border: 1.5px solid var(--color-navigation-blue, #001dab);
+  border-radius: 60px;
+  background-color: var(--color-white);
 }
 
 .classCheckbox {
   composes: baseCheckbox;
-  background-color: var(--sds-color-background-default-default, #ffffff);
 }
 
 .countryCheckbox {
   composes: baseCheckbox;
-  background-color: var(--waterblue_6, #b3d3ff);
 }
 
 .schoolCheckbox {
   composes: baseCheckbox;
-  background-color: var(--turquise, #87f9f5);
 }
 
 .visuallyHidden {
@@ -121,11 +117,10 @@
 }
 
 .checkIcon {
-  width: 16px;
-  height: 16px;
-  color: var(--color-navigation-blue, var(--Navigation-Blue, #001dab));
+  color: var(--color-white);
   fill: currentColor;
   stroke: currentColor;
+  background: transparent;
 }
 
 .buttonIcon {
@@ -160,4 +155,87 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+}
+
+.controlsContainerNew {
+  display: flex;
+  gap: 8px;
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+
+.checkButton {
+  display: flex;
+  padding: 8px 15px 8px 10px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 60px;
+  max-height: 36px;
+  color: var(--color-white);
+  height: 36px;
+}
+
+.inactiveButton {
+  background: #cddeff !important;
+  color: #001dab;
+}
+
+.classCheckButton {
+  composes: checkButton;
+  background: var(--color-berry, #b00fbf);
+}
+
+.countryCheckButton {
+  composes: checkButton;
+  background: var(--color-navigation-blue, #b00fbf);
+}
+
+.schoolCheckButton {
+  composes: checkButton;
+  background: var(--gold, #a27100);
+}
+
+.checked {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+@media (min-width: 1400px) {
+  .pageContainer {
+    grid-column: 2 / 12;
+  }
+
+  .chartHeader {
+    grid-column: 1 / -1;
+  }
+
+  .controlsContainerNew {
+    grid-column: 1 / -1;
+  }
+  .chartTitle {
+    grid-column: 2 / 5;
+  }
+}
+
+@media (min-width: 1920px) {
+  .pageContainer {
+    grid-column: 3 / 11;
+  }
+
+  .chartHeader {
+    grid-column: 1 / -1;
+  }
+
+  .controlsContainerNew {
+    grid-column: 1 / -1;
+  }
+
+  .chartTitle {
+    grid-column: 3 / 5;
+  }
+}
+
+.echartContainer {
+  grid-column: 1 / -1;
+  width: 100%;
 }

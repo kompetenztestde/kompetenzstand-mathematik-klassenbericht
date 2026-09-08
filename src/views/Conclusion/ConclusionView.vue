@@ -1,8 +1,5 @@
 <script setup>
-import {
-  useCoreIdeaAggregations,
-  useHomogeneityAggregation,
-} from '@/composables/useAggregations'
+import { useCoreIdeaAggregations, useHomogeneityAggregation } from '@/composables/useAggregations'
 import styles from './styles.module.css'
 import RaumUndForm from './icons/raum_und_form.png'
 import GroessenUndMessen from './icons/groessen_messen.png'
@@ -11,10 +8,10 @@ import ZahlUndOperationen from './icons/zahl_und_operationen.png'
 import DatenUndZufall from './icons/Daten_und_Zufall.png'
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
-import ArrowUpIcon from './icons/ArrowUpIcon.svg?component'
-import ArrowDownIcon from './icons/ArrowDownIcon.svg?component'
+import { useModalStore } from '@/stores/modalStore'
 const { data } = useCoreIdeaAggregations()
 const { t } = useI18n()
+const modalStore = useModalStore()
 const imageMap = {
   'Raum und Form': {
     src: RaumUndForm,
@@ -43,21 +40,6 @@ const imageMap = {
   },
 }
 
-// const overallClassMean = computed(() => {
-//   if (!data.value || data.value.length === 0) return 0
-//   const sum = data.value.reduce((acc, item) => acc + (item.descriptiveStatistics?.mean || 0), 0)
-//   return Math.round(sum / data.value.length)
-// })
-
-// const overallCountryMean = computed(() => {
-//   if (!data.value || data.value.length === 0) return 0
-//   const sum = data.value.reduce(
-//     (acc, item) => acc + (item.descriptiveStatistics?.meanComparison || 0),
-//     0,
-//   )
-//   return Math.round(sum / data.value.length)
-// })
-
 const { data: homogeneityData } = useHomogeneityAggregation()
 
 const overallClassMean = computed(() => {
@@ -67,6 +49,13 @@ const overallClassMean = computed(() => {
 const overallCountryMean = computed(() => {
   return Math.round(homogeneityData.value?.totalItem?.descriptiveStatistics?.meanComparison) ?? 0
 })
+
+function openHomogeneityModal() {
+  modalStore.openModal(
+    t('conclusion.homogeneityModalTitle'),
+    `<p>${t('conclusion.homogeneityModalText')}</p>`,
+  )
+}
 </script>
 <template>
   <div :class="styles.conclusionContainer">
@@ -119,7 +108,18 @@ const overallCountryMean = computed(() => {
       </div>
 
       <div :class="styles.homogeneity">
-        <h3 :class="styles.homogeneityTitle">{{ t('conclusion.homogenity') }}</h3>
+        <div :class="styles.homogeneityTitleRow">
+          <h3 :class="styles.homogeneityTitle">{{ t('conclusion.homogenity') }}</h3>
+          <button
+            type="button"
+            :class="styles.buttonIcon"
+            @click="openHomogeneityModal"
+            style="cursor: pointer"
+            :aria-label="t('conclusion.homogeneityInfoAriaLabel')"
+          >
+            <span :class="styles.buttonIconSpan">?</span>
+          </button>
+        </div>
         <div v-if="homogeneityData" :class="styles.homogeneityWrapper">
           <span :class="styles.homogeneityLabels">{{ t('conclusion.homogeneous') }}</span>
 
@@ -128,7 +128,7 @@ const overallCountryMean = computed(() => {
               :class="[styles.marker, styles.markerClass]"
               :style="{ left: `${homogeneityData.classPercent}%` }"
             >
-              <span :class="styles.markerTooltip">Klasse</span>
+              <span :class="styles.markerTooltip">{{ t('conclusion.classTooltip') }}</span>
             </div>
           </div>
           <span :class="styles.homogeneityLabels">{{ t('conclusion.heterogeneous') }}</span>
@@ -151,7 +151,9 @@ const overallCountryMean = computed(() => {
               :alt="item.displayTitle"
               :class="styles.illustration"
             />
-            <div v-else :class="styles.imagePlaceholder">Kein Bild für {{ item.displayTitle }}</div>
+            <div v-else :class="styles.imagePlaceholder">
+              {{ t('conclusion.noImage', { title: item.displayTitle }) }}
+            </div>
           </div>
 
           <div :class="styles.content">
@@ -177,26 +179,6 @@ const overallCountryMean = computed(() => {
               >
                 {{ Math.round(item.descriptiveStatistics?.mean || 0) }}%
               </span>
-              <ArrowUpIcon
-                v-if="
-                  (item.descriptiveStatistics?.mean || 0) > 40 &&
-                  (item.descriptiveStatistics?.meanComparison || 0) > 40 &&
-                  (item.descriptiveStatistics?.mean || 0) >
-                    (item.descriptiveStatistics?.meanComparison || 0)
-                "
-                :class="[styles.statIcon, styles.iconUp]"
-                aria-hidden="true"
-              />
-              <ArrowDownIcon
-                v-else-if="
-                  (Math.round(item.descriptiveStatistics?.mean) || 0) <= 40 &&
-                  (Math.round(item.descriptiveStatistics?.meanComparison) || 0) <= 40 &&
-                  (item.descriptiveStatistics?.mean || 0) <
-                    (item.descriptiveStatistics?.meanComparison || 0)
-                "
-                :class="[styles.statIcon, styles.iconDown]"
-                aria-hidden="true"
-              />
             </div>
             <div :class="styles.statRow">
               <div :class="styles.barContainerCountry">
@@ -220,26 +202,6 @@ const overallCountryMean = computed(() => {
               >
                 {{ Math.round(item.descriptiveStatistics?.meanComparison || 0) }}%
               </span>
-              <ArrowUpIcon
-                v-if="
-                  (item.descriptiveStatistics?.mean || 0) > 40 &&
-                  (item.descriptiveStatistics?.meanComparison || 0) > 40 &&
-                  (item.descriptiveStatistics?.meanComparison || 0) >
-                    (item.descriptiveStatistics?.mean || 0)
-                "
-                :class="[styles.statIcon, styles.iconUp]"
-                aria-hidden="true"
-              />
-              <ArrowDownIcon
-                v-else-if="
-                  (Math.round(item.descriptiveStatistics?.mean) || 0) <= 40 &&
-                  (Math.round(item.descriptiveStatistics?.meanComparison) || 0) <= 40 &&
-                  (item.descriptiveStatistics?.meanComparison || 0) <
-                    (item.descriptiveStatistics?.mean || 0)
-                "
-                :class="[styles.statIcon, styles.iconDown]"
-                aria-hidden="true"
-              />
             </div>
           </div>
         </div>

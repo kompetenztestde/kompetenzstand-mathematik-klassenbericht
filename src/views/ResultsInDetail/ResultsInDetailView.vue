@@ -5,7 +5,12 @@ import { computed, ref, watch } from 'vue'
 import type { ItemsStudentsDataInner } from '@tba3/api-new'
 import CrossIcon from './icons/CrossIcon.svg?component'
 import CloseIcon from './icons/CloseIcon.svg?component'
+import { useI18n } from 'vue-i18n'
+import { useModalStore } from '@/stores/modalStore'
+import CheckIcon from './icons/CheckIcon.svg?component'
 
+const { t } = useI18n()
+const modalStore = useModalStore()
 const { data } = useAllUserItemsNew()
 const radioButtonTexts = ['Allgemein', 'Kompetenzstufe', 'Anforderungsbereich', 'Leitidee']
 
@@ -23,6 +28,39 @@ function getItems(user: ItemsStudentsDataInner) {
   return items.sort(
     (a, b) => (b.descriptiveStatistics?.frequency ?? 0) - (a.descriptiveStatistics?.frequency ?? 0),
   )
+}
+
+function getHowItWorksHtml(): string {
+  return `
+   <br/>  
+    <h3>${t('resultInDetailsHelp.viewModeTitle')}</h3>   
+    <p>${t('resultInDetailsHelp.viewModeDesc')}</p>
+    <ul>
+      <li><strong>${t('resultInDetails.general')}:</strong> ${t('resultInDetailsHelp.viewModeGeneral')}</li>
+      <li><strong>${t('resultInDetails.competenceLevel')} / ${t('resultInDetails.cognitiveDemand')} / ${t('resultInDetails.coreIdea')}:</strong> ${t('resultInDetailsHelp.viewModeDomain')}</li>
+    </ul>
+    <br/>
+    <h3>${t('resultInDetailsHelp.optionsTitle')}</h3>
+    <ul>
+      <li><strong>${t('resultInDetails.showNumbers')}:</strong> ${t('resultInDetailsHelp.optShowNumbers')}</li>
+      <li><strong>${t('resultInDetails.showNotWorkedOn')}:</strong> ${t('resultInDetailsHelp.optShowNotWorkedOn')}</li>
+      <li><strong>${t('resultInDetails.groupTasks')}:</strong> ${t('resultInDetailsHelp.optGroupTasks')}</li>
+      <li><strong>${t('resultInDetails.fitToScreen')} / ${t('resultInDetails.maximizeArea')}:</strong> ${t('resultInDetailsHelp.optFitToScreen')}</li>
+    </ul>
+    <br/>
+    <h3>${t('resultInDetailsHelp.detailsTitle')}</h3>
+    <ul>
+      <li>${t('resultInDetailsHelp.detailsFeatures')}</li>
+      <li>${t('resultInDetailsHelp.detailsItems')}</li>
+    </ul>
+    <br/>
+    <h3>${t('resultInDetailsHelp.sortingTitle')}</h3>
+    <p>${t('resultInDetailsHelp.sortingDesc')}</p>
+  `
+}
+
+function openHowItWorksModal() {
+  modalStore.openModal(t('resultInDetailsHelp.title'), getHowItWorksHtml())
 }
 
 const competenceColors: Record<string, string> = {
@@ -154,7 +192,7 @@ function getItemStyle(item: any) {
     return {
       backgroundColor: '#EAEAEA',
       backgroundImage:
-        'linear-gradient(135deg, transparent calc(50% - 1.5px), #9e9e9e calc(50% - 1px), #9e9e9e calc(50% + 1px), transparent calc(50% + 1.5px))',
+        'linear-gradient(135deg, transparent calc(50% - 1px), #9e9e9e calc(50% - 0.5px), #9e9e9e calc(50% + 0.5px), transparent calc(50% + 1px))',
     }
   }
   if (currentViewMode.value === 'Allgemein') return { backgroundColor: '#008574' }
@@ -242,15 +280,56 @@ function openUserPopup(user: ItemsStudentsDataInner) {
 function closeUserPopup() {
   selectedUserForPopup.value = null
 }
+
+const selectedItemForPopup = ref<any | null>(null)
+
+function openItemPopup(item: any) {
+  selectedItemForPopup.value = item
+}
+
+function closeItemPopup() {
+  selectedItemForPopup.value = null
+}
+
+function getItemTextColor(item: any): string {
+  const freq = item.descriptiveStatistics?.frequency
+
+  if (freq === -1 || freq === 0) return '#000000'
+
+  if (currentViewMode.value === 'Allgemein') return '#ffffff'
+
+  const params = item.parameters
+
+  if (currentViewMode.value === 'Kompetenzstufe') {
+    const key = getMetadataValue(params?.competenceLevel)
+    return getCompetenceTextColor(key)
+  }
+
+  if (currentViewMode.value === 'Anforderungsbereich') {
+    return '#ffffff'
+  }
+
+  if (currentViewMode.value === 'Leitidee') {
+    const key = getMetadataValue(params?.coreIdea)
+    const totalCount = Object.keys(coreIdeaColors).length
+    return getCoreIdeaTextColor(key, totalCount)
+  }
+
+  return '#ffffff'
+}
 </script>
 
 <template>
   <div :class="[styles.resultsInDetailContainer, 'noPaddingPage']">
     <div :class="styles.controlheaderContainer">
       <div :class="styles.firstRow">
-        <h2 :class="styles.title">Ergebnisse im Detail</h2>
-        <button :class="styles.legendButton">
-          <span :class="styles.buttonLabel"> So funktioniert´s</span>
+        <h2 :class="styles.title">{{ t('resultInDetails.title') }}</h2>
+        <button
+          :class="styles.legendButton"
+          @click="openHowItWorksModal"
+          :aria-label="t('resultInDetails.howItWorks')"
+        >
+          <span :class="styles.buttonLabel"> {{ t('resultInDetails.howItWorks') }}</span>
           <div :class="styles.buttonIcon">
             <span :class="styles.buttonIconSpan">?</span>
           </div>
@@ -261,11 +340,17 @@ function closeUserPopup() {
           @click="currentViewMode = 'Allgemein'"
           :class="[styles.defaultContainer, currentViewMode === 'Allgemein' && styles.activeMode]"
         >
-          <span>Allgemein</span>
+          <span :class="styles.buttonStyle">{{ t('resultInDetails.general') }}</span>
           <div :class="styles.legendRow">
-            <div :class="[styles.legendSquare, styles.correctLegend]">richtig</div>
-            <div :class="[styles.legendSquare, styles.falseLegend]">falsch</div>
-            <div :class="[styles.legendSquare, styles.notWorkedOnLegend]">n. bearb.</div>
+            <div :class="[styles.legendSquare, styles.correctLegend]">
+              {{ t('resultInDetails.correct') }}
+            </div>
+            <div :class="[styles.legendSquare, styles.falseLegend]">
+              {{ t('resultInDetails.wrong') }}
+            </div>
+            <div :class="[styles.legendSquare, styles.notWorkedOnLegend]">
+              {{ t('resultInDetails.notWorkedOn') }}
+            </div>
           </div>
         </button>
         <button
@@ -275,7 +360,7 @@ function closeUserPopup() {
           ]"
           @click="currentViewMode = 'Kompetenzstufe'"
         >
-          <span>Kompetenzstufe</span>
+          <span :class="styles.buttonStyle">{{ t('resultInDetails.competenceLevel') }}</span>
           <div :class="styles.legendRow">
             <div
               v-for="(color, n) in competenceColors"
@@ -294,7 +379,7 @@ function closeUserPopup() {
           ]"
           @click="currentViewMode = 'Anforderungsbereich'"
         >
-          <span>Anforderungsbereich</span>
+          <span :class="styles.buttonStyle">{{ t('resultInDetails.cognitiveDemand') }}</span>
           <div :class="styles.legendRow">
             <div
               v-for="(color, n) in cognitiveColors"
@@ -313,7 +398,7 @@ function closeUserPopup() {
           ]"
           @click="currentViewMode = 'Leitidee'"
         >
-          <span>Leitidee</span>
+          <span :class="styles.buttonStyle">{{ t('resultInDetails.coreIdea') }}</span>
           <div :class="styles.legendRow">
             <div
               v-for="(color, n) in coreIdeaColors"
@@ -335,52 +420,74 @@ function closeUserPopup() {
           :class="[styles.thirdRowBtn, showNumbers && styles.active]"
           @click="toggleShowNumbers"
         >
-          <input type="checkbox" :checked="showNumbers" tabindex="-1" :class="styles.checkbox" />
-          <span>Nummern anzeigen</span>
+          <!-- <input type="checkbox" :checked="showNumbers" tabindex="-1" :class="styles.checkbox" /> -->
+          <input
+            type="checkbox"
+            disabled
+            v-model="showNumbers"
+            :class="styles.visuallyHidden"
+            :aria-label="t('classResultsInSubTopics.ariaShowMean')"
+          />
+          <div :class="[styles.checkboxIcon, showNumbers && styles.checkboxActive]">
+            <CheckIcon v-if="showNumbers" aria-hidden="true" />
+          </div>
+          <span>{{ t('resultInDetails.showNumbers') }}</span>
         </button>
 
         <button
           :class="[styles.thirdRowBtn, notWorkedOn && styles.active]"
           @click="toggleNotWorkedOn"
         >
-          <input
+          <!-- <input
             type="checkbox"
             v-model="notWorkedOn"
             :checked="notWorkedOn"
             tabindex="-1"
             :class="styles.checkbox"
-          />
-          <span>Nicht bearbeitet anzeigen</span>
+          /> -->
+          <div :class="[styles.checkboxIcon, notWorkedOn && styles.checkboxActive]">
+            <CheckIcon v-if="notWorkedOn" aria-hidden="true" />
+          </div>
+          <span>{{ t('resultInDetails.showNotWorkedOn') }}</span>
         </button>
 
         <button
           :class="[styles.thirdRowBtn, groupWrongTasks && styles.active]"
           @click="toggleGroupWrongTasks"
         >
-          <input
+          <!-- <input
             type="checkbox"
             :checked="groupWrongTasks"
             v-model="groupWrongTasks"
             tabindex="-1"
             :class="styles.checkbox"
-          />
-          <span>Aufgaben gruppieren</span>
+          /> -->
+          <div :class="[styles.checkboxIcon, groupWrongTasks && styles.checkboxActive]">
+            <CheckIcon v-if="groupWrongTasks" aria-hidden="true" />
+          </div>
+          <span>{{ t('resultInDetails.groupTasks') }}</span>
         </button>
 
         <button
           :class="[styles.thirdRowBtn, fitToScreen && styles.active]"
           @click="toggleFitToScreen"
         >
-          <input type="checkbox" :checked="fitToScreen" tabindex="-1" :class="styles.checkbox" />
-          <span>Fit-to-Screen</span>
+          <!-- <input type="checkbox" :checked="fitToScreen" tabindex="-1" :class="styles.checkbox" /> -->
+          <div :class="[styles.checkboxIcon, fitToScreen && styles.checkboxActive]">
+            <CheckIcon v-if="fitToScreen" aria-hidden="true" />
+          </div>
+          <span>{{ t('resultInDetails.fitToScreen') }}</span>
         </button>
 
         <button
           :class="[styles.thirdRowBtn, maximizeArea && styles.active]"
           @click="toggleMaximizeArea"
         >
-          <input type="checkbox" :checked="maximizeArea" tabindex="-1" :class="styles.checkbox" />
-          <span>Aufgaben Bereich maximieren</span>
+          <!-- <input type="checkbox" :checked="maximizeArea" tabindex="-1" :class="styles.checkbox" /> -->
+          <div :class="[styles.checkboxIcon, maximizeArea && styles.checkboxActive]">
+            <CheckIcon v-if="maximizeArea" aria-hidden="true" />
+          </div>
+          <span>{{ t('resultInDetails.maximizeArea') }}</span>
         </button>
       </div>
     </div>
@@ -407,24 +514,24 @@ function closeUserPopup() {
               title="BL/SF: Bes. Lernschwierigkeiten/Sonderpädagogischer Förderbedarf"
               @click="toggleLegendPopup"
             >
-              BLSF
+              {{ t('resultInDetails.blsfLabel').replace(':', '') }}
             </div>
             <div
               :class="[styles.metaHeaderColumn, styles.narrowColumn]"
               title="KW: Klasse wiederholt"
               @click="toggleLegendPopup"
             >
-              KW
+              {{ t('resultInDetails.kwLabel').replace(':', '') }}
             </div>
             <div :class="[styles.metaHeaderColumn, styles.narrowColumn]" title="HB: Hochbegabung">
-              HB
+              {{ t('resultInDetails.hbLabel').replace(':', '') }}
             </div>
             <div
               :class="[styles.metaHeaderColumn, styles.narrowColumn]"
               title="MND: Muttersprache n. Deutsch"
               @click="toggleLegendPopup"
             >
-              MND
+              {{ t('resultInDetails.mndLabel').replace(':', '') }}
             </div>
           </template>
 
@@ -450,7 +557,7 @@ function closeUserPopup() {
             :class="[styles.userHeaderColumn, styles.sortableHeader]"
             @click="toggleSort('user')"
           >
-            {{ maximizeArea ? 'SuS' : 'Schüler*innen' }}
+            {{ maximizeArea ? t('resultInDetails.sus') : t('resultInDetails.students') }}
             <span v-if="sortKey === 'user'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
           </div>
 
@@ -458,7 +565,7 @@ function closeUserPopup() {
             :class="[styles.itemsHeaderColumn, styles.sortableHeader]"
             @click="toggleSort('score')"
           >
-            Aufgaben-Lösungshäufigkeit
+            {{ t('resultInDetails.taskSolutionFrequency') }}
             <span v-if="sortKey === 'score'">{{ sortDirection === 'asc' ? '▲' : '▼' }}</span>
           </div>
 
@@ -466,7 +573,7 @@ function closeUserPopup() {
             :class="[styles.hNoteHeaderColumn, styles.sortableHeader, styles.stickyRight]"
             @click="toggleSort('hnote')"
           >
-            Halbjahresnote
+            {{ t('resultInDetails.halfYearGrade') }}
             <span v-if="sortKey === 'hnote'">{{ sortDirection === 'asc' ? '▼' : '▲' }}</span>
           </div>
         </div>
@@ -475,37 +582,42 @@ function closeUserPopup() {
           <div :class="styles.popupContent" @click.stop>
             <div :class="styles.popupHeader">
               <div :class="styles.popupHeaderRow">
-                <span :class="styles.popupTitle">
-                  {{ selectedUserForPopup.code || 'Unbekannt' }}
-                </span>
+                <span :class="styles.popupTitle">{{
+                  selectedUserForPopup.code || t('resultInDetails.unknown')
+                }}</span>
                 <CloseIcon aria-hidden="true" @click="closeUserPopup" style="cursor: pointer" />
               </div>
             </div>
             <div :class="styles.popupBody">
               <div :class="styles.popupRow">
-                <span :class="styles.resultStudentText">{{ getCorrectItemsCount(selectedUserForPopup) }} von
-                {{ getItems(selectedUserForPopup).length }} richtig gelöst ({{
-                  Math.round(
-                    100 *
-                      (getCorrectItemsCount(selectedUserForPopup) /
-                        getItems(selectedUserForPopup).length),
-                  )
-                }}%)</span>
+                <span :class="styles.resultStudentText">
+                  {{
+                    t('resultInDetails.solvedCorrectly', {
+                      count: getCorrectItemsCount(selectedUserForPopup),
+                      total: getItems(selectedUserForPopup).length,
+                      percent: Math.round(
+                        100 *
+                          (getCorrectItemsCount(selectedUserForPopup) /
+                            getItems(selectedUserForPopup).length),
+                      ),
+                    })
+                  }}
+                </span>
               </div>
               <div :class="styles.popupRow">
-                <strong>Halbjahresnote:</strong>
+                <strong>{{ t('resultInDetails.halfYearGrade') }}:</strong>
                 {{ isNaN(getHNote(selectedUserForPopup)) ? '-' : getHNote(selectedUserForPopup) }}
               </div>
               <div :class="styles.popupRow">
-                <strong>Sonderpäd. Förderbedarf (BLSF):</strong>
+                <strong>{{ t('resultInDetails.specialEdNeeds') }}</strong>
                 {{ hasCrossIndicator('blsf', selectedUserForPopup) ? 'Ja' : 'Nein' }}
               </div>
               <div :class="styles.popupRow">
-                <strong>Klasse wiederholt (KW):</strong>
+                <strong>{{ t('resultInDetails.classRepeated') }}</strong>
                 {{ hasCrossIndicator('wiederh8', selectedUserForPopup) ? 'Ja' : 'Nein' }}
               </div>
               <div :class="styles.popupRow">
-                <strong>Muttersprache nicht Deutsch (MND):</strong>
+                <strong>{{ t('resultInDetails.motherTongueNotGerman') }}</strong>
                 {{ hasCrossIndicator('musprache', selectedUserForPopup) ? 'Ja' : 'Nein' }}
               </div>
             </div>
@@ -558,23 +670,63 @@ function closeUserPopup() {
                 v-for="item in getItems(user)"
                 :key="item.iqbId"
                 :class="styles.itemBadge"
-                :style="getItemStyle(item)"
+                :style="{
+                  ...getItemStyle(item),
+                  color: getItemTextColor(item),
+                }"
+                @click="openItemPopup(item)"
                 :title="
                   `
-Aufgabe: ${item.name || 'Unbekannt'}
-IQB-ID: ${item.iqbId || '-'}
-Frequenz: ${item.descriptiveStatistics?.frequency ?? 0}
----------------------------
-Kompetenzstufe: ${getMetadataValue(item.parameters?.competenceLevel) || '-'}
-Anforderungsbereich: ${getMetadataValue(item.parameters?.cognitiveDemandLevel) || '-'}
-Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
-    `.trim()
+                    Aufgabe: ${item.name || 'Unbekannt'}
+                    IQB-ID: ${item.iqbId || '-'}
+                    Frequenz: ${item.descriptiveStatistics?.frequency ?? 0}
+                    ---------------------------
+                    Kompetenzstufe: ${getMetadataValue(item.parameters?.competenceLevel) || '-'}
+                    Anforderungsbereich: ${getMetadataValue(item.parameters?.cognitiveDemandLevel) || '-'}
+                    Leitidee: ${getMetadataValue(item.parameters?.coreIdea) || '-'}
+                        `.trim()
                 "
               >
-                <span v-if="showNumbers">{{ extractTaskNumber(item.name ?? '') }}</span>
+                <span v-if="!fitToScreen && showNumbers">{{
+                  extractTaskNumber(item.name ?? '')
+                }}</span>
               </div>
             </div>
             <div :class="[styles.hNoteColumn, styles.fixedRight]">{{ getHNote(user) }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="selectedItemForPopup" :class="styles.popupOverlay" @click="closeItemPopup">
+      <div :class="styles.popupContent" @click.stop>
+        <div :class="styles.popupHeader">
+          <div :class="styles.popupHeaderRow">
+            <span :class="styles.popupTitle">
+              {{ t('resultInDetails.task') }}
+              {{ selectedItemForPopup.name || t('resultInDetails.unknown') }}</span
+            >
+            <CloseIcon aria-hidden="true" @click="closeItemPopup" style="cursor: pointer" />
+          </div>
+        </div>
+        <div :class="styles.popupBody">
+          <div :class="styles.popupRow">
+            <strong>IQB-ID:</strong> {{ selectedItemForPopup.iqbId || '-' }}
+          </div>
+          <div :class="styles.popupRow">
+            <strong>{{ t('resultInDetails.statusFrequency') }}</strong>
+            {{ selectedItemForPopup.descriptiveStatistics?.frequency ?? 0 }}
+          </div>
+          <div :class="styles.popupRow">
+            <strong>{{ t('resultInDetails.competenceLevel') }}:</strong>
+            {{ getMetadataValue(selectedItemForPopup.parameters?.competenceLevel) || '-' }}
+          </div>
+          <div :class="styles.popupRow">
+            <strong>{{ t('resultInDetails.cognitiveDemand') }}:</strong>
+            {{ getMetadataValue(selectedItemForPopup.parameters?.cognitiveDemandLevel) || '-' }}
+          </div>
+          <div :class="styles.popupRow">
+            <strong>{{ t('resultInDetails.coreIdea') }}:</strong>
+            {{ getMetadataValue(selectedItemForPopup.parameters?.coreIdea) || '-' }}
           </div>
         </div>
       </div>

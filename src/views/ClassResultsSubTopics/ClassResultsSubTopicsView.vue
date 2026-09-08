@@ -21,10 +21,11 @@ import styles from './styles.module.css'
 import { watch, computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useClassStatsNew } from '@/composables/useClassStats'
-import { useUserItemsNew } from '@/composables/useUserItems'
+import { useUserItemsNew, useGroupInfo } from '@/composables/useUserItems'
 import CheckIcon from './icons/CheckIcon.svg?component'
+import { useModalStore } from '@/stores/modalStore'
 const { t } = useI18n()
-
+const modalStore = useModalStore()
 use([CanvasRenderer, BarChart, GridComponent, TooltipComponent, TitleComponent, LegendComponent])
 const { data } = useAllAggregations()
 const { data: coreIdeas } = useCoreIdeaAggregations()
@@ -33,6 +34,7 @@ const { data: cognitiveDemandLevels } = useCognitiveDemandLevelAggregations()
 const { data: competenceLevels } = useCompetenceLevelsAggregations()
 const { data: total } = useTotalResultAggregations()
 const { classItemsMatrix } = useUserItemsNew()
+const { items: groupItems } = useGroupInfo()
 
 const showMean = ref(true)
 const showMeanComparison = ref(true)
@@ -52,55 +54,47 @@ const toggleIndexVisibility = (index: number) => {
   }
 }
 
-const processBlock = (
-  dataArray: any[] | undefined,
-  groupName: string,
-  color: string,
-  comparisonColor?: string,
-) => {
+const ROMAN_MAP: Record<string, string> = {
+  '1': 'I',
+  '2': 'II',
+  '3': 'III',
+}
+
+const processBlock = (dataArray: any[] | undefined, groupName: string, color: string) => {
   const extractValue = (item: any, key: 'mean' | 'meanComparison') => {
     const raw = item?.descriptiveStatistics?.[key]
     return Number(raw?.value ?? raw) || 0
   }
 
+  const mapItem = (item: any) => {
+    let rawLabel = String(item.value || groupName || '1')
+
+    if (groupName === t('classResultsInSubTopics.cognitive')) {
+      rawLabel = ROMAN_MAP[rawLabel] || rawLabel
+    }
+
+    return {
+      label: rawLabel,
+      groupName: groupName,
+      originalMean: extractValue(item, 'mean'),
+      originalMeanComparison: extractValue(item, 'meanComparison'),
+      includedIqbIds: item?.includedIqbIds || [],
+      itemStyle: { color },
+      isSpacer: false,
+    }
+  }
+
   if (!dataArray || !Array.isArray(dataArray)) {
     if (dataArray && typeof dataArray === 'object') {
-      const item = dataArray as any
-      return [
-        {
-          label: item.value || groupName,
-          groupName: groupName,
-          mean: extractValue(item, 'mean'),
-          meanComparison: extractValue(item, 'meanComparison'),
-          itemStyle: { color },
-          isSpacer: false,
-        },
-      ]
+      return [mapItem(dataArray)]
     }
     return []
   }
 
-  return dataArray.map((item: any) => ({
-    label: item.value || '1',
-    groupName: groupName,
-    mean: extractValue(item, 'mean'),
-    meanComparison: extractValue(item, 'meanComparison'),
-    itemStyle: { color },
-    isSpacer: false,
-  }))
+  return dataArray.map(mapItem)
 }
 
-const AREA_COLORS = {
-  total: '#008574',
-  coreIdea: '#27E586',
-  competence: '#868686',
-  cognitive: '#D433D0',
-  competenceLevel: '#008DEB',
-}
-
-const MEAN_COMPARISON_COLOR = '#B3D3FF'
-
-const combinedChartData = computed(() => {
+const combinedChartDataRaw = computed(() => {
   const blocks = [
     processBlock(total.value, t('classResultsInSubTopics.total'), AREA_COLORS.total),
     processBlock(coreIdeas.value, t('classResultsInSubTopics.coreIdea'), AREA_COLORS.coreIdea),
@@ -126,13 +120,10 @@ const combinedChartData = computed(() => {
   blocks.forEach((block, index) => {
     if (block.length > 0) {
       result.push(...block)
-
       if (index < blocks.length - 1) {
         result.push({
           label: '',
           groupName: 'Spacer',
-          mean: null,
-          meanComparison: null,
           isSpacer: true,
         })
       }
@@ -142,22 +133,164 @@ const combinedChartData = computed(() => {
   return result
 })
 
+const AREA_COLORS = {
+  total: '#B00FBF',
+  coreIdea: '#76E62B',
+  competence: '#AAA',
+  cognitive: '#EF74FB',
+  competenceLevel: '#01ABE9',
+}
+
+const MEAN_COMPARISON_COLOR = '#001DAB'
+
+function createColorBadge(color: string): string {
+  return `<span style="display:inline-block; width:12px; height:12px; border-radius:3px; background-color:${color}; margin-right:8px; vertical-align:middle;"></span>`
+}
+
+// Erstellt das HTML für den Hilfetext im SideModal
+function getLegendHelpHtml(): string {
+  return `
+  <br/>
+    <p>${t('subTopicsHelp.description')}</p>
+    <ul style="list-style: none; padding-left: 0;">
+    <br/>
+      <li style="margin-bottom: 8px;">
+        ${createColorBadge(AREA_COLORS.total)}
+        <strong>${t('classResultsInSubTopics.total')}:</strong> ${t('subTopicsHelp.total')}
+      </li>
+      <li style="margin-bottom: 8px;">
+        ${createColorBadge(AREA_COLORS.coreIdea)}
+        <strong>${t('classResultsInSubTopics.coreIdea')}:</strong> ${t('subTopicsHelp.coreIdea')}
+      </li>
+      <li style="margin-bottom: 8px;">
+        ${createColorBadge(AREA_COLORS.competence)}
+        <strong>${t('classResultsInSubTopics.competence')}:</strong> ${t('subTopicsHelp.competence')}
+      </li>
+      <li style="margin-bottom: 8px;">
+        ${createColorBadge(AREA_COLORS.cognitive)}
+        <strong>${t('classResultsInSubTopics.cognitive')}:</strong> ${t('subTopicsHelp.cognitive')}
+      </li>
+      <li style="margin-bottom: 8px;">
+        ${createColorBadge(AREA_COLORS.competenceLevel)}
+        <strong>${t('classResultsInSubTopics.competenceLevel')}:</strong> ${t('subTopicsHelp.competenceLevel')}
+      </li>
+      <li style="margin-top: 16px; padding-top: 8px; border-top: 1px solid #e9ecef;">
+        ${createColorBadge(MEAN_COMPARISON_COLOR)}
+        <strong>${t('classResultsInSubTopics.meanComp')}:</strong> ${t('subTopicsHelp.meanComp')}
+      </li>
+    </ul>
+  `
+}
+
+const combinedChartData = computed(() => {
+  const hasExclusions = excludedIqbIds.value.size > 0
+
+  return combinedChartDataRaw.value.map((item) => {
+    if (item.isSpacer) return item
+
+    if (!hasExclusions) {
+      return {
+        ...item,
+        mean: item.originalMean,
+        meanComparison: item.originalMeanComparison,
+      }
+    }
+
+    const filtered = calculateFilteredValues(item.includedIqbIds)
+    return {
+      ...item,
+      mean: filtered.mean,
+      meanComparison: filtered.meanComparison,
+    }
+  })
+})
+
+const itemsStatsMap = computed(() => {
+  const map = new Map<string, { mean: number; meanComparison: number }>()
+
+  groupItems.value.forEach((item: any) => {
+    if (item.iqbId) {
+      map.set(item.iqbId, {
+        mean: Number(item.descriptiveStatistics?.mean) || 0,
+        meanComparison: Number(item.descriptiveStatistics?.meanComparison) || 0,
+      })
+    }
+  })
+  return map
+})
+
+const excludedIqbIds = computed(() => {
+  const excluded = new Set<string>()
+  const rawBlocks = combinedChartDataRaw.value
+
+  hiddenIndices.value.forEach((index) => {
+    const item = rawBlocks[index]
+    if (item && item.includedIqbIds && Array.isArray(item.includedIqbIds)) {
+      item.includedIqbIds.forEach((id: string) => excluded.add(id))
+    }
+  })
+
+  return excluded
+})
+
+const calculateFilteredValues = (includedIqbIds: string[]) => {
+  if (!includedIqbIds || includedIqbIds.length === 0) {
+    return { mean: 0, meanComparison: 0 }
+  }
+
+  const validIds = includedIqbIds.filter((id) => !excludedIqbIds.value.has(id))
+
+  if (validIds.length === 0) {
+    return { mean: 0, meanComparison: 0 }
+  }
+
+  let sumMean = 0
+  let sumMeanComp = 0
+  let count = 0
+
+  validIds.forEach((id) => {
+    const stat = itemsStatsMap.value.get(id)
+    if (stat) {
+      sumMean += stat.mean
+      sumMeanComp += stat.meanComparison
+      count++
+    }
+  })
+
+  return {
+    mean: Number((sumMean / count).toFixed(3)),
+    meanComparison: Number((sumMeanComp / count).toFixed(3)),
+  }
+}
+
 const chartOptions = computed(() => {
   const dataPoints = combinedChartData.value
 
   const xAxisLabels = dataPoints.map((item, index) => {
     if (item.isSpacer) return ''
 
+    const isTotalGroup = item.groupName === t('classResultsInSubTopics.total')
+
+    if (isTotalGroup) {
+      return ''
+    }
+
     const isHidden = hiddenIndices.value.has(index)
     return {
       value: item.label,
       textStyle: {
-        color: isHidden ? '#bbb' : '#495057',
-        backgroundColor: isHidden ? '#f1f3f5' : '#e9ecef',
-        borderWidth: 1,
-        borderRadius: 4,
-        padding: [2, 4],
+        color: isHidden ? '#bbb' : '#000000',
+        backgroundColor: '#DCDCDC',
+        fontFamily: 'League Spartan, sans-serif',
         fontSize: 14,
+        fontWeight: 400,
+        lineHeight: 16,
+        align: 'center',
+        verticalAlign: 'middle',
+        borderRadius: 2,
+        width: 20,
+        height: 20,
+        padding: [3, 0, 3, 0],
       },
     }
   })
@@ -178,6 +311,8 @@ const chartOptions = computed(() => {
     activeSeries.push({
       name: t('classResultsInSubTopics.mean'),
       type: 'bar',
+      barGap: '0%',
+      barWidth: 14,
       data: dataPoints.map((item, index) => {
         if (item.isSpacer || hiddenIndices.value.has(index)) return null
         return {
@@ -188,7 +323,7 @@ const chartOptions = computed(() => {
           },
         }
       }),
-      barMaxWidth: 15,
+      barMaxWidth: 14,
     })
   }
 
@@ -196,11 +331,13 @@ const chartOptions = computed(() => {
     activeSeries.push({
       name: t('classResultsInSubTopics.meanComp'),
       type: 'bar',
+      barWidth: 8,
+      barGap: '0%',
       data: dataPoints.map((item, index) => {
         if (item.isSpacer || hiddenIndices.value.has(index)) return null
         return item.meanComparison
       }),
-      barMaxWidth: 15,
+      barMaxWidth: 8,
       itemStyle: {
         color: MEAN_COMPARISON_COLOR,
         borderRadius: [0, 0, 0, 0],
@@ -209,6 +346,12 @@ const chartOptions = computed(() => {
   }
 
   return {
+    aria: {
+      enabled: true,
+      label: {
+        description: t('classResultsInSubTopics.chartA11yLabel'),
+      },
+    },
     tooltip: {
       trigger: 'axis',
       formatter: (params: any) => {
@@ -225,7 +368,7 @@ const chartOptions = computed(() => {
     },
     grid: {
       left: '5%',
-      right: '5%',
+      // right: '5%',
       bottom: '20%',
       containLabel: true,
     },
@@ -237,6 +380,7 @@ const chartOptions = computed(() => {
         axisLabel: {
           interval: 0,
           hideOverlap: true,
+          margin: 24,
         },
         axisTick: {
           show: true,
@@ -257,7 +401,10 @@ const chartOptions = computed(() => {
           interval: 0,
           fontSize: 18,
           fontWeight: 'bold',
+          width: 200,
+          overflow: 'break',
           color: '#000',
+          align: 'center',
         },
       },
     ],
@@ -266,7 +413,7 @@ const chartOptions = computed(() => {
       min: 0,
       max: 100,
       interval: 10,
-      name: 'Klassendurchschnitt\nerreichter Punkte (%)',
+      name: t('classResultsInSubTopics.yAxisName'),
       nameLocation: 'end',
       nameAlign: 'left',
       nameGap: 15,
@@ -277,7 +424,7 @@ const chartOptions = computed(() => {
         fontStyle: 'normal',
         fontWeight: 400,
         lineHeight: 16,
-        align: 'left', 
+        align: 'left',
         padding: [0, 0, 0, -40],
       },
       axisLabel: {
@@ -299,7 +446,7 @@ const onChartClick = (params: any) => {
 }
 
 const handleLegendClick = () => {
-  alert('Legende wurde geklickt!')
+  modalStore.openModal(t('subTopicsHelp.title'), getLegendHelpHtml())
 }
 
 watch(
@@ -335,44 +482,71 @@ watch(
       <h2 :class="styles.chartTitle">
         {{ t('classResultsInSubTopics.title') }}
       </h2>
-
-      <div :class="styles.controlsContainer">
-        <div :class="styles.checkboxGroup">
-          <label :class="[styles.checkboxLabel, showMean && styles.isDisabled]">
-            <input type="checkbox" disabled v-model="showMean" :class="styles.visuallyHidden" />
-            <span :class="[styles.classCheckbox, showMean && styles.checked]">
-              <CheckIcon v-if="showMean" :class="styles.checkIcon" />
-            </span>
-            {{ t('classResultsInSubTopics.mean') }}
-          </label>
-
-          <label :class="styles.checkboxLabel">
-            <input type="checkbox" v-model="showMeanComparison" :class="styles.visuallyHidden" />
-            <span :class="[styles.countryCheckbox, showMeanComparison && styles.checked]">
-              <CheckIcon v-if="showMeanComparison" :class="styles.checkIcon" />
-            </span>
-            {{ t('classResultsInSubTopics.meanComp') }}
-          </label>
-
-          <label :class="styles.checkboxLabel">
-            <input type="checkbox" v-model="showDeko" :class="styles.visuallyHidden" />
-            <span :class="[styles.schoolCheckbox, showDeko && styles.checked]">
-              <CheckIcon v-if="showDeko" :class="styles.checkIcon" />
-            </span>
-            {{ t('classResultsInSubTopics.meanSchool') }}
-          </label>
+      <button
+        type="button"
+        :class="styles.legendButton"
+        @click="handleLegendClick"
+        :aria-label="t('classResultsInSubTopics.legend')"
+      >
+        <span :class="styles.buttonLabel"> {{ t('classResultsInSubTopics.legend') }}</span>
+        <div :class="styles.buttonIcon">
+          <span :class="styles.buttonIconSpan">?</span>
         </div>
-
-        <button :class="styles.legendButton" @click="handleLegendClick">
-          <span :class="styles.buttonLabel"> {{ t('classResultsInSubTopics.legend') }}</span>
-          <div :class="styles.buttonIcon">
-            <span :class="styles.buttonIconSpan">?</span>
-          </div>
-        </button>
+      </button>
+    </div>
+    <div :class="styles.controlsContainerNew" :aria-label="t('classResultsInSubTopics.title')">
+      <div :class="[styles.classCheckButton, !showMean && styles.inactiveButton]">
+        <label :class="styles.checkboxLabel">
+          <input
+            type="checkbox"
+            disabled
+            v-model="showMean"
+            :class="styles.visuallyHidden"
+            :aria-label="t('classResultsInSubTopics.ariaShowMean')"
+          />
+          <span :class="[styles.classCheckbox, showMean && styles.checked]">
+            <CheckIcon v-if="showMean" :class="styles.checkIcon" />
+          </span>
+          {{ t('classResultsInSubTopics.mean') }}
+        </label>
+      </div>
+      <div :class="[styles.countryCheckButton, !showMeanComparison && styles.inactiveButton]">
+        <label :class="styles.checkboxLabel"
+          ><input
+            type="checkbox"
+            v-model="showMeanComparison"
+            :class="styles.visuallyHidden"
+            :aria-label="t('classResultsInSubTopics.ariaShowMeanComp')"
+          />
+          <span :class="[styles.countryCheckbox, showMeanComparison && styles.checked]">
+            <CheckIcon v-if="showMeanComparison" :class="styles.checkIcon" />
+          </span>
+          {{ t('classResultsInSubTopics.meanComp') }}
+        </label>
+      </div>
+      <div :class="[styles.schoolCheckButton, !showDeko && styles.inactiveButton]">
+        <label :class="styles.checkboxLabel">
+          <input
+            type="checkbox"
+            v-model="showDeko"
+            :class="styles.visuallyHidden"
+            :aria-label="t('classResultsInSubTopics.ariaShowMeanSchool')"
+          />
+          <span :class="[styles.schoolCheckbox, showDeko && styles.checked]">
+            <CheckIcon v-if="showDeko" :class="styles.checkIcon" />
+          </span>
+          {{ t('classResultsInSubTopics.meanSchool') }}
+        </label>
       </div>
     </div>
 
-    <v-chart :option="chartOptions" class="chart" @click="onChartClick" />
+    <div
+      :class="styles.echartContainer"
+      role="img"
+      :aria-label="t('classResultsInSubTopics.chartA11yLabel')"
+    >
+      <v-chart :option="chartOptions" class="chart" @click="onChartClick" />
+    </div>
   </div>
 </template>
 <style scoped>

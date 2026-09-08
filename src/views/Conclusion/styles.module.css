@@ -21,8 +21,10 @@
 
 .card {
   max-width: 200px;
+  min-width: 185px;
   background-color: var(--color-waterblue-10);
   border-radius: 8px;
+  border: 1.5px solid var(--color-navigation-blue);
   display: flex;
   flex-direction: column;
 }
@@ -286,4 +288,86 @@
   height: 24px;
   background: rgba(72, 102, 237, 0.2);
   overflow: hidden;
+}
+
+@media (min-width: 1400px) {
+  .headRow {
+    grid-column: 2 / 12;
+  }
+
+  .results {
+    grid-column: 1 / 6;
+  }
+
+  .homogeneity {
+    grid-column: 6 / -1;
+  }
+
+  .cards {
+    grid-column: 2 / 12;
+  }
+
+  .card {
+    max-width: 200px;
+  }
+
+  .homogeneityTitle,
+  .resultCardsTitle {
+    font-size: 24px;
+  }
+  .title {
+    grid-column: 2 / 5;
+  }
+}
+
+@media (min-width: 1920px) {
+  .headRow {
+    grid-column: 3 / 11;
+  }
+
+  .results {
+    grid-column: 1 / 5;
+  }
+
+  .homogeneity {
+    grid-column: 5 / -1;
+  }
+
+  .cards {
+    gap: 24px;
+    grid-column: 3 / 11;
+  }
+  .title {
+    grid-column: 3 / 5;
+  }
+}
+
+.buttonIcon {
+  display: flex;
+  width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  aspect-ratio: 1/1;
+  border-radius: 50px;
+  background: var(--white, #fff);
+  box-shadow: 0 0 6px 0 rgba(0, 32, 137, 0.25);
+  border: none;
+
+  color: var(--black, #000);
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.homogeneityTitleRow {
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+  align-items: center;
 }
