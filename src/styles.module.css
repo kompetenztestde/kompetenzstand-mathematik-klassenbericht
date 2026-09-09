@@ -20,7 +20,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 10dvh;
+  /* height: 10dvh; */
 
   background: var(--color-turquise);
   display: flex;
@@ -28,9 +28,22 @@
   align-items: center;
   padding: 15px 20px 15px 20px;
   z-index: 100;
+  grid-column: 1/ -1;
+}
+
+.navControls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .navBtn {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   background: none;
   border: none;
@@ -42,6 +55,12 @@
   cursor: not-allowed;
 }
 
+.navIcon {
+  width: 58px;
+  height: 58px;
+  display: block;
+}
+
 .reportDiv {
   display: flex;
   align-items: flex-end;
@@ -49,7 +68,7 @@
 
 @media (min-width: 768px) {
   .navigationBar {
-    padding: 0px 20px 0px 20px;
+    padding: 25px 50px 25px 50px;
   }
 }
 
@@ -65,23 +84,31 @@
 
 .pageIndicator {
   display: flex;
-  gap: 15px;
   align-items: center;
-
+  gap: 8px;
   list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dotContainer {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dot {
-  display: block;
-  cursor: pointer;
-  background-color: var(--color-navigation-blue);
-  border: none;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  transition: all 0.3s ease;
+  background-color: var(--color-navigation-blue);
+  border: none;
   padding: 0;
-
+  cursor: pointer;
+  transition: all 0.3s ease;
   position: relative;
   z-index: 2;
 }
@@ -103,10 +130,6 @@
   border: 1px solid var(--color-navigation-blue);
 }
 
-.appWrapper .content.no-padding {
-  padding-bottom: 0 !important;
-}
-
 .dot.active::before {
   content: '';
   position: absolute;
@@ -122,6 +145,10 @@
   border-radius: 50%;
 
   z-index: -1;
+}
+
+.appWrapper .content.no-padding {
+  padding-bottom: 0 !important;
 }
 
 .dot:focus-visible,
@@ -163,7 +190,6 @@
 }
 
 .reportH1 {
-
   /* tablet/H2 */
   font-size: 24px;
   font-style: normal;
@@ -245,5 +271,97 @@
 
   .pageIndicator {
     gap: 12px;
+  }
+  .grid footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .navigationBar {
+    display: flex;
+    width: 100%;
+    height: 88px;
+    padding: 10px 21px 20px 21px;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    box-sizing: border-box;
+  }
+
+  .navControls {
+    gap: 3px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dotContainer {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .dot {
+    width: 8.571px;
+    height: 8.571px;
+  }
+
+  .dot.active::before {
+    width: 17px;
+    height: 17px;
+  }
+
+  .pageIndicator {
+    gap: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navigationBar {
+    padding-left: 25px;
+    padding-right: 25px;
+    position: relative;
+  }
+
+  .reportDiv {
+    display: none;
+  }
+
+  .navControls {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: static;
+  }
+
+  .pageIndicator {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.navbarFooter {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--page-gutter);
+  grid-column: 1 / -1;
+  grid-row: 2 / 3;
+  z-index: 10;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--color-turquise);
+}
+
+@media (min-width: 1400px) {
+  .navigationBar {
+    grid-column: 2 / 12;
+  }
+}
+
+@media (min-width: 1920px) {
+  .navigationBar {
+    grid-column: 3 / 11;
   }
 }

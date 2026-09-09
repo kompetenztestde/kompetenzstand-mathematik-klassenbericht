@@ -115,11 +115,11 @@ const showDetails = () => {
 
     <SideModal />
 
-    <footer v-if="!isHome" role="contentinfo">
+    <footer v-if="!isHome" role="contentinfo" :class="styles.navbarFooter">
       <nav :aria-label="t('accessibility.pagination')" :class="styles.navigationBar">
         <div :class="styles.reportDiv">
           <div :class="styles.titleContainer">
-            <h1 :class="styles.reportH1">Klasse {{groupName}}</h1>
+            <h1 :class="styles.reportH1">Klasse {{ groupName }}</h1>
             <h2 :class="styles.reportH2">{{ t('home.feedback') }}</h2>
           </div>
 
@@ -134,34 +134,36 @@ const showDetails = () => {
           </button>
         </div>
 
-        <button
-          :disabled="currentIndex <= 0"
-          @click="goBack"
-          :class="styles.navBtn"
-          :aria-label="t('accessibility.prev_page')"
-        >
-          <IconPageLeft :class="styles.navIcon" aria-hidden="true" />
-        </button>
+        <div :class="styles.navControls">
+          <button
+            :disabled="currentIndex <= 0"
+            @click="goBack"
+            :class="styles.navBtn"
+            :aria-label="t('accessibility.prev_page')"
+          >
+            <IconPageLeft :class="styles.navIcon" aria-hidden="true" />
+          </button>
 
-        <ul :class="styles.pageIndicator" role="list">
-          <li v-for="(step, index) in allSteps" :key="index">
-            <button
-              :class="`${styles.dot} ${index === currentIndex ? styles.active : ''}`"
-              :aria-current="index === currentIndex ? 'page' : undefined"
-              :aria-label="t('accessibility.go_to_page', { num: index + 1 })"
-              @click="goTo(index)"
-            ></button>
-          </li>
-        </ul>
+          <ul :class="styles.pageIndicator" role="list">
+            <li v-for="(step, index) in allSteps" :key="index" :class="styles.dotContainer">
+              <button
+                :class="[styles.dot, { [styles.active!]: index === currentIndex }]"
+                :aria-current="index === currentIndex ? 'page' : undefined"
+                :aria-label="t('accessibility.go_to_page', { num: index + 1 })"
+                @click="goTo(index)"
+              ></button>
+            </li>
+          </ul>
 
-        <button
-          :disabled="currentIndex >= allSteps.length - 1 || currentIndex === -1"
-          @click="goNext"
-          :class="[styles.navBtn, styles.next]"
-          :aria-label="t('accessibility.next_page')"
-        >
-          <IconPageRight :class="styles.navIcon" aria-hidden="true" />
-        </button>
+          <button
+            :disabled="currentIndex >= allSteps.length - 1 || currentIndex === -1"
+            @click="goNext"
+            :class="[styles.navBtn, styles.next]"
+            :aria-label="t('accessibility.next_page')"
+          >
+            <IconPageRight :class="styles.navIcon" aria-hidden="true" />
+          </button>
+        </div>
       </nav>
     </footer>
   </div>
