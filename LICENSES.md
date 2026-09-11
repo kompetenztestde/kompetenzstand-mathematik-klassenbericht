@@ -32,10 +32,6 @@ Eigens für dieses Projekt erstellte Illustrationen und grafische Motive stehen 
 Bei Weiterverwendung dieser Illustrationen sind gemäß CC BY-SA 4.0 eine Namensnennung („outermedia GmbH") sowie die
 Weitergabe unter derselben Lizenz erforderlich.
 
-> Hinweis: Aktuell werden im Projekt keine dotLottie-Animationen (`.lottie`-Dateien) ausgeliefert, obwohl die
-> Bibliothek `@lottiefiles/dotlottie-vue` als Abhängigkeit eingebunden ist. Sobald Animationsdateien hinzugefügt
-> werden, gilt für sie ebenfalls CC BY-SA 4.0, sofern sie eigens für dieses Projekt erstellt wurden.
-
 ## 3. Firmenlogo – ausgenommen (Marke)
 
 Das outermedia-Firmenlogo ist als Marke von beiden oben genannten Lizenzen (MIT und CC BY-SA 4.0) **ausgenommen** und
@@ -56,7 +52,7 @@ Die eingebundenen Schriftarten stehen unter der [SIL Open Font License, Version 
 | Inter           | 2020 The Inter Project Authors ([rsms/inter](https://github.com/rsms/inter)) | `src/themes/fonts/inter-v20-*.woff2`             |
 | League Spartan  | 2020 The League Spartan Project Authors ([theleagueof/league-spartan](https://github.com/theleagueof/league-spartan)) | `src/themes/fonts/league-spartan-v15-*.woff2`    |
 
-Beide Schriftarten werden über `src/themes/fonts.css` als `@font-face` eingebunden (s. [README2.md](README2.md)).
+Beide Schriftarten werden über `src/themes/fonts.css` als `@font-face` eingebunden (s. [README.md](README.md)).
 
 ## 5. Drittanbieter-Abhängigkeiten (npm)
 
@@ -73,7 +69,6 @@ Die folgende Tabelle listet die direkten Abhängigkeiten und ihre Lizenz, wie im
 | `@tanstack/vue-query`          | MIT        |
 | `echarts`                      | Apache-2.0 |
 | `vue-echarts`                  | MIT        |
-| `@lottiefiles/dotlottie-vue`   | MIT        |
 | `dayjs`                        | MIT        |
 | `vite`                         | MIT        |
 | `@vitejs/plugin-vue`           | MIT        |

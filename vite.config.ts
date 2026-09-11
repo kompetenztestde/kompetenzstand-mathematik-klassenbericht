@@ -21,11 +21,15 @@ const ALLOWED_LICENSES = [
     'Python-2.0',
 ].join(' OR ')
 
-const FONT_NOTICE = `League Spartan (src/themes/fonts/*.woff2)
+const FONT_NOTICE = `Inter (src/themes/fonts/inter-v20-*.woff2)
+Copyright 2020 The Inter Project Authors
+(https://github.com/rsms/inter)
+Lizenz: SIL Open Font License, Version 1.1 — vollstaendiger Text in OFL.txt
+
+League Spartan (src/themes/fonts/league-spartan-v15-*.woff2)
 Copyright 2020 The League Spartan Project Authors
 (https://github.com/theleagueof/league-spartan)
 Lizenz: SIL Open Font License, Version 1.1 — vollstaendiger Text in OFL.txt`
-
 
 const SEPARATOR = '-'.repeat(78)
 

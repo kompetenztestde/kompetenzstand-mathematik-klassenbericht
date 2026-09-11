@@ -81,7 +81,7 @@ docker compose exec node pnpm run dev
 ### Skripte
 
 | Skript                            | Beschreibung                                                                              |
-| ---------------------------------- | ------------------------------------------------------------------------------------------ |
+| --------------------------------- | ----------------------------------------------------------------------------------------- |
 | `pnpm run dev`                    | Dev-Server mit Hot Reload (Port 3000, inkl. API-Proxys)                                   |
 | `pnpm run build`                  | Type-Check und Production-Build (`vue-tsc --build` + `vite build`)                        |
 | `pnpm run build-only`             | Nur Build, ohne Type-Check                                                                |
@@ -116,13 +116,13 @@ Wird in `index.html` als klassisches Script eingebunden und setzt `window.appCon
 
 ```js
 window.appConfig = {
-    api: {
-        baseUrl: '/api-proxy', // TBA3-Referenz-API (@tba3/api-resources)
-        inioApiUrl: '/api-inio', // inio-Reportdaten (@tba3/api-new)
-        inioAuthApiUrl: '/api-auth', // inio-Authentifizierung (@tba3/api-auth)
-        xApiKeySchool: 'TEST', // Header X-API-KEY-SCHOOL
-    },
-    defaultPageSize: 20,
+  api: {
+    baseUrl: '/api-proxy', // TBA3-Referenz-API (@tba3/api-resources)
+    inioApiUrl: '/api-inio', // inio-Reportdaten (@tba3/api-new)
+    inioAuthApiUrl: '/api-auth', // inio-Authentifizierung (@tba3/api-auth)
+    xApiKeySchool: 'TEST', // Header X-API-KEY-SCHOOL
+  },
+  defaultPageSize: 20,
 }
 ```
 
@@ -155,14 +155,14 @@ damit zur Build-Zeit ins Bundle übernommen. Änderungen an dieser Datei erforde
 Neustart des Dev-Servers. Die Datei enthält u. a.:
 
 | Schlüssel                             | Inhalt                                                               |
-| --------------------------------------- | ----------------------------------------------------------------------- |
-| `competence_texts`                    | Texte und Beschreibungen je Kompetenz `K1`–`K6`                       |
-| `guiding_ideas_texts`                 | Texte und Beschreibungen je Leitidee `L1`–`L5`                        |
-| `start`                                | Titel und Info-Text des Einstiegs                                    |
-| `specialCases`, `specialCasesAdvices` | Texte und Hinweise für auffällige Bearbeitungsmuster                  |
-| `overallResult`                       | Rückmeldetexte je Gesamtergebnis-Stufe                                |
-| `areas`, `cutOffs`                    | Bereichsgrenzen und Schwellenwerte für die Einordnung der Ergebnisse  |
-| `testInfo`                            | Metadaten zum Testheft (Booklet, Fach, Klassenstufe)                  |
+| ------------------------------------- | -------------------------------------------------------------------- |
+| `competence_texts`                    | Texte und Beschreibungen je Kompetenz `K1`–`K6`                      |
+| `guiding_ideas_texts`                 | Texte und Beschreibungen je Leitidee `L1`–`L5`                       |
+| `start`                               | Titel und Info-Text des Einstiegs                                    |
+| `specialCases`, `specialCasesAdvices` | Texte und Hinweise für auffällige Bearbeitungsmuster                 |
+| `overallResult`                       | Rückmeldetexte je Gesamtergebnis-Stufe                               |
+| `areas`, `cutOffs`                    | Bereichsgrenzen und Schwellenwerte für die Einordnung der Ergebnisse |
+| `testInfo`                            | Metadaten zum Testheft (Booklet, Fach, Klassenstufe)                 |
 
 Oberflächentexte (Labels, Buttons, feste UI-Strings) liegen dagegen in `src/locales/de.json` und werden über
 [Vue I18n](https://vue-i18n.intlify.dev/) eingebunden (s. [`src/i18n.ts`](src/i18n.ts)).
@@ -179,7 +179,6 @@ Oberflächentexte (Labels, Buttons, feste UI-Strings) liegen dagegen in `src/loc
 - [TanStack Query](https://tanstack.com/query/) – Data Fetching und Caching
 - [Vue I18n](https://vue-i18n.intlify.dev/) – Oberflächentexte (aktuell nur `de`)
 - [Apache ECharts](https://echarts.apache.org/) via [vue-echarts](https://github.com/ecomfe/vue-echarts) – Datenvisualisierung
-- [dotLottie für Vue](https://developers.lottiefiles.com/docs/dotlottie-player/) – als Abhängigkeit eingebunden, aktuell aber ohne konkrete `.lottie`-Datei im Einsatz
 - [Day.js](https://day.js.org/) – Zeit-/Dauerberechnungen
 - [vite-svg-loader](https://github.com/jpkleemans/vite-svg-loader) – SVGs als Vue-Komponenten (`?component`)
 - [OpenAPI Generator](https://openapi-generator.tech/) – Erzeugung der API-Clients (`typescript-fetch`)
@@ -210,8 +209,7 @@ Das Repository ist ein **pnpm-Workspace**: die App liegt im Wurzelverzeichnis, d
 ├── vitest.config.ts    # Test-Setup (jsdom)
 ├── LICENSE                     # MIT-Lizenz für den Quellcode
 ├── LICENSE-CC-BY-SA-4.0.txt    # Lizenz für eigene Illustrationen
-├── LICENSES.md                 # Übersicht, welcher Projektteil unter welcher Lizenz steht
-└── README2.md           # Diese ausführliche technische Dokumentation
+└── LICENSES.md                 # Übersicht, welcher Projektteil unter welcher Lizenz steht
 ```
 
 ### App-Struktur
@@ -261,15 +259,15 @@ Die Rückmeldung ist als lineare Abfolge von sieben Schritten aufgebaut (`src/ro
 Schüler:in wird als Query-Parameter `?user=<code>` durch die Schritte mitgeführt (gesetzt beim Start in
 `HomeView`, ausgelesen z. B. in `App.vue` über `route.query.user`).
 
-| Route     | View                          | Inhalt                                                                    |
-| --------- | ------------------------------ | ---------------------------------------------------------------------------- |
-| `/` → `/step-1` | `HomeView`               | Auswahl/Eingabe des Test-Codes und Einstieg                               |
-| `/step-2` | `ConclusionView`              | „Zusammenfassung" – Gesamtergebnis                                       |
-| `/step-3` | `ClassResultsSubTopicsView`   | „Ergebnisse der Klasse in Teilbereichen" – Klassenvergleich je Leitidee   |
-| `/step-4` | `ResultsInDetailView`         | „Ergebnisse im Detail" – Auswertung je Kompetenz/Leitidee, Vergleichswerte |
-| `/step-5` | `BestExercisesView`           | „Top Aufgaben" – die am besten gelösten Aufgaben                          |
-| `/step-6` | `WorstExercisesView`          | „Flop Aufgaben" – Aufgaben mit dem größten Übungsbedarf                   |
-| `/step-7` | `IdeasForFutureView`          | „Anregungen zur Weiterarbeit" – Abschluss mit Übungshinweisen             |
+| Route           | View                        | Inhalt                                                                     |
+| --------------- | --------------------------- | -------------------------------------------------------------------------- |
+| `/` → `/step-1` | `HomeView`                  | Auswahl/Eingabe des Test-Codes und Einstieg                                |
+| `/step-2`       | `ConclusionView`            | „Zusammenfassung" – Gesamtergebnis                                         |
+| `/step-3`       | `ClassResultsSubTopicsView` | „Ergebnisse der Klasse in Teilbereichen" – Klassenvergleich je Leitidee    |
+| `/step-4`       | `ResultsInDetailView`       | „Ergebnisse im Detail" – Auswertung je Kompetenz/Leitidee, Vergleichswerte |
+| `/step-5`       | `BestExercisesView`         | „Top Aufgaben" – die am besten gelösten Aufgaben                           |
+| `/step-6`       | `WorstExercisesView`        | „Flop Aufgaben" – Aufgaben mit dem größten Übungsbedarf                    |
+| `/step-7`       | `IdeasForFutureView`        | „Anregungen zur Weiterarbeit" – Abschluss mit Übungshinweisen              |
 
 Die Schrittfolge wird über `src/composables/useNavigation.ts` bereitgestellt und von der Fußzeile in `App.vue` für
 die Seitenindikatoren sowie die Vor-/Zurück-Navigation (`goNext`/`goBack`) verwendet.
@@ -278,16 +276,16 @@ die Seitenindikatoren sowie die Vor-/Zurück-Navigation (`goNext`/`goBack`) verw
 
 ## Composables & fachliche Logik
 
-| Composable             | Aufgabe                                                                                           |
-| ----------------------- | --------------------------------------------------------------------------------------------------- |
+| Composable             | Aufgabe                                                                                                                             |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | `useUserItems`         | Items einer Schüler:in laden (`useUserItemsNew`), Trefferquote berechnen, Schulform (`useSchoolForm`) und Testdaten (`useTestData`) |
-| `useCompetencesNew`    | Auswertung je Kompetenz `K1`–`K6` inkl. Top-Performer                                             |
-| `useGuidingIdeasNew`   | Auswertung je Leitidee `L1`–`L5`, Top- und schwache Bereiche                                      |
-| `useOverallResultsNew` | Gesamtscore und Zuordnung zu einer Rückmeldestufe                                                 |
-| `useSpecialCasesNew`   | Auffälligkeiten wie Bearbeitungsdauer und Anteil nicht bearbeiteter Aufgaben, Nutzerkennzahlen (`useUserProperties`) |
-| `useClassStatsNew`     | Aggregierte Klassenkennzahlen für den Klassenvergleich                                            |
-| `useAggregations`      | Rohdaten-Aggregationen (Leitideen, Kompetenzen, Kompetenzstufen, kognitive Anforderungsniveaus)   |
-| `useNavigation`        | Bereitstellung der Schrittfolge (`allSteps`) für Router-Fußzeile und Navigation                   |
+| `useCompetencesNew`    | Auswertung je Kompetenz `K1`–`K6` inkl. Top-Performer                                                                               |
+| `useGuidingIdeasNew`   | Auswertung je Leitidee `L1`–`L5`, Top- und schwache Bereiche                                                                        |
+| `useOverallResultsNew` | Gesamtscore und Zuordnung zu einer Rückmeldestufe                                                                                   |
+| `useSpecialCasesNew`   | Auffälligkeiten wie Bearbeitungsdauer und Anteil nicht bearbeiteter Aufgaben, Nutzerkennzahlen (`useUserProperties`)                |
+| `useClassStatsNew`     | Aggregierte Klassenkennzahlen für den Klassenvergleich                                                                              |
+| `useAggregations`      | Rohdaten-Aggregationen (Leitideen, Kompetenzen, Kompetenzstufen, kognitive Anforderungsniveaus)                                     |
+| `useNavigation`        | Bereitstellung der Schrittfolge (`allSteps`) für Router-Fußzeile und Navigation                                                     |
 
 Die Varianten ohne `New`-Suffix (`useCompetences`, `useGuidingIdeas`, `useOverallResults`, `useSpecialCases`) sind
 ältere Implementierungen gegen die TBA3-Referenz-API und bleiben zu Vergleichszwecken im Code erhalten. Aktiv
@@ -315,10 +313,10 @@ jeweiligen Spezifikationen erzeugt und als Workspace-Pakete eingebunden. Jedes P
 `apis/`, `models/` und `docs/` sowie `runtime.ts`.
 
 | Paket                 | Spezifikation                                       | Neu generieren                    |
-| ---------------------- | ------------------------------------------------------ | ------------------------------------ |
-| `@tba3/api-resources` | `github.com/indibit-eu/tba3` → `tba3-spec.yml`        | `pnpm run generate:api-resources` |
-| `@tba3/api-new`       | `https://api.inio.de/swagger/report_data_tba3.json`   | `pnpm run generate:api-new`       |
-| `@tba3/api-auth`      | `https://api.inio.de/swagger/auth.json`               | `pnpm run generate:api-auth`      |
+| --------------------- | --------------------------------------------------- | --------------------------------- |
+| `@tba3/api-resources` | `github.com/indibit-eu/tba3` → `tba3-spec.yml`      | `pnpm run generate:api-resources` |
+| `@tba3/api-new`       | `https://api.inio.de/swagger/report_data_tba3.json` | `pnpm run generate:api-new`       |
+| `@tba3/api-auth`      | `https://api.inio.de/swagger/auth.json`             | `pnpm run generate:api-auth`      |
 
 Die Generierung benötigt **Java 21** (der OpenAPI Generator ist ein Java-Tool); das Dev-Image in `docker/Dockerfile`
 bringt es bereits mit. Die erzeugten Dateien werden anschließend automatisch mit Prettier formatiert. Generierter
@@ -329,11 +327,11 @@ Code sollte nicht manuell verändert werden – stattdessen die Spezifikation an
 Um CORS im Entwicklungsbetrieb zu umgehen, leitet Vite drei Pfade weiter (identisch konfiguriert für `dev` und
 `preview`, s. `vite.config.ts`):
 
-| Pfad         | Ziel                                    | Verwendet von         |
-| ------------- | ------------------------------------------ | ------------------------ |
-| `/api-proxy` | `https://apps.indibit.eu/tba3-api/`     | `@tba3/api-resources` |
-| `/api-inio`  | `https://api.inio.de/report_data_tba3`  | `@tba3/api-new`       |
-| `/api-auth`  | `https://api.inio.de/report_data_tba3`  | `@tba3/api-auth`      |
+| Pfad         | Ziel                                   | Verwendet von         |
+| ------------ | -------------------------------------- | --------------------- |
+| `/api-proxy` | `https://apps.indibit.eu/tba3-api/`    | `@tba3/api-resources` |
+| `/api-inio`  | `https://api.inio.de/report_data_tba3` | `@tba3/api-new`       |
+| `/api-auth`  | `https://api.inio.de/report_data_tba3` | `@tba3/api-auth`      |
 
 Im Production-Betrieb müssen die Endpunkte stattdessen über `public/config.js` als absolute URLs gesetzt werden.
 

@@ -19,7 +19,6 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
-    "@lottiefiles/dotlottie-vue": "^0.11.6",
     "@tanstack/vue-query": "^5.92.9",
     "@tba3/api-auth": "workspace:*",
     "@tba3/api-new": "workspace:*",
