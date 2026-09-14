@@ -1,0 +1,7 @@
+@value mobileup: min-width: 600px;
+
+@value tabletup: min-width: 900px;
+
+@value desktopup: min-width: 1200px;
+
+@value desktoplargeup: min-width: 1440px;

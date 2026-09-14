@@ -1,0 +1,277 @@
+{
+    "competence_texts": {
+        "K1": {
+            "title": "Mathematisch argumentieren",
+            "text": {
+                "excellent": "Im Vergleich zu anderen Schülern war deine stärkste mathematische Kompetenz das mathematische Argumentieren. Das bedeutet, dass du sicher mathematische Zusammenhänge beschreiben und begründen kannst. Das ist wichtig, um andere von deiner Argumentation überzeugen zu können.",
+                "good": "",
+                "normal": "",
+                "bad": ""
+            },
+            "description": {
+                "text": "Hier geht es um das Prüfen und Bewerten von gegebenen mathematischen Aussagen und Lösungswegen sowie um das Aufstellen von Vermutungen und deren Begründungen.",
+                "exampleCall": "Zugehörige Aufgabenstellungen sind zum Beispiel:",
+                "example": "'Begründe!', 'Gilt das immer?'"
+            }
+        },
+        "K2": {
+            "title": "Probleme mathematisch lösen",
+            "text": {
+                "excellent": "Im Vergleich zu anderen Schülern war deine stärkste mathematische Kompetenz das Lösen mathematischer Probleme. Du hast gezeigt, dass du selbstständig geeignete Lösungswege finden kannst.",
+                "good": "",
+                "normal": "",
+                "bad": ""
+            },
+            "description": {
+                "text": "Beim mathematischen Problemlösen geht es darum, dass du in schwierigen Aufgabenstellungen selbstständig geeignete Lösungswege finden und ausprobieren kannst.",
+                "exampleCall": "Mögliche Lösungsstrategien sind z. B.",
+                "example": "systematische Probieren oder das Vorwärts- und Rückwärtsarbeiten."
+            }
+        },
+        "K3": {
+            "title": "Mathematisch modellieren",
+            "text": {
+                "excellent": "Im Vergleich zu anderen Schülern war deine stärkste mathematische Kompetenz das mathematische Modellieren.",
+                "good": "",
+                "normal": "",
+                "bad": ""
+            },
+            "description": {
+                "text": "Beim mathematischen Modellieren geht es darum, reale Probleme mit mathematischen Modellen beschreiben, damit Berechnungen durchzuführen und anschließend zu prüfen, ob die Ergebnisse auf die reale Situation übertragbar sind.",
+                "exampleCall": "Zugehörige Aufgabenstellungen sind zum Beispiel:",
+                "example": "'Begründe!', 'Gilt das immer?'"
+            }
+        },
+        "K4": {
+            "title": "Mathematisch darstellen",
+            "text": {
+                "excellent": "Im Vergleich zu anderen Schülern war deine stärkste mathematische Kompetenz das Verwenden mathematischer Darstellungen. ",
+                "good": "",
+                "normal": "",
+                "bad": ""
+            },
+            "description": {
+                "text": "Die Mathematik nutzt verschiedene Darstellungsformen wie Terme und Gleichungen, Diagramme, Koordinatensysteme und Tabellen, aber auch sprachliche Umschreibungen.",
+                "exampleCall": "Zugehörige Aufgabenstellungen sind zum Beispiel:",
+                "example": "'Begründe!', 'Gilt das immer?'"
+            }
+        },
+        "K5": {
+            "title": "Mit mathematischen Objekten umgehen",
+            "text": {
+                "excellent": "Im Vergleich zu anderen Schülern war deine stärkste mathematische Kompetenz der Umgang mit mathematischen Objekten.",
+                "good": "",
+                "normal": "",
+                "bad": ""
+            },
+            "description": {
+                "text": "Diese Kompetenz beinhaltet das verständige Umgehen mit mathematischen Objekten wie Zahlen, Größen, Symbolen, Variablen, Termen, Formeln, Gleichungen und Funktionen sowie in der Geometrie Strecken, Winkeln und Kreisen.",
+                "exampleCall": "Zugehörige Aufgabenstellungen sind zum Beispiel:",
+                "example": "'Begründe!', 'Gilt das immer?'"
+            }
+        },
+        "K6": {
+            "title": "Mathematisch kommunizieren",
+            "text": {
+                "excellent": "Im Vergleich zu anderen Schülern war deine stärkste mathematische Kompetenz das mathematische Kommunizieren.",
+                "good": "",
+                "normal": "",
+                "bad": ""
+            },
+            "description": {
+                "text": "Dieser Bereich umfasst das Entnehmen von Informationen aus z. B. Texten, die verständliche Darstellung von Lösungswegen und das Darstellen oder Präsentieren eigener Überlegungen.",
+                "exampleCall": "Zugehörige Aufgabenstellungen sind zum Beispiel:",
+                "example": "'Begründe!', 'Gilt das immer?'"
+            }
+        }
+    },
+    "guiding_ideas_texts": {
+        "L1": {
+            "title": "Zahl und Operation",
+            "text": {
+                "excellent": "Im Vergleich zu anderen Schülern konntest du im Bereich Umgang mit Zahlen und dem geschickten Rechnen deine besten Ergebnisse erzielen. Das ist eine gute Grundlage für alle weiteren Anwendungen in Mathematik!",
+                "good": "Im Vergleich zu anderen Schülern hast du gezeigt, dass du besser mit Zahlen umgehen und geschickt rechnen kannst – eine starke Grundlage für alles Weitere in Mathematik!",
+                "normal": "Im Umgang mit Zahlen und dem geschickten Rechnen konntest du im Vergleich zu anderen Schülern ähnlich gute Ergebnisse erziehlen – eine starke Grundlage für alles Weitere in der Mathematik!",
+                "bad": "Beim Rechnen hast du noch Unsicherheiten. Im Vergleich zu anderen Schülern konntest du hier weniger Aufgaben richtig lösen. Mit mehr Übung kannst du dir aber eine sichere Grundlage schaffen."
+            },
+            "description": "Hier geht es um verschiedene Zahlbereiche wie z. B. natürliche Zahlen, ganze Zahlen, Brüche, Dezimalzahlen und damit verbundene Operationen (rechnen, umwandeln, vergleichen). Auch die Prozentrechnung zählt beispielsweise hier dazu. Beispiel: „Wie viel sind 25 % von 200?“ oder „Rechne mit negativen Zahlen“.",
+            "cutOffs": {
+                "gym": {
+                    "lower": [0, 1],
+                    "middle": [2],
+                    "upper": [3]
+                },
+                "nonGym": {
+                    "lower": [0, 2],
+                    "middle": [3],
+                    "upper": [4]
+                }
+            }
+        },
+        "L2": {
+            "title": "Größen und Messen",
+            "text": {
+                "excellent": "Im Vergleich zu anderen Schülern konntest du beim Einschätzen und Berechnen von Größen und Maßen deine besten Ergebnisse erzielen. Das ist nicht nur in Mathe sondern auch im Alltag sehr wertvoll.",
+                "good": "Deine Ergebnisse zeigen, dass du im Vergleich zu anderen Schülern Größen und Maße besser einschätzen und berechnen kannst – das ist nicht nur in Mathe, sondern auch im Alltag sehr wertvoll.",
+                "normal": "Deine Ergebnisse zeigen, dass du im Vergleich zu anderen Schülern Größen und Maße ähnlich gut einschätzen und berechnen kannst – das ist nicht nur in Mathe, sondern auch im Alltag sehr wertvoll.",
+                "bad": "Beim Umgang mit Größen und Einheiten hast du im Vergleich zu anderen Schülern noch größere Schwierigkeiten. Schrittweises Üben wird dir helfen, sicherer zu werden."
+            },
+            "description": "Alles, was mit Größen zu tun hat: Längen, Flächen, Volumen, Zeit, Geschwindigkeit usw. Wir lernen, wie man Längen, Flächen und Körper – aber auch weitere Größen wie Winkel und Zeitspannen – misst oder berechnet. Auch die Arbeit mit Einheiten gehört hierzu. Beispiel: 'Wie groß ist der Umfang eines Kreises?“ oder „Wie viel Wasser passt in einen Eimer?",
+            "cutOffs": {
+                "gym": {
+                    "lower": [0, 3],
+                    "middle": [4, 6],
+                    "upper": [7]
+                },
+                "nonGym": {
+                    "lower": [0, 4],
+                    "middle": [5, 6],
+                    "upper": [7]
+                }
+            }
+        },
+        "L3": {
+            "title": "Raum und Form",
+            "text": {
+                "excellent": "Im Vergleich zu anderen Schülern konntest du im Bereich Raum und Form deine besten Ergebnisse erzielen. Hier geht es um Flüchen und Körper und deren Eigenschaften wie Kongruenz oder Ähnlichkeit.",
+                "good": "Im Bereich Raum und Form konntest du im Vergleich zu anderen Schülern mehr Aufgaben richtig lösen. Du erkennst Zusammenhänge zuverlässig und kannst sie anwenden – das zeigt dein gutes räumliches Denken.",
+                "normal": "Im Bereich Raum und Form konntest du im Vergleich zu anderen Schülern ähnlich gute Ergebnisse erreichen. Du erkennst Zusammenhänge und kannst sie anwenden – das zeigt dein gutes räumliches Denken.",
+                "bad": "Im Bereich Raum und Form fällt es dir noch schwer, Zusammenhänge zu erkennen. Wenn du weiter trainierst, wirst du dich besser orientieren können."
+            },
+            "description": "Hier geht es um geometrische Objekte in der Ebene und im Raum sowie deren Eigenschaften (z. B. Symmetrie), Beziehungen (z. B. Kongruenz und Ähnlichkeit) und Darstellung. Beispiel: „Wann sind zwei Dreiecke ähnlich?“ oder „Wie berechnet man die Oberfläche eines Quaders?“",
+            "cutOffs": {
+                "gym": {
+                    "lower": [0],
+                    "middle": [1],
+                    "upper": [2]
+                },
+                "nonGym": {
+                    "lower": [0],
+                    "middle": [1],
+                    "upper": [2]
+                }
+            }
+        },
+        "L4": {
+            "title": "Strukturen und funktionaler Zusammenhang",
+            "text": {
+                "excellent": "Im Vergleich zu anderen Schülern konntest du im Bereich funktionaler Zusammenhang deine besten Ergebnisse erzielen. In diesem Bereich geht es um funktionale Beziehungen zwischen Zahlen, Daten bzw. Größen sowie deren Darstellungen und Eigenschaften.",
+                "good": "Im Vergleich zu anderen Schülern kannst Du besser erkennen, wie Größen voneinander abhängen, und diese Zusammenhänge klar darstellen – eine wichtige Fähigkeit für die Mathematik in den höheren Klassen.",
+                "normal": "Du kannst ähnlich gut wie andere Schüler erkennen, wie Größen voneinander abhängen, und diese Zusammenhänge darstellen – eine wichtige Fähigkeit für die Mathematik in den höheren Klassen.",
+                "bad": "Zusammenhänge zwischen Zahlen und Darstellungen (z. B. Tabellen oder Koordinatensysteme) sind für dich im Vergleich zu anderen Schülern noch herausfordernd. Mit gezielten Übungen wirst du sie besser verstehen."
+            },
+            "description": "Wir untersuchen funktionale Beziehungen zwischen Zahlen, Daten und Größen sowie deren Darstellungen und Eigenschaften (z. B. verschiedene Arten von Funktionen). Also: Wenn sich eine Variable ändert, was bedeutet das für eine andere? Beispiel: „Wie viel mehr Geld verdient man, wenn man länger arbeitet?” oder „Welcher Funktion entspricht der Graph im Koordinatensystem?“",
+            "cutOffs": {
+                "gym": {
+                    "lower": [0, 1],
+                    "middle": [2],
+                    "upper": [3]
+                },
+                "nonGym": {
+                    "lower": [0, 1],
+                    "middle": [2, 3],
+                    "upper": [4]
+                }
+            }
+        },
+        "L5": {
+            "title": "Daten und Zufall",
+            "text": {
+                "excellent": "Im Vergleich mit anderen Schülern konntest du im Bereich der Auswertung von Daten und der Einschätzung von Wahrscheinlichkeiten deine besten Ergebnisse erzielen.",
+                "good": "Im Vergleich zu anderen Schülern kannst du Daten sicherer lesen, darstellen und interpretieren. Auch Wahrscheinlichkeiten kannst du gut einschätzen – ein Beweis für dein gutes mathematisches Verständnis.",
+                "normal": "Du kannst Daten ähnlich gut wie andere Schüler lesen, darstellen und interpretieren. Auch Wahrscheinlichkeiten kannst du ähnlich gut einschätzen – ein Beweis für dein gutes mathematisches Verständnis.",
+                "bad": "Beim Lesen und Auswerten von Daten bist du noch unsicherer als andere Schüler. Wenn du Schritt für Schritt übst, kannst du hier deutlich sicherer werden."
+            },
+            "description": "Hier geht es um Daten, Wahrscheinlichkeiten und Zufall: Man sammelt und sortiert sie, stellt sie dar und interpretiert sie oder berechnet, wie häufig Ereignisse eintreten. Beispiel: „Wie wahrscheinlich ist es, beim Würfeln eine 6 zu bekommen?“ oder „Welche Informationen finde ich in einem Balkendiagramm?“",
+            "cutOffs": {
+                "gym": {
+                    "lower": [0, 6],
+                    "middle": [7, 9],
+                    "upper": [10]
+                },
+                "nonGym": {
+                    "lower": [0, 6],
+                    "middle": [7, 9],
+                    "upper": [10]
+                }
+            }
+        }
+    },
+    "start": {
+        "title": "Über die Rückmeldung",
+        "info": {
+            "text": "In diesem Dokument erhältst du einen Überblick über deine Ergebnisse aus dem Kompetenztest. Dieser Test überprüft, welche Fähigkeiten du schon besitzt, über die Schülerinnen und Schüler bis zum Ende der zehnten Klasse verfügen sollten. Das heißt: Es gibt Aufgaben, die du schon bearbeiten können solltest, andere Themen hast du im Unterricht vermutlich noch gar nicht bearbeitet. Das ist völlig normal und auch kein Problem. Der Test dient vor allem dazu, deiner Lehrkraft zu zeigen, was deine Klasse und du schon können und woran ihr noch gemeinsam arbeiten müsst.",
+            "important": "Wichtig: So ein Test kann nie ganz genau deinen aktuellen Leistungsstand abbilden. Deine Tagesform, Konzentration oder andere Einflüsse können deine Ergebnisse beeinflussen."
+        }
+    },
+    "specialCases": {
+        "K5": "Im Vergleich zu anderen Schülern hast du in allen getesteten Teilbereichen ähnlich gute Ergebnisse erzielt. Bleibe dran und übe fleißig weiter, dann kannst du es schaffen, dich noch weiter zu verbessern.",
+        "K4": "Du hast es geschafft, in vielen Bereichen sehr gute Ergebnisse zu erzielen. Das sind hervorragende Voraussetzungen, um dich tiefer mit mathematischen Inhalten auseinanderzusetzen.",
+        "K3": "Es ist dir noch schwer gefallen, die gestellten Aufgaben richtig zu bearbeiten. Übe fleißig weiter, dann kannst du dich noch weiter verbessern.",
+        "K2": "Du hast dich den Aufgaben gestellt und das ist wichtig. Leider ist es dir diesmal noch nicht gelungen deine Kenntnisse richtig anzuwenden. Lass dich von diesem Ergebnis nicht entmutigen! Du kannst dich deutlich verbessern, wenn du regelmäßig übst und Fragen stellst, sobald etwas unklar ist.",
+        "K1B": "Die Aufgaben, die du bearbeitet hast, konntes du weitgehend richtig lösen. Das ist eine sehr gute Grundlage. Leider hast du viele Aufgaben gar nicht bearbeitet oder zeitlich nicht mehr geschafft. Durch weiteres Üben kannst du es schaffen noch schneller zu Arbeiten und in noch mehr Aufgaben gute Ergebnisse zu erzielen.",
+        "K1A": "Du hast sehr schnell gearbeitet. Nimm dir etwas mehr Zeit die Aufgaben genauer zu lesen und zu beantworten."
+    },
+    "specialCasesAdvices": {
+        "K5": {
+            "result": "Du hast es geschafft, in vielen Bereichen sehr gute Ergebnisse zu erzielen.",
+            "advice": "Das sind hervorragende Voraussetzungen, um dich tiefer mit mathematischen Inhalten auseinanderzusetzen."
+        },
+        "K4": {
+            "result": "Im Vergleich zu anderen Schülern hast du in allen getesteten Teilbereichen ähnlich gute Ergebnisse erzielt.",
+            "advice": "Bleibe dran und übe fleißig weiter, dann kannst du es schaffen, dich noch weiter zu verbessern."
+        },
+        "K3": {
+            "result": "Es ist dir noch schwer gefallen, die gestellten Aufgaben richtig zu bearbeiten.",
+            "advice": "Übe fleißig weiter, dann kannst du dich noch weiter verbessern."
+        },
+        "K2": {
+            "result": "Du hast dich den Aufgaben gestellt und das ist wichtig.",
+            "advice": "Leider ist es dir diesmal noch nicht gelungen deine Kenntnisse richtig anzuwenden. Lass dich von diesem Ergebnis nicht entmutigen! Du kannst dich deutlich verbessern, wenn du regelmäßig übst und Fragen stellst, sobald etwas unklar ist."
+        },
+        "K1B": {
+            "result": "Die Aufgaben, die du bearbeitet hast, konntest du weitgehend richtig lösen.",
+            "advice": "Das ist eine sehr gute Grundlage. Leider hast du viele Aufgaben gar nicht bearbeitet oder zeitlich nicht mehr geschafft. Durch weiteres Üben kannst du es schaffen noch schneller zu Arbeiten und in noch mehr Aufgaben gute Ergebnisse zu erzielen."
+        },
+        "K1A": {
+            "result": "Du hast sehr schnell gearbeitet.",
+            "advice": "Nimm dir etwas mehr Zeit die Aufgaben genauer zu lesen und zu beantworten."
+        }
+    },
+    "overallResult": {
+        "K1A": "Du kannst gut mit natürlichen Zahlen rechnen und weißt, welche Maßeinheiten zu einfachen Größen gehören. Figuren wie Quadrat oder Würfel kannst du richtig benennen und zeichnen. Auch aus kurzen Texten kannst du wichtige Infos entnehmen und einfache Zahlenfolgen fortsetzen. Bei Zufallsexperimenten erkennst du, was wahrscheinlicher ist.",
+        "K1B": "Du kannst einfache mathematische Zusammenhänge gut nachvollziehen und weißt, wie man Netze und Körper wie Würfel oder Quader miteinander verbindet. Du kannst vertraute Rechenwege, Formeln und Symbole sicher anwenden. In bekannten Situationen nutzt du passende Rechenmodelle und kannst Wahrscheinlichkeiten bei einfachen Zufallsexperimenten wie Würfeln oder Losen berechnen.",
+        "K2": "Du kannst einfache mathematische Probleme mit bekannten Rechenwegen lösen und Reales gut mit Mathematik verbinden. Relevante Informationen kannst du aus mehreren Angaben auswählen und in verschiedenen Darstellungsformen nutzen. Auch einfache geometrische Konstruktionen und Übersetzungen zwischen Tabellen, Diagrammen oder Texten gelingen dir sicher.",
+        "K3": "Du kannst selbstständig einfache mathematische Argumente entwickeln und passende Lösungswege finden. Dir gelingt es, vertraute Situationen in ein mathematisches Modell zu übertragen und verschiedene Darstellungsformen sicher zu nutzen. Auch mit Variablen, Termen und Gleichungen kannst du umgehen und deine Überlegungen klar und verständlich darstellen.",
+        "K4": "Du kannst auch bei schwierigeren Aufgaben logisch und in mehreren Schritten argumentieren. Für komplexere Probleme findest du eigene Lösungswege und kannst mathematische Zusammenhänge gut darstellen und erklären. Du wendest Rechenverfahren und Formeln mit Verständnis an und kannst Informationen aus längeren Texten gezielt herausfiltern.",
+        "K5": "Du kannst komplexe mathematische Zusammenhänge gut erklären und eigene Lösungswege entwickeln und bewerten. Anspruchsvolle Probleme löst du mit passenden Strategien und reflektierst dabei dein Vorgehen. Du kannst mathematische Modelle sinnvoll einsetzen und kritisch hinterfragen sowie auch schwierige Texte und Darstellungen sicher verstehen und beurteilen."
+    },
+    "areas": {
+        "middleCertificate": [
+            [0, 14],
+            [15, 28],
+            [29, 43]
+        ],
+        "defaultCertificate": [
+            [0, 14],
+            [15, 21],
+            [22, 43]
+        ]
+    },
+    "cutOffs": {
+        "1A": [0, 8],
+        "1B": [9, 14],
+        "2": [15, 21],
+        "3": [22, 28],
+        "4": [29, 34],
+        "5": [35, 43]
+    },
+    "testInfo": {
+        "booklet": {
+            "nonGym": ["A", "B"],
+            "gym": ["C"]
+        },
+        "subject":["Mathematik"],
+        "grade":["8"]
+    }
+}

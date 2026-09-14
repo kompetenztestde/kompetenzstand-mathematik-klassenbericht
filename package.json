@@ -1,0 +1,74 @@
+{
+  "name": "tba3-report-outermedia",
+  "version": "0.0.0",
+  "private": true,
+  "resolvers": {
+    "nanoid": ">=3.3.18"
+  },
+  "overrides": {
+    "nanoid": ">=3.3.18",
+    "postcss": ">=8.5.23"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "generate:api-resources": "pnpm --filter @tba3/api-resources generate",
+    "generate:api-new": "pnpm --filter @tba3/api-new generate",
+    "generate:api-auth": "pnpm --filter @tba3/api-auth generate",
+    "preview": "vite preview",
+    "test:unit": "vitest",
+    "test:report": "vitest run --coverage",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build",
+    "lint": "run-s lint:*",
+    "lint:oxlint": "oxlint . --fix",
+    "lint:eslint": "eslint . --fix --cache",
+    "format": "prettier --write --experimental-cli src/"
+  },
+  "dependencies": {
+    "@tanstack/vue-query": "^5.92.9",
+    "@tba3/api-auth": "workspace:*",
+    "@tba3/api-new": "workspace:*",
+    "@tba3/api-resources": "workspace:*",
+    "dayjs": "^1.11.20",
+    "echarts": "6.1.0",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.28",
+    "vue-echarts": "^8.3.0",
+    "vue-i18n": "^11.3.2",
+    "vue-router": "^5.0.2"
+  },
+  "devDependencies": {
+    "@tsconfig/node24": "^24.0.4",
+    "@types/jsdom": "^27.0.0",
+    "@types/node": "^24.10.13",
+    "@vitejs/plugin-vue": "^6.0.4",
+    "@vitest/coverage-v8": "^5.0.0",
+    "@vitest/eslint-plugin": "^1.6.9",
+    "@vue/eslint-config-typescript": "^14.6.0",
+    "@vue/test-utils": "^2.4.6",
+    "@vue/tsconfig": "^0.8.1",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-cypress": "^6.4.3",
+    "eslint-plugin-oxlint": "~1.46.0",
+    "eslint-plugin-vue": "~10.8.0",
+    "jiti": "^2.6.1",
+    "jsdom": "^28.1.0",
+    "npm-run-all2": "^8.0.4",
+    "oxlint": "~1.47.0",
+    "prettier": "3.8.1",
+    "rollup-plugin-license": "^3.7.1",
+    "rollup-plugin-visualizer": "^7.1.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-vue-devtools": "^8.0.6",
+    "vite-svg-loader": "^5.1.0",
+    "vitest": "^5.0.0",
+    "vue-tsc": "^3.2.4"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}

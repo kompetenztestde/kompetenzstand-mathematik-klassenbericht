@@ -1,0 +1,29 @@
+variables:
+  PNPM_HOME: ".pnpm-store"
+  NODE: git.uni-jena.de:5050/inio/tba3/report-outermedia/node:24-dev
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .pnpm-store
+    - node_modules
+
+stages:
+  - audit
+  - test
+
+audit:
+  stage: audit
+  image: $NODE
+  script:
+    - pnpm install --frozen-lockfile --recursive
+    - pnpm audit --prod
+
+test:
+  stage: test
+  image: $NODE  
+  script:
+    - pnpm install --frozen-lockfile --recursive
+    - pnpm run build
+    - pnpm run test:report
+  allow_failure: true

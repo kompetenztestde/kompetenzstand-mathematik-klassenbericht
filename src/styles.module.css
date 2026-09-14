@@ -1,0 +1,367 @@
+.appWrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-turquise);
+  transition: background 0.5s ease;
+
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  height: calc(100dvh - 10dvh - 40px);
+}
+
+.navigationBar {
+  position: relative;
+  flex-shrink: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* height: 10dvh; */
+
+  background: var(--color-turquise);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px 15px 20px;
+  z-index: 100;
+  grid-column: 1/ -1;
+}
+
+.navControls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navBtn {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.navBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.navIcon {
+  width: 58px;
+  height: 58px;
+  display: block;
+}
+
+.reportDiv {
+  display: flex;
+  align-items: flex-end;
+}
+
+@media (min-width: 768px) {
+  .navigationBar {
+    padding: 25px 50px 25px 50px;
+  }
+}
+
+@media (max-width: 900px) {
+  .reportH1 {
+    display: none;
+  }
+
+  .reportDiv {
+    display: none;
+  }
+}
+
+.pageIndicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dotContainer {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-navigation-blue);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.dot.active {
+  background-color: var(--color-navigation-blue);
+  transform: scale(1);
+}
+
+.dot.active::after {
+  content: '';
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: var(--color-navigation-blue);
+  border-radius: 50%;
+  border: 1px solid var(--color-navigation-blue);
+}
+
+.dot.active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 20px;
+  height: 20px;
+
+  background-color: var(--color-white);
+  border: 1px solid var(--color-navigation-blue);
+  border-radius: 50%;
+
+  z-index: -1;
+}
+
+.appWrapper .content.no-padding {
+  padding-bottom: 0 !important;
+}
+
+.dot:focus-visible,
+.navBtn:focus-visible {
+  outline: 2px solid var(--color-navigation-blue);
+  outline-offset: 4px;
+}
+
+.flexContainer {
+  display: flex;
+}
+
+.infoButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.infoButton:focus-visible {
+  outline: 2px solid var(--color-navigation-blue);
+  outline-offset: 2px;
+}
+
+.reportH2 {
+  margin: unset;
+
+  color: var(--Navigation-Blue, #001dab);
+
+  /* tablet/label */
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.06; /* 105.556% */
+}
+
+.reportH1 {
+  /* tablet/H2 */
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px; /* 108.333% */
+}
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    minmax(var(--page-gutter), 1fr)
+    minmax(0, var(--page-max-width))
+    minmax(var(--page-gutter), 1fr);
+  height: 100dvh;
+  grid-template-rows: 1fr auto;
+  overflow: hidden;
+}
+
+.head {
+  background-color: var(--color-lightgrey);
+  border-bottom: 1px solid var(--color-grey);
+}
+
+.gridSubgrid {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: span 3;
+  align-self: start;
+}
+
+.gridContent {
+  grid-column: 1 / 12;
+  grid-row: 1 / 2;
+  height: 100%;
+}
+
+.mainBody {
+  justify-content: start;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1fr;
+  column-gap: var(--page-gutter);
+  row-gap: 24px;
+
+  padding: 25px 25px 0 25px;
+  overflow-y: auto;
+  height: calc(100% - 25px);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.grid footer {
+  grid-column: 1 / -1;
+  grid-row: 2 / 3;
+  z-index: 10;
+}
+
+.mainBody:has(:global(.noPaddingPage)) {
+  padding: 0 !important;
+  height: 100% !important;
+}
+
+.mainBody:has(:global(.noOverflowPage)) {
+  overflow-y: hidden;
+}
+
+@media (max-width: 767px) {
+  .mainBody {
+    grid-template-columns: repeat(6, 1fr);
+
+    padding: 10px 10px 0 10px;
+    height: calc(100% - 10px);
+  }
+
+  .mainBody:has(:global(.noPaddingPage)) {
+    padding: 0 !important;
+    height: 100% !important;
+  }
+
+  .pageIndicator {
+    gap: 12px;
+  }
+  .grid footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .navigationBar {
+    display: flex;
+    width: 100%;
+    height: 88px;
+    padding: 10px 21px 20px 21px;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    box-sizing: border-box;
+  }
+
+  .navControls {
+    gap: 3px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dotContainer {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .dot {
+    width: 8.571px;
+    height: 8.571px;
+  }
+
+  .dot.active::before {
+    width: 17px;
+    height: 17px;
+  }
+
+  .pageIndicator {
+    gap: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navigationBar {
+    padding-left: 25px;
+    padding-right: 25px;
+    position: relative;
+  }
+
+  .reportDiv {
+    display: none;
+  }
+
+  .navControls {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: static;
+  }
+
+  .pageIndicator {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.navbarFooter {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--page-gutter);
+  grid-column: 1 / -1;
+  grid-row: 2 / 3;
+  z-index: 10;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--color-turquise);
+}
+
+@media (min-width: 1400px) {
+  .navigationBar {
+    grid-column: 2 / 12;
+  }
+}
+
+@media (min-width: 1920px) {
+  .navigationBar {
+    grid-column: 3 / 11;
+  }
+}

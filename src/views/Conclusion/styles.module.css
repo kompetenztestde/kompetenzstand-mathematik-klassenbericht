@@ -1,0 +1,373 @@
+.conclusionContainer {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+.cards {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  padding-bottom: 5px;
+}
+
+.card {
+  max-width: 200px;
+  min-width: 185px;
+  background-color: var(--color-waterblue-10);
+  border-radius: 8px;
+  border: 1.5px solid var(--color-navigation-blue);
+  display: flex;
+  flex-direction: column;
+}
+
+.homogeneity {
+  grid-column: 7 / 13;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.homogeneityTitle {
+  color: var(--color-black, #000);
+
+  /* tablet/H3 */
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.homogeneityWrapper {
+  display: flex;
+  width: 100%;
+  padding: 12px;
+  align-items: center;
+  gap: 16px;
+
+  border-radius: 8px;
+  background: var(--color-waterblue-11, #eef5fe);
+}
+
+.homogeneityLabels {
+  color: #000;
+
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.14; /* 114.286% */
+}
+
+.homogeneityTrack {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  margin-top: 20px;
+  background: var(--white, #fff);
+}
+
+.marker {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 4px;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: left 0.3s ease;
+}
+
+.markerClass {
+  background-color: var(--berry, #b00fbf);
+}
+
+.markerTooltip {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  white-space: nowrap;
+
+  color: var(--berry, #b00fbf);
+
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.14; /* 114.286% */
+}
+
+.imagePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  align-self: stretch;
+  border-radius: 0 0 8px 8px;
+  border: 1.5px solid var(--color-waterblue-10);
+  background: #fff;
+  flex-grow: 1;
+}
+
+.imageContainer {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.illustration {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100px;
+  padding-top: 16px;
+  row-gap: 8px;
+}
+
+.results {
+  grid-column: 1 / 7;
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.headRow {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+.title {
+  margin: unset;
+  color: var(--color-black);
+  grid-column: 1 /5;
+  display: flex;
+}
+
+.valueTitle {
+  color: #001dab;
+  text-align: center;
+
+  /* tablet/label */
+
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.06; /* 105.556% */
+}
+
+@media (max-width: 1024px) {
+  .card {
+    max-width: calc(33.33% - 16px);
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    max-width: 100%;
+  }
+}
+
+.resultCardsTitle {
+  margin: unset;
+
+  color: var(--color-black, #000);
+
+  /* tablet/H3 */
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.statRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 8px;
+  width: 100%;
+}
+
+.statValue {
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1;
+}
+
+.barContainerCountry {
+  width: 100px;
+  max-width: 150px;
+  height: 16px;
+  background: rgba(72, 102, 237, 0.2);
+  overflow: hidden;
+}
+
+.barFillCountry {
+  height: 100%;
+  background: var(--waterblue_1, #4866ed);
+  transition: width 0.3s ease;
+}
+
+.barContainerClass {
+  width: 100px;
+  max-width: 150px;
+  height: 16px;
+  background: rgba(176, 15, 191, 0.2);
+  overflow: hidden;
+}
+
+.barFillClass {
+  height: 100%;
+  background: var(--berry, #b00fbf);
+  transition: width 0.3s ease;
+}
+
+.statValueClass {
+  color: var(--berry, #b00fbf);
+}
+
+.statValueCountry {
+  color: var(--color-waterblue-1, #4866ed);
+}
+
+.isHigher {
+  font-weight: 700;
+}
+
+.summaryRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.summaryLabel {
+  color: var(--color-navigation-blue, #001dab);
+
+  /* tablet/body */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.31; /* 131.25% */
+}
+
+.barContainerClassComplete {
+  width: 100%;
+  max-width: 300px;
+  height: 24px;
+  background: rgba(176, 15, 191, 0.2);
+  overflow: hidden;
+}
+
+.barContainerCountryComplete {
+  width: 100%;
+  max-width: 300px;
+  height: 24px;
+  background: rgba(72, 102, 237, 0.2);
+  overflow: hidden;
+}
+
+@media (min-width: 1400px) {
+  .headRow {
+    grid-column: 2 / 12;
+  }
+
+  .results {
+    grid-column: 1 / 6;
+  }
+
+  .homogeneity {
+    grid-column: 6 / -1;
+  }
+
+  .cards {
+    grid-column: 2 / 12;
+  }
+
+  .card {
+    max-width: 200px;
+  }
+
+  .homogeneityTitle,
+  .resultCardsTitle {
+    font-size: 24px;
+  }
+  .title {
+    grid-column: 2 / 5;
+  }
+}
+
+@media (min-width: 1920px) {
+  .headRow {
+    grid-column: 3 / 11;
+  }
+
+  .results {
+    grid-column: 1 / 5;
+  }
+
+  .homogeneity {
+    grid-column: 5 / -1;
+  }
+
+  .cards {
+    gap: 24px;
+    grid-column: 3 / 11;
+  }
+  .title {
+    grid-column: 3 / 5;
+  }
+}
+
+.buttonIcon {
+  display: flex;
+  width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  aspect-ratio: 1/1;
+  border-radius: 50px;
+  background: var(--white, #fff);
+  box-shadow: 0 0 6px 0 rgba(0, 32, 137, 0.25);
+  border: none;
+
+  color: var(--black, #000);
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.homogeneityTitleRow {
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+  align-items: center;
+}

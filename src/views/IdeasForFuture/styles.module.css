@@ -1,0 +1,138 @@
+.page {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  align-items: center;
+
+  padding: 32px 64px 0 64px;
+  gap: 80px;
+
+  color: var(--color-black);
+}
+
+.firstAdvice {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  gap: 64px;
+  align-self: stretch;
+
+  color: var(--color-black, #000);
+}
+
+.firstAdviceLeftSide {
+  color: var(--color-black, #000);
+
+  text-align: left;
+  max-width: 410px;
+
+  /* tablet/body_bold */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.31; /* 131.25% */
+}
+
+.firstAdviceRightSide {
+  text-align: left;
+  max-width: 480px;
+}
+
+.secondAdvice {
+  grid-column: 1 /-1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: center;
+  gap: 20px;
+  align-self: stretch;
+}
+
+.secondAdviceDesc {
+  grid-column: 4 / 10;
+}
+
+.thirdAdvice {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  gap: 20px;
+}
+
+.title {
+  grid-column: 1 / -1;
+  color: var(--color-black);
+  text-align: center;
+}
+
+.secondAdviceSubMenu {
+  grid-column: 1 / -1;
+  flex-direction: row;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  align-self: stretch;
+}
+
+.secondAdviceMiniTitle {
+  /* tablet/label */
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.06; /* 105.556% */
+}
+
+.secondAdviceMiniContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1 0 0;
+}
+
+.listStyle {
+  padding: 16px;
+}
+.thirdAdviceTitle {
+  grid-column: 1 / -1;
+}
+
+.thirdAdviceMiniContainer {
+  grid-column: 2 / 10;
+  display: flex;
+  padding-left: 48px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.checkList {
+  display: flex;
+  padding-left: 48px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.checkListItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+
+  display: flex;
+  width: 24px;
+  height: 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
+  border: 1.5px solid var(--Navigation-Blue, #001dab);
+  background: var(--white, #fff);
+}

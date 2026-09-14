@@ -1,0 +1,178 @@
+.page {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  row-gap: 48px;
+  width: 100%;
+}
+
+.celebrate {
+  width: 70px;
+  height: 65px;
+  aspect-ratio: 1/1;
+  margin-left: 32px;
+}
+
+@media (max-width: 768px) {
+  .celebrate {
+    width: 60px;
+    height: 56px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
+
+.headRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  align-self: stretch;
+  grid-column: 1 / -1;
+}
+
+.resultText {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quadratContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+  padding: 20px;
+  grid-column: 1/-1;
+  align-items: flex-end;
+}
+
+.quadrat {
+  width: 280px;
+
+  display: flex;
+  min-height: 200px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.exerciseContainer {
+  height: 320px;
+  background: var(--waterblue_10, #deedff);
+  width: 100%;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.title {
+  color: var(--black, #000);
+
+  /* tablet/H1 */
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.17; /* 116.667% */
+}
+
+.quadrat:nth-child(1) {
+  height: 430px;
+}
+
+.quadrat:nth-child(2) {
+  height: 380px;
+}
+
+.quadrat:nth-child(3) {
+  height: 330px;
+}
+
+.taskStats {
+  width: 100%;
+  height: 110px;
+
+  display: flex;
+  padding: 24px 16px 32px 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+}
+
+.summaryRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.summaryLabel {
+  color: var(--color-navigation-blue, #001dab);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.statRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 8px;
+  width: 100%;
+}
+
+.statValue {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.isHigher {
+  font-weight: 700;
+}
+
+.barContainerClass {
+  width: 100%;
+  height: 24px;
+  background: rgba(176, 15, 191, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.barFillClass {
+  height: 100%;
+  background: var(--berry, #b00fbf);
+  transition: width 0.3s ease;
+}
+
+.statValueClass {
+  color: var(--berry, #b00fbf);
+}
+
+.barContainerCountry {
+  width: 100%;
+  height: 24px;
+  background: rgba(72, 102, 237, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.barFillCountry {
+  height: 100%;
+  background: var(--waterblue_1, #4866ed);
+  transition: width 0.3s ease;
+}
+
+.statValueCountry {
+  color: var(--color-waterblue-1, #4866ed);
+}
+
+.exerciseTitle {
+  color: var(--color-black);
+}

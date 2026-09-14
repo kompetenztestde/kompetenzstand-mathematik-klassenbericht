@@ -1,0 +1,214 @@
+{
+  "home": {
+    "title": "Vera 8 Mathematik Rückmeldung 2026/27 Klasse 8a",
+    "next": "Weiter",
+    "back": "Zurück",
+    "chooseUser": "Wähle einen Test-User:",
+    "placeHolder": "Bitte wählen...",
+    "start": "Start",
+    "info": "i",
+    "question": "Über diese Rückmeldung",
+    "feedback": "Klassenückmeldung zu Vera 8 Mathemathik"
+  },
+  "specialView": {
+    "title": "Das ist uns aufgefallen",
+    "false": "Falsch gelöst",
+    "correct": "Richtig gelöst",
+    "notWorkedOn": "Nicht bearbeitet",
+    "warning": "Warnung: Summe der Werte übersteigt Gesamtanzahl!"
+  },
+  "animationView": {},
+  "finalView": {
+    "title": "Noch etwas spannendes zum Schluss",
+    "text": "Willst du deine Eltern oder Freunde beeindrucken? Dann sind hier ein paar Tricks, ..."
+  },
+  "areas": {
+    "first": "Unterer Bereich",
+    "middle": "Erwartungsbereich",
+    "last": "Optimalbereich",
+    "mobileFirst": "Unterer Bereich",
+    "mobileMiddle": "Erwartungs- bereich",
+    "mobileLast": "Optimal-bereich"
+  },
+  "common": {
+    "result": "Dein Ergebnis",
+    "details": "Details",
+    "close": "Schließen"
+  },
+  "badResults": {
+    "title": "In den folgenden Bereichen warst du nicht so gut",
+    "text": "Schrittweises Üben wird dir helfen, sicherer zu werden."
+  },
+  "sideModal": {
+    "speaker": "vorlesen"
+  },
+  "competence": {
+    "result": "Hier bist du stark"
+  },
+  "conclusion": {
+    "title": "Zusammenfassung",
+    "classResult": "Gesamtergebnis Ihrer Klasse:",
+    "countryResult": "Korrigierter Landesmittelwert:",
+    "homogenity": "Homogenität der Klasse",
+    "resultGuidingIdeas": "Abschneiden in Leitideen",
+    "homogeneous": "Eher homogene Klasse",
+    "heterogeneous": "Eher heterogene Klasse",
+    "classTooltip": "Klasse",
+    "noImage": "Kein Bild für {title}",
+    "arrowUp": "Höherer Wert im Vergleich",
+    "arrowDown": "Niedrigerer Wert im Vergleich",
+    "homogeneityModalTitle": "Ihre Klasse",
+    "homogeneityModalText": "In Ihrer Klasse sind die Leistungsunterschiede zwischen den Lernenden höher als im Landesdurchschnitt. Das bedeutet, dass Ihre Lerngruppe insgesamt vergleichsweise heterogen ist.",
+    "homogeneityInfoAriaLabel": "Informationen zu Ihrer Klasse anzeigen"
+  },
+  "resultInDetailsHelp": {
+    "title": "Ergebnisse im Detail – Hilfe & Bedienung",
+    "viewModeTitle": "1. Ansichten wählen",
+    "viewModeDesc": "Wählen Sie oben die Farbkodierung der Aufgaben:",
+    "viewModeGeneral": "Unterscheidung nach richtig, falsch und nicht bearbeitet.",
+    "viewModeDomain": "Zeigt die fachlichen Eigenschaften der gelösten Aufgaben farblich an.",
+
+    "optionsTitle": "2. Ansichts-Optionen",
+    "optShowNumbers": "Blendet Aufgabennummern in den Kästchen ein.",
+    "optShowNotWorkedOn": "Hebt nicht bearbeitete Aufgaben ab.",
+    "optGroupTasks": "Sortiert gelöste Aufgaben nach vorne.",
+    "optFitToScreen": "Optimiert die Tabellengröße für kleine oder große Bildschirme.",
+
+    "detailsTitle": "3. Schüler-Merkmale & Details",
+    "detailsFeatures": "Klicken Sie auf ein Kürzel in der Tabelle (z. B. BL/SF, KW, MND) oder einen Schüler-Code, um Detailinformationen aufzurufen.",
+    "detailsItems": "Klicken Sie auf einzelne Aufgaben-Kästchen, um die konkrete IQB-ID und Kennzahlen der Aufgabe zu sehen.",
+
+    "sortingTitle": "4. Sortierung",
+    "sortingDesc": "Klicken Sie auf die Spaltenköpfe (z. B. Schüler*innen, Aufgaben-Lösungshäufigkeit oder Halbjahresnote), um die Tabelle zu sortieren."
+  },
+  "resultInDetails": {
+    "title": "Ergebnisse im Detail",
+    "howItWorks": "So funktioniert`s",
+    "general": "Allgemein",
+    "correct": "richtig",
+    "wrong": "falsch",
+    "notWorkedOn": "n. bearb.",
+    "competenceLevel": "Kompetenzstufe",
+    "cognitiveDemand": "Anforderungsbereich",
+    "coreIdea": "Leitidee",
+    "showNumbers": "Nummern anzeigen",
+    "showNotWorkedOn": "Nicht bearbeitet anzeigen",
+    "groupTasks": "Aufgaben gruppieren",
+    "fitToScreen": "Fit-to-Screen",
+    "maximizeArea": "Aufgaben Bereich maximieren",
+    "studentFeatures": "Schüler*innen Merkmale",
+    "blsfTooltip": "BL/SF: Bes. Lernschwierigkeiten/Sonderpädagogischer Förderbedarf",
+    "blsfLabel": "BL/SF:",
+    "blsfDesc": "Bes. Lernschwierigkeiten / Sonderpädagogischer Förderbedarf",
+    "kwTooltip": "KW: Klasse wiederholt",
+    "kwLabel": "KW:",
+    "kwDesc": "Klasse wiederholt",
+    "hbTooltip": "HB: Hochbegabung",
+    "hbLabel": "HB:",
+    "hbDesc": "Hochbegabung",
+    "mndTooltip": "MND: Muttersprache n. Deutsch",
+    "mndLabel": "MND:",
+    "mndDesc": "Muttersprache n. Deutsch",
+    "sus": "SuS",
+    "students": "Schüler*innen",
+    "taskSolutionFrequency": "Aufgaben-Lösungshäufigkeit",
+    "halfYearGrade": "Halbjahresnote",
+    "unknown": "Unbekannt",
+    "solvedCorrectly": "{count} von {total} richtig gelöst ({percent}%)",
+    "specialEdNeeds": "Sonderpäd. Förderbedarf (BLSF):",
+    "classRepeated": "Klasse wiederholt (KW):",
+    "motherTongueNotGerman": "Muttersprache nicht Deutsch (MND):",
+    "yes": "Ja",
+    "no": "Nein",
+    "task": "Aufgabe:",
+    "statusFrequency": "Status / Häufigkeit:"
+  },
+  "classResultsInSubTopics": {
+    "total": "Gesamt",
+    "coreIdea": "Leitidee",
+    "competence": "Prozessbezogene Kompetenz",
+    "cognitive": "Anforderungsbereich",
+    "competenceLevel": "Kompetenzstufe",
+    "title": "Ergebnisse der Klasse in Teilbereichen",
+    "legend": "Legende",
+    "mean": "Ihr Klassendurchschnitt",
+    "meanComp": "Korrigierter Landesmittelwert",
+    "meanSchool": "Schuldurchschnitt (bisher nur Deko)",
+    "yAxisName": "Klassendurchschnitt\nerreichter Punkte (%)",
+    "chartA11yLabel": "Balkendiagramm der Ergebnisse der Klasse in den verschiedenen Teilbereichen im Vergleich zum Landesmittelwert.",
+    "toggleIndexHint": "Klicken Sie auf ein Label der X-Achse, um diesen Bereich aus der Filterung auszuschließen.",
+    "ariaShowMean": "Klassendurchschnitt im Diagramm anzeigen",
+    "ariaShowMeanComp": "Landesmittelwert im Diagramm anzeigen",
+    "ariaShowMeanSchool": "Schuldurchschnitt im Diagramm anzeigen"
+  },
+  "subTopicsHelp": {
+    "title": "Legende & Farbbedeutung",
+    "description": "Die Farben im Diagramm kennzeichnen die verschiedenen Auswertungsbereiche sowie den Vergleichswert:",
+    "total": "Gesamtergebnis über alle Aufgaben hinweg.",
+    "coreIdea": "Ergebnisse aufgeteilt nach den mathematischen / fachlichen Leitideen.",
+    "competence": "Ergebnisse aufgeteilt nach den spezifischen Kompetenzbereichen.",
+    "cognitive": "Ergebnisse aufgeteilt nach Anforderungsbereichen (I, II, III).",
+    "competenceLevel": "Ergebnisse aufgeteilt nach den erreichten Kompetenzstufen.",
+    "meanComp": "Vergleichswert (z. B. Landesschnitt) im direkten Gegenüberstellen."
+  },
+  "ideasForFuture": {
+    "firstAdvice": {
+      "title": "Anregungen zur Weiterarbeit",
+      "text": "Die Vergleichsarbeiten haben das Ziel, zur Verbesserung des Lehrens und Lernens an Ihrer Schule beizutragen. Es gilt, aus den Testergebnissen Schlussfolgerungen für die weitere Entwicklung des Unterrichts zu ziehen. Dies geschieht, indem die Ergebnisse im Hinblick auf Stärken und Schwächen ausgewertet und mögliche Gründe dafür gefunden werden. Anregungen zur Auswertung sowie eine Checkliste zur Weiterarbeit mit den Ergebnissen finden Sie weiter unten. Der entscheidende Schritt ist, aus diesen Analysen Konsequenzen für den Unterricht zu ziehen.",
+      "bulletPoints": ""
+    },
+    "secondAdvice": {
+      "title": "Weiterarbeitsfragen",
+      "text": "Im Folgenden sind beispielhaft Fragen zu den einzelnen Abbildungen in diesem Ergebnisbericht aufgeführt, die Sie als Anregung zur Auswertung der Ergebnisse Ihrer Klasse verwenden können.",
+      "miniTitle1": "Unterschied zwischen Klassen-ergebnis und Landesmittelwert",
+      "bulletPoints1": {
+        "one": "Gibt es eine besondere Situation in der Klasse (Lehrerwechsel, Stundenplan/Verteilung der Stunden in der Woche)?",
+        "two": "Welche verwendeten Unterrichtsmethoden sind mehr oder weniger erfolgreich?",
+        "three": "Wie effizient ist mein Unterricht?",
+        "four": "Weicht dieses Ergebnis von Ergebnissen in anderen Klassen ab und, wenn ja, warum? Was kann man dagegen tun?"
+      },
+      "miniTitle2": "Ergebnisse bei den einzelnen Items",
+      "bulletPoints2": {
+        "one": "Warum erzielen Klassen bei einigen Items bessere, aber bei anderen Items schlechtere Ergebnisse als andere Klassen, die auf vergleichbarem Niveau unterrichtet werden und denselben Test absolvierten? Liegt das am Aufgabenformat, an der Aufgabenstellung, an den visuellen Darstellungen in der Aufgabe, an der Lexik, an der Aussprache des Sprechers, an der Sprechgeschwindigkeit, an der Übungshäufigkeit?",
+        "two": "Sind ähnliche Tendenzen in allen getesteten [Kompetenzbereichen / Leitideen und allgemeinen mathematischen Kompetenzen] festzustellen?"
+      },
+      "miniTitle3": "Wie heterogen/homogen ist meine Klasse?",
+      "bulletPoints3": {
+        "one": "Wie kann ich bei einer so breiten Leistungsverteilung alle Schülerinnen und Schüler bestmöglich fördern?",
+        "two": "Wie erreiche ich eine wirksamere Binnendifferenzierung?",
+        "three": "Wie sieht es in den Parallelklassen aus?",
+        "four": "Wie werden die Schülerinnen und Schülern in die Klassen eingeteilt?",
+        "five": "Welche Maßnahmen werden durch den einzelnen Lehrer, die Fachschaft und / oder das Kollegium eingeleitet?"
+      }
+    },
+    "thirdAdvice": {
+      "title": "Checkliste",
+      "miniTitle": "Weiterarbeit mit den Ergebnissen",
+      "text": "Zentraler Bestandteil des Konzeptes der Vergleichsarbeiten ist die gezielte Nutzung der Ergebnisse. Um die sich bietenden Möglichkeiten auszuschöpfen, können Sie sich für den weiteren Prozess der Unterrichtsentwicklung an den folgenden Impulsen orientieren:",
+      "checkList": {
+        "one": "Wurden die Ergebnisse Schülerinnen und Schülern zurückgemeldet?",
+        "two": "Wurden die Ergebnisse an die Sorgeberechtigten zurückgemeldet?",
+        "three": "Wurden die Ergebnisse und die diagnostischen Einschätzungen in den Fachschaftssitzungen analysiert und diskutiert sowie Konsequenzen daraus abgeleitet?  ",
+        "four": "Wurden Handlungsoptionen abgeleitet?",
+        "five": "Wurden die Ergebnisse im Gesamtkollegium vorgestellt und diskutiert?",
+        "six": "Wurden die Ergebnisse der Gesamtkonferenz vorgestellt?"
+      }
+    }
+  },
+  "bestExercises": {
+    "title": "Top Aufgaben",
+    "text": "Aufgaben, die innerhalb Ihrer Klasse im Vergleich mit dem Landesmittelwert besonders gut gelöst wurden:",
+    "mean": "Klassendurchschnitt",
+    "meanComp": "Landesmittelwert",
+    "classResult": "Klassendurchschnitt: {percent}%",
+    "countryResult": "Landesmittelwert: {percent}%"
+  },
+  "worstExercises": {
+    "title": "Flop Aufgaben",
+    "text": "Aufgaben, die innerhalb Ihrer Klasse im Vergleich mit dem Landesmittelwert weniger gut gelöst wurden:",
+    "mean": "Klassendurchschnitt",
+    "meanComp": "Landesmittelwert",
+    "classResult": "Klassendurchschnitt: {percent}%",
+    "countryResult": "Landesmittelwert: {percent}%"
+  }
+}
