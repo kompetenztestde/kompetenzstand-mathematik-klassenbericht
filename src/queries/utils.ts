@@ -1,6 +1,7 @@
 import { Configuration } from '@tba3/api-resources'
 import { Configuration as Configuration2 } from '@tba3/api-new'
 import { Configuration as ConfigurationAuth } from '@tba3/api-auth'
+import { useAuthStore } from '@/stores/auth'
 
 type CustomWindow = Window & {
   appConfig?: {
@@ -21,7 +22,8 @@ export async function apiConfiguration(): Promise<Configuration> {
 }
 
 export async function inioApiConfiguration(): Promise<Configuration2> {
-  const apiKeyVal = import.meta.env.VITE_X_API_KEY_SCHOOL || 'TEST'
+  const auth = useAuthStore()
+  const apiKeyVal = auth.apiKeySchool || (window as CustomWindow).appConfig?.api?.xApiKeySchool || import.meta.env.VITE_X_API_KEY_SCHOOL || 'TEST'
 
   const configFromWindow = (window as CustomWindow).appConfig?.api?.inioApiUrl || ''
   const config = new Configuration2({

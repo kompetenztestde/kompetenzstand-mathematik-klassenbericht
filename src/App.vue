@@ -16,9 +16,11 @@ import InfoIcon from '@/themes/icons/info.svg?component'
 import competenceTexts from '@/assets/competence_guidingideas_texts.json'
 import { useModalStore } from './stores/modalStore'
 import { useGroupInfo } from './composables/useUserItems.ts'
+import { useAuthStore } from './stores/auth'
 
 const router = useRouter()
 const route = useRoute()
+const auth = useAuthStore()
 const { t } = useI18n()
 
 const currentUserCode = computed(() => route.query.user as string)
@@ -90,6 +92,7 @@ const goTo = (newIndex: number) => {
 
 const isHome = computed(() => route.path === '/step-1' || route.path === '/')
 const isSecond = computed(() => route.path === '/step-2')
+const isLogin = computed(() => route.name === 'login')
 
 const modalStore = useModalStore()
 
@@ -105,19 +108,24 @@ const showDetails = () => {
 
   modalStore.openModal(title, combinedContent)
 }
+
+const logout = () => {
+  auth.logout()
+  router.replace({ name: 'login' })
+}
 </script>
 
 <template>
   <div :class="styles.grid">
-    <main :class="[styles.mainBody, styles.gridContent, { 'no-padding': isHome || isSecond }]">
+    <main :class="[styles.mainBody, styles.gridContent, { 'no-padding': isHome || isSecond || isLogin }]">
       <RouterView :key="route.fullPath" />
     </main>
 
     <SideModal />
 
-    <footer v-if="!isHome" role="contentinfo" :class="styles.navbarFooter">
-      <nav :aria-label="t('accessibility.pagination')" :class="styles.navigationBar">
-        <div :class="styles.reportDiv">
+    <footer v-if="!isLogin" role="contentinfo" :class="styles.navbarFooter">
+      <nav :aria-label="t('accessibility.pagination')" :class="[styles.navigationBar, { [styles.homeNavigationBar!]: isHome }]">
+        <div v-if="!isHome" :class="styles.reportDiv">
           <div :class="styles.titleContainer">
             <h1 :class="styles.reportH1">Klasse {{ groupName }}</h1>
             <h2 :class="styles.reportH2">{{ t('home.feedback') }}</h2>
@@ -136,6 +144,7 @@ const showDetails = () => {
 
         <div :class="styles.navControls">
           <button
+            v-if="!isHome"
             :disabled="currentIndex <= 0"
             @click="goBack"
             :class="styles.navBtn"
@@ -144,7 +153,7 @@ const showDetails = () => {
             <IconPageLeft :class="styles.navIcon" aria-hidden="true" />
           </button>
 
-          <ul :class="styles.pageIndicator" role="list">
+          <ul v-if="!isHome" :class="styles.pageIndicator" role="list">
             <li v-for="(step, index) in allSteps" :key="index" :class="styles.dotContainer">
               <button
                 :class="[styles.dot, { [styles.active!]: index === currentIndex }]"
@@ -156,6 +165,7 @@ const showDetails = () => {
           </ul>
 
           <button
+            v-if="!isHome"
             :disabled="currentIndex >= allSteps.length - 1 || currentIndex === -1"
             @click="goNext"
             :class="[styles.navBtn, styles.next]"
@@ -165,6 +175,22 @@ const showDetails = () => {
           </button>
         </div>
       </nav>
+
+      <button type="button" @click="logout" :class="styles.logoutBtn" aria-label="Abmelden" title="Abmelden">
+        <svg
+          :class="styles.logoutIcon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            fill="currentColor"
+            d="M13 21q-.425 0-.712-.288T12 20t.288-.712T13 19h6V5h-6q-.425 0-.712-.288T12 4t.288-.712T13 3h6q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm-1.825-8H4q-.425 0-.712-.288T3 12t.288-.712T4 11h7.175L9.3 9.125q-.275-.275-.275-.675t.275-.7t.7-.313t.725.288L14.3 11.3q.3.3.3.7t-.3.7l-3.575 3.575q-.3.3-.712.288T9.3 16.25q-.275-.3-.262-.712t.287-.688z"
+          />
+        </svg>
+        <span>Abmelden</span>
+      </button>
     </footer>
   </div>
 </template>

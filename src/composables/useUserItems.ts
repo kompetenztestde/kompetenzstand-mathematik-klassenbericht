@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/vue-query'
 import { GroupsApi } from '@tba3/api-resources'
 import { ReportDataTba3Api } from '@tba3/api-new'
 import { computed, type ComputedRef } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
 export function useUserItems(userName: ComputedRef<string | undefined>) {
   return useQuery({
@@ -230,6 +231,7 @@ export function getBestAndWorstExercises() {
 
 
 export function useGroupInfo() {
+  const auth = useAuthStore()
   const query = useQuery({
     queryKey: ['group-info-base'],
     queryFn: async () => {
@@ -251,6 +253,7 @@ export function useGroupInfo() {
         studentsData: response.data?.studentsData ?? [],
       }
     },
+    enabled: computed(() => auth.isAuthenticated),
     staleTime: 1000 * 60 * 60,
   })
 
