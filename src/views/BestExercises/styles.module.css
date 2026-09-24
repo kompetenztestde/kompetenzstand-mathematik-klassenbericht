@@ -55,6 +55,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 8px;
+  border: 1.5px solid var(--color-navigation-blue);
 }
 
 .exerciseContainer {
@@ -175,4 +177,42 @@
 
 .exerciseTitle {
   color: var(--color-black);
+}
+
+.taskStatsWrapper {
+  display: flex;
+  padding: 0 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  align-self: stretch;
+  width: 100%;
+}
+
+.statsContentRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  width: 100%;
+}
+
+.taskStats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+.statRow {
+  display: flex;
+  height: 24px;
+  align-items: flex-end;
+  gap: 6px;
+  width: 100%;
+}
+
+.arrowIcon {
+  flex-shrink: 0;
 }

@@ -2,6 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import styles from './styles.module.css'
 import { getBestAndWorstExercises } from '@/composables/useUserItems'
+import ArrowUpIcon from './icons/ArrowUp.svg?component'
 const exercisesAnalysis = getBestAndWorstExercises()
 
 const { t } = useI18n()
@@ -27,53 +28,69 @@ const { t } = useI18n()
           </span>
         </div>
 
-        <div :class="styles.taskStats">
-          <div :class="styles.summaryRow">
-            <div :class="styles.statRow">
-              <div :class="styles.barContainerClass">
-                <div
-                  :class="styles.barFillClass"
-                  :style="{
-                    width: `${Math.min(100, Math.max(0, Math.round((task.currentMean || 0) * 100)))}%`,
-                  }"
-                ></div>
+        <div :class="styles.taskStatsWrapper">
+          <div :class="styles.statsContentRow">
+            <ArrowUpIcon aria-hidden="true" :class="styles.arrowIcon" />
+            <div :class="styles.taskStats">
+              <div :class="styles.summaryRow">
+                <div :class="styles.statRow">
+                  <div :class="styles.barContainerClass">
+                    <div
+                      :class="styles.barFillClass"
+                      :style="{
+                        width: `${Math.min(100, Math.max(0, Math.round((task.currentMean || 0) * 100)))}%`,
+                      }"
+                    ></div>
+                  </div>
+                  <span
+                    :class="[
+                      styles.statValue,
+                      styles.statValueClass,
+                      {
+                        [`${styles.isHigher}`]:
+                          task.currentMean >= task.currentMean - task.deviation,
+                      },
+                    ]"
+                    :aria-label="
+                      t('bestExercises.classResult', {
+                        percent: (task.currentMean * 100).toFixed(1),
+                      })
+                    "
+                  >
+                    {{ (task.currentMean * 100).toFixed(1) }}%
+                  </span>
+                </div>
               </div>
-              <span
-                :class="[
-                  styles.statValue,
-                  styles.statValueClass,
-                  { [`${styles.isHigher}`]: task.currentMean >= task.currentMean - task.deviation },
-                ]"
-                :aria-label="
-                  t('bestExercises.classResult', { percent: (task.currentMean * 100).toFixed(1) })
-                "
-              >
-                {{ (task.currentMean * 100).toFixed(1) }}%
-              </span>
-            </div>
-          </div>
-          <div :class="styles.summaryRow">
-            <div :class="styles.statRow">
-              <div :class="styles.barContainerCountry">
-                <div
-                  :class="styles.barFillCountry"
-                  :style="{
-                    width: `${Math.min(100, Math.max(0, Math.round((task.deviation || 0) * 100)))}%`,
-                  }"
-                ></div>
+
+              <div :class="styles.summaryRow">
+                <div :class="styles.statRow">
+                  <div :class="styles.barContainerCountry">
+                    <div
+                      :class="styles.barFillCountry"
+                      :style="{
+                        width: `${Math.min(100, Math.max(0, Math.round((task.deviation || 0) * 100)))}%`,
+                      }"
+                    ></div>
+                  </div>
+                  <span
+                    :class="[
+                      styles.statValue,
+                      styles.statValueCountry,
+                      {
+                        [`${styles.isHigher}`]:
+                          task.currentMean >= task.currentMean - task.deviation,
+                      },
+                    ]"
+                    :aria-label="
+                      t('bestExercises.countryResult', {
+                        percent: (task.deviation * 100).toFixed(1),
+                      })
+                    "
+                  >
+                    {{ (task.deviation * 100).toFixed(1) }}%
+                  </span>
+                </div>
               </div>
-              <span
-                :class="[
-                  styles.statValue,
-                  styles.statValueCountry,
-                  { [`${styles.isHigher}`]: task.currentMean >= task.currentMean - task.deviation },
-                ]"
-                :aria-label="
-                  t('bestExercises.countryResult', { percent: (task.deviation * 100).toFixed(1) })
-                "
-              >
-                {{ (task.deviation * 100).toFixed(1) }}%
-              </span>
             </div>
           </div>
         </div>

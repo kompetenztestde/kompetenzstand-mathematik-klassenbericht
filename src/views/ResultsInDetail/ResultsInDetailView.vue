@@ -320,7 +320,7 @@ function getItemTextColor(item: any): string {
 </script>
 
 <template>
-  <div :class="[styles.resultsInDetailContainer, 'noPaddingPage']">
+  <div :class="[styles.resultsInDetailContainer, 'noPaddingPage', 'fullWidthPage']">
     <div :class="styles.controlheaderContainer">
       <div :class="styles.firstRow">
         <h2 :class="styles.title">{{ t('resultInDetails.title') }}</h2>

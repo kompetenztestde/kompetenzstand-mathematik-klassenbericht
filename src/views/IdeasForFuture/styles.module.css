@@ -3,39 +3,43 @@
   grid-template-columns: subgrid;
   grid-column: 1 / -1;
   align-items: center;
-
-  padding: 32px 64px 0 64px;
-  gap: 80px;
+  row-gap: 80px;
 
   color: var(--color-black);
 }
 
 .firstAdvice {
-  grid-column: 1 / -1;
-  display: flex;
+  grid-column: 2 / 12;
+  display: grid;
+  grid-template-columns: subgrid;
   align-items: flex-start;
-  gap: 64px;
+  column-gap: 24px;
   align-self: stretch;
-
+  width: 100%;
   color: var(--color-black, #000);
 }
 
 .firstAdviceLeftSide {
   color: var(--color-black, #000);
-
+  grid-column: span 5;
   text-align: left;
-  max-width: 410px;
 
   /* tablet/body_bold */
-  font-size: 16px;
+  font-size: 17px;
   font-style: normal;
-  font-weight: 700;
-  line-height: 1.31; /* 131.25% */
+  font-weight: 600;
+  line-height: 1.24; /* 123.529% */
 }
 
 .firstAdviceRightSide {
   text-align: left;
-  max-width: 480px;
+  grid-column: span 5;
+  /* 17 semibold */
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.24; /* 123.529% */
+  letter-spacing: 0.085px;
 }
 
 .secondAdvice {
@@ -43,18 +47,27 @@
   display: grid;
   grid-template-columns: subgrid;
   align-items: center;
-  gap: 20px;
+  row-gap: 32px;
   align-self: stretch;
 }
 
 .secondAdviceDesc {
   grid-column: 4 / 10;
+
+  /* 17 semibold */
+  font-family: 'League Spartan';
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.24; /* 123.529% */
+
+  min-height: 100px;
 }
 
 .thirdAdvice {
   display: grid;
   grid-template-columns: subgrid;
-  grid-column: 1 / -1;
+  grid-column: 4 / 10;
   gap: 20px;
 }
 
@@ -66,28 +79,40 @@
 
 .secondAdviceSubMenu {
   grid-column: 1 / -1;
-  flex-direction: row;
-
-  display: flex;
+  display: grid;
+  grid-template-columns: subgrid;
   align-items: flex-start;
-  gap: 48px;
+  column-gap: 24px;
   align-self: stretch;
 }
 
 .secondAdviceMiniTitle {
-  /* tablet/label */
-  font-size: 18px;
+  /* tablet/H2 */
+  font-size: 24px;
   font-style: normal;
-  font-weight: 600;
-  line-height: 1.06; /* 105.556% */
+  font-weight: 700;
+  line-height: 1.08; /* 108.333% */
 }
 
 .secondAdviceMiniContainer {
+  grid-column: span 4;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
-  flex: 1 0 0;
+}
+
+.secondAdviceList {
+  /* 17 regular */
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.24; /* 123.529% */
+  letter-spacing: 0.085px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 20px;
 }
 
 .listStyle {
@@ -95,29 +120,51 @@
 }
 .thirdAdviceTitle {
   grid-column: 1 / -1;
+  text-align: center;
 }
 
 .thirdAdviceMiniContainer {
-  grid-column: 2 / 10;
+  grid-column: 1 / -1;
   display: flex;
-  padding-left: 48px;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
+}
+
+.thirdAdviceText {
+  min-height: 85px;
+
+
+  /* 17 regular */
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.24; /* 123.529% */
+  letter-spacing: 0.085px;
 }
 
 .checkList {
   display: flex;
-  padding-left: 48px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 24px;
+}
+
+.checkListItem span {
+  padding-top: 5px;
 }
 
 .checkListItem {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
+
+  /* 17 regular */
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.24; /* 123.529% */
+  letter-spacing: 0.085px;
 }
 
 .checkbox {
