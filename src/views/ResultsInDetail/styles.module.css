@@ -98,6 +98,7 @@
   padding-bottom: 8px;
   z-index: 10;
   min-height: 50px;
+  margin-top: 16px;
 }
 
 .userHeaderColumn {
@@ -173,9 +174,9 @@
   max-width: 120px;
   flex-shrink: 0;
   height: 28px;
-  white-space: normal;
-  overflow-wrap: break-word;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   color: var(--black, #000);
 
@@ -244,20 +245,49 @@
 .legendRow {
   display: flex;
   gap: 2px;
-  width: 100%;
+  width: max-content;
   height: 24px;
 }
 
 .legendSquare {
-  flex: 1;
+  /* flex: 1; */
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #333;
-  border: 1px solid rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4);
   user-select: none;
+  font-family: Inter;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.legendSquare:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.legendSquare:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.defaultContainer .legendSquare {
+  width: 63px;
+}
+
+.competenceContainer .legendSquare {
+  width: 20px;
+}
+
+.requirementsContainer .legendSquare {
+  width: 32px;
+}
+
+.guidingIdeasContainer .legendSquare {
+  width: 20px;
 }
 
 .bgBlue {
@@ -377,15 +407,15 @@
   grid-column: 1/ -1;
 
   align-content: start;
-  gap: 8px;
-  background: #f7f7f7;
+  gap: 18px;
+  background: var(--waterblue_11, #eef5fe);
   height: max-content;
-  padding: 8px 25px;
+  padding: 24px 25px 18px 25px;
 }
 
 .firstRow {
   display: flex;
-  padding: 4px 0;
+  margin-bottom: -2px;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
@@ -397,14 +427,14 @@
   flex-direction: row;
   align-items: center;
   align-content: center;
-  gap: 8px;
+  gap: 16px;
   flex-wrap: wrap;
   grid-column: 1 / -1;
 }
 
 .secondRowContainer {
   display: flex;
-  padding: 8px;
+  padding: 11px 16px;
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
@@ -413,11 +443,6 @@
   background: linear-gradient(94deg, #fff -0.01%, #fafafa 99.99%);
   box-shadow: 0 0 6px 0 rgba(0, 29, 171, 0.25);
   border: none;
-  min-width: 210px;
-
-  /* &:hover {
-    border: 2px solid var(--color-white, #fff);
-  } */
 }
 
 .defaultContainer {
@@ -478,7 +503,7 @@
   height: 40px;
   align-items: center;
   align-content: center;
-  gap: 8px;
+  gap: 16px;
   flex-shrink: 0;
   flex-wrap: wrap;
   grid-column: 1 / -1;
@@ -528,38 +553,6 @@
   gap: 10px;
 }
 
-.thirdRowBtn {
-  display: inline-flex;
-  height: 40px;
-  padding: 0 16px;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: none;
-  border-radius: 20px;
-  background: #e1e1e1;
-  color: #000;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-
-  &:hover {
-    background: #d4d4d4;
-  }
-}
-
-.thirdRowBtn.active {
-  border-radius: 20px;
-  background: #1724a5;
-  color: #ffffff;
-
-  &:hover {
-    background: #121c87;
-  }
-}
-
 .checkbox {
   width: 16px;
   height: 16px;
@@ -576,11 +569,6 @@
 
 .secondRow button.activeMode .buttonStyle {
   color: var(--color-white, #ffffff);
-}
-
-.thirdRowBtn.active {
-  background-color: #1724a5;
-  color: #ffffff;
 }
 
 .checkbox {
@@ -872,12 +860,17 @@
   height: 36px;
   border-radius: 60px;
   border: none;
-  background-color: #cddeff; 
-  color: #001dab;           
+  background-color: #cddeff;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease-in-out;
+
+  color: var(--color-black, #000);
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.07; /* 106.667% */
 }
 
 .thirdRowBtn.active {
@@ -888,8 +881,8 @@
 .checkboxIcon {
   appearance: none;
   -webkit-appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   display: flex;
   gap: 10px;
@@ -899,7 +892,10 @@
   flex-shrink: 0;
   margin: 0;
   border-radius: 60px;
-  background-color: var(--color-white, #ffffff); 
+  background-color: var(--color-white, #ffffff);
+}
+.checkboxIcon svg {
+  stroke-width: 0;
 }
 
 .checkboxActive {

@@ -420,7 +420,6 @@ function getItemTextColor(item: any): string {
           :class="[styles.thirdRowBtn, showNumbers && styles.active]"
           @click="toggleShowNumbers"
         >
-          <!-- <input type="checkbox" :checked="showNumbers" tabindex="-1" :class="styles.checkbox" /> -->
           <input
             type="checkbox"
             disabled
@@ -438,13 +437,6 @@ function getItemTextColor(item: any): string {
           :class="[styles.thirdRowBtn, notWorkedOn && styles.active]"
           @click="toggleNotWorkedOn"
         >
-          <!-- <input
-            type="checkbox"
-            v-model="notWorkedOn"
-            :checked="notWorkedOn"
-            tabindex="-1"
-            :class="styles.checkbox"
-          /> -->
           <div :class="[styles.checkboxIcon, notWorkedOn && styles.checkboxActive]">
             <CheckIcon v-if="notWorkedOn" aria-hidden="true" />
           </div>
@@ -454,14 +446,7 @@ function getItemTextColor(item: any): string {
         <button
           :class="[styles.thirdRowBtn, groupWrongTasks && styles.active]"
           @click="toggleGroupWrongTasks"
-        >
-          <!-- <input
-            type="checkbox"
-            :checked="groupWrongTasks"
-            v-model="groupWrongTasks"
-            tabindex="-1"
-            :class="styles.checkbox"
-          /> -->
+        >      
           <div :class="[styles.checkboxIcon, groupWrongTasks && styles.checkboxActive]">
             <CheckIcon v-if="groupWrongTasks" aria-hidden="true" />
           </div>
@@ -472,7 +457,6 @@ function getItemTextColor(item: any): string {
           :class="[styles.thirdRowBtn, fitToScreen && styles.active]"
           @click="toggleFitToScreen"
         >
-          <!-- <input type="checkbox" :checked="fitToScreen" tabindex="-1" :class="styles.checkbox" /> -->
           <div :class="[styles.checkboxIcon, fitToScreen && styles.checkboxActive]">
             <CheckIcon v-if="fitToScreen" aria-hidden="true" />
           </div>
@@ -483,7 +467,6 @@ function getItemTextColor(item: any): string {
           :class="[styles.thirdRowBtn, maximizeArea && styles.active]"
           @click="toggleMaximizeArea"
         >
-          <!-- <input type="checkbox" :checked="maximizeArea" tabindex="-1" :class="styles.checkbox" /> -->
           <div :class="[styles.checkboxIcon, maximizeArea && styles.checkboxActive]">
             <CheckIcon v-if="maximizeArea" aria-hidden="true" />
           </div>
