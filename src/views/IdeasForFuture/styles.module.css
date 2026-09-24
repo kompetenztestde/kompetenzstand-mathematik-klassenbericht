@@ -117,6 +117,10 @@
 
 .listStyle {
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  padding-left: 20px;
 }
 .thirdAdviceTitle {
   grid-column: 1 / -1;

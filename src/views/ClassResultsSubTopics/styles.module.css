@@ -199,3 +199,7 @@
   background-color: transparent !important;
   border-color: transparent !important;
 }
+
+.echartContainer{
+  grid-column: 1 / -1;
+}

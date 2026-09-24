@@ -13,7 +13,7 @@ const { t } = useI18n()
         {{ t('ideasForFuture.firstAdvice.text') }}
       </div>
       <div :class="styles.firstAdviceRightSide">
-        <span>Diese können z.B. lauten:</span>
+        <strong><span>Diese können z.B. lauten:</span></strong>
         <ul :class="styles.listStyle">
           <li>Veränderte Schwerpunktsetzungen im eigenen Unterricht</li>
           <li>Veränderung des methodisch-didaktischen Vorgehens in relevanten Teilgebieten</li>
@@ -136,6 +136,8 @@ const { t } = useI18n()
             <input type="checkbox" :class="styles.checkbox" />
             <span>{{ t('ideasForFuture.thirdAdvice.checkList.six') }}</span>
           </div>
+          <p></p>
+          <p></p>
         </div>
       </div>
     </div>
