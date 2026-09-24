@@ -220,10 +220,13 @@
   align-self: start;
 }
 
-.gridContent {
-  grid-column: 1 / 12;
-  grid-row: 1 / 2;
-  height: 100%;
+.gridContent {  
+  grid-column: 2/3
+}
+
+.gridContent:has(:global(.fullWidthPage)),
+.gridContent:has(:global(.noPaddingPage)) {
+  grid-column: 1 / -1;
 }
 
 .mainBody {

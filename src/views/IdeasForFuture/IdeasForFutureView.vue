@@ -12,7 +12,7 @@ const { t } = useI18n()
       <div :class="styles.firstAdviceLeftSide">
         {{ t('ideasForFuture.firstAdvice.text') }}
       </div>
-      <div :class="styles.firstAdviceRightSide" class="text-body">
+      <div :class="styles.firstAdviceRightSide">
         <span>Diese können z.B. lauten:</span>
         <ul :class="styles.listStyle">
           <li>Veränderte Schwerpunktsetzungen im eigenen Unterricht</li>
@@ -48,7 +48,7 @@ const { t } = useI18n()
           <h2 :class="styles.secondAdviceMiniTitle">
             {{ t('ideasForFuture.secondAdvice.miniTitle1') }}
           </h2>
-          <ul>
+          <ul :class="styles.secondAdviceList">
             <li>
               {{ t('ideasForFuture.secondAdvice.bulletPoints1.one') }}
             </li>
@@ -67,7 +67,7 @@ const { t } = useI18n()
           <h2 :class="styles.secondAdviceMiniTitle">
             {{ t('ideasForFuture.secondAdvice.miniTitle2') }}
           </h2>
-          <ul>
+          <ul :class="styles.secondAdviceList">
             <li>
               {{ t('ideasForFuture.secondAdvice.bulletPoints2.one') }}
             </li>
@@ -80,7 +80,7 @@ const { t } = useI18n()
           <h2 :class="styles.secondAdviceMiniTitle">
             {{ t('ideasForFuture.secondAdvice.miniTitle3') }}
           </h2>
-          <ul>
+          <ul :class="styles.secondAdviceList">
             <li>
               {{ t('ideasForFuture.secondAdvice.bulletPoints3.one') }}
             </li>
@@ -108,7 +108,7 @@ const { t } = useI18n()
         <h2>
           {{ t('ideasForFuture.thirdAdvice.miniTitle') }}
         </h2>
-        <span>
+        <span :class="styles.thirdAdviceText">
           {{ t('ideasForFuture.thirdAdvice.text') }}
         </span>
         <div :class="styles.checkList">
