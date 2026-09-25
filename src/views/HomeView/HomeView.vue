@@ -16,7 +16,7 @@ const startAppWithCode = () => {
 </script>
 
 <template>
-  <div :class="[styles.page, 'fullWidthPage', 'noPaddingPage']">
+  <div :class="[styles.page, 'fullWidthPage', 'noPaddingPage', 'autoHeightPage']">
     <div :class="styles.container">
       <h1 :class="styles.title">{{ t('home.title') }}</h1>
       <div :class="styles.question">

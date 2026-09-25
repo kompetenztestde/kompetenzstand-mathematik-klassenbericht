@@ -220,8 +220,8 @@
   align-self: start;
 }
 
-.gridContent {  
-  grid-column: 2/3
+.gridContent {
+  grid-column: 2/3;
 }
 
 .gridContent:has(:global(.fullWidthPage)),
@@ -257,6 +257,14 @@
 
 .mainBody:has(:global(.noOverflowPage)) {
   overflow-y: hidden;
+}
+
+.mainBody:has(:global(.autoHeightPage)),
+.mainBody:has(:global(.compactPage)) {
+  grid-template-rows: auto !important;
+  align-items: start !important;
+  height: 100% !important;
+  align-self: stretch;
 }
 
 @media (max-width: 767px) {
@@ -366,5 +374,29 @@
 @media (min-width: 1920px) {
   .navigationBar {
     grid-column: 3 / 11;
+  }
+}
+
+@media (min-height: 900px) {
+  .grid {
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .grid footer {
+    grid-row: 3 / 4;
+  }
+
+  .mainBody {
+    height: auto;
+    align-content: start;
+  }
+
+  .mainBody:has(:global(.autoHeightPage)),
+  .mainBody:has(:global(.compactPage)) {
+    grid-template-rows: 1fr !important;
+    align-items: start !important;
+    height: 100% !important;
+    grid-row: 1 / 3 !important;
+    align-self: stretch !important;
   }
 }
