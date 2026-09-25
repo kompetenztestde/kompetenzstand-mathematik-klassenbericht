@@ -1,106 +1,123 @@
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
-    display: flex;
-    justify-content: flex-end;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .modalContainer {
-    background-color: var(--color-turquise);
-    position: relative;
-    padding: 20px 25px 0px 25px;
-    box-shadow: 0 0 30px 0 rgba(0, 29, 171, 0.42);
+  background-color: var(--color-turquise);
+  position: relative;
+  padding: 20px 25px 0px 25px;
+  box-shadow: 0 0 30px 0 rgba(0, 29, 171, 0.42);
 }
 
 .speakerBtn {
-    display: flex;
-    height: 52px;
-    padding: 12px 30px 10px 30px;
-    align-items: center;
-    gap: 5px;
-    border-radius: 100px;
-    background: var(--color-white);
-    color: var(--color-navigation-blue);
-    border: none;
+  display: flex;
+  height: 52px;
+  padding: 12px 30px 10px 30px;
+  align-items: center;
+  gap: 5px;
+  border-radius: 100px;
+  background: var(--color-white);
+  color: var(--color-navigation-blue);
+  border: none;
 }
 
 @media (min-width: 769px) {
-    .modalContainer {
-        width: 400px;
-        height: 100vh;
-    }
+  .modalContainer {
+    width: 400px;
+    height: 100vh;
+  }
 }
 
 @media (max-width: 768px) {
-    .modalContainer {
-        width: 100vw;
-        height: 100vh;
-    }
+  .modalContainer {
+    width: 100vw;
+    height: 100vh;
+  }
 
-    .modalContent {
-        margin-top: 60px;
-        min-width: 320px;
-    }
+  .modalContent {
+    margin-top: 60px;
+    min-width: 320px;
+  }
 
-    h2 {
-        text-align: left;
-    }
+  h2 {
+    text-align: left;
+  }
 }
 
 .closeBtn {
-    position: absolute;
+  /* position: absolute;
     top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
+    right: 20px; */
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 .slide-enter-active,
 .slide-leave-active {
-    transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 .slide-enter-from,
 .slide-leave-to {
-    transform: translateX(100%);
+  transform: translateX(100%);
 }
 
 .actionButton {
-    display: flex;
-    justify-content: center; 
-    align-items: center;     
-    color: var(--color-navigation-blue);
-    width: 54px;
-    height: 52px;
-    padding: 0; 
-    
-    border-radius: 100px;
-    background: var(--color-white);
-    border: none; 
-    cursor: pointer;
-    flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-navigation-blue);
+  width: 54px;
+  height: 52px;
+  padding: 0;
+
+  border-radius: 100px;
+  background: var(--color-white);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
-.btnRow{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-    margin-bottom: 25px;
+.btnRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
 
 .speakerBtn:focus-visible,
 .closeBtn:focus-visible {
-    outline: 3px solid var(--color-navigation-blue);
-    outline-offset: 4px;
+  outline: 3px solid var(--color-navigation-blue);
+  outline-offset: 4px;
 }
 
 .actionButton:focus-visible {
-    outline: 3px solid var(--color-navigation-blue);
-    outline-offset: 4px;
+  outline: 3px solid var(--color-navigation-blue);
+  outline-offset: 4px;
+}
+
+.modalColumn {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.title {
+  margin-bottom: 15px;
+}
+
+.modalContent {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 25px;
 }

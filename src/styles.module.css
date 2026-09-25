@@ -28,7 +28,8 @@
   align-items: center;
   padding: 15px 20px 15px 20px;
   z-index: 100;
-  grid-column: 1/ -1;
+  /* grid-column: 1/ -1; */
+  grid-column: 2 / 3;
 }
 
 .navControls {
@@ -66,11 +67,11 @@
   align-items: flex-end;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .navigationBar {
     padding: 25px 50px 25px 50px;
   }
-}
+} */
 
 @media (max-width: 900px) {
   .reportH1 {
@@ -355,26 +356,13 @@
 
 .navbarFooter {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  column-gap: var(--page-gutter);
+  grid-template-columns: subgrid;
   grid-column: 1 / -1;
   grid-row: 2 / 3;
   z-index: 10;
   width: 100%;
   box-sizing: border-box;
   background: var(--color-turquise);
-}
-
-@media (min-width: 1400px) {
-  .navigationBar {
-    grid-column: 2 / 12;
-  }
-}
-
-@media (min-width: 1920px) {
-  .navigationBar {
-    grid-column: 3 / 11;
-  }
 }
 
 @media (min-height: 900px) {

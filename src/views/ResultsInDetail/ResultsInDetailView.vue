@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAllUserItemsNew } from '@/composables/useUserItems'
 import styles from './styles.module.css'
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import type { ItemsStudentsDataInner } from '@tba3/api-new'
 import CrossIcon from './icons/CrossIcon.svg?component'
 import CloseIcon from './icons/CloseIcon.svg?component'
@@ -317,6 +317,45 @@ function getItemTextColor(item: any): string {
 
   return '#ffffff'
 }
+
+const isLargeScreen = ref(false)
+
+let mediaQuery: MediaQueryList | null = null
+
+const handleResize = (e: MediaQueryListEvent | MediaQueryList) => {
+  isLargeScreen.value = e.matches
+}
+
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    const minWidth = 350 + (data.value?.[0]?.items?.length || 1) * 32
+
+    mediaQuery = window.matchMedia(`(min-width: ${minWidth}px)`)
+    isLargeScreen.value = mediaQuery.matches
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleResize)
+    } else {
+      mediaQuery.addListener(handleResize)
+    }
+  }
+})
+
+onUnmounted(() => {
+  if (mediaQuery) {
+    if (mediaQuery.removeEventListener) {
+      mediaQuery.removeEventListener('change', handleResize)
+    } else {
+      mediaQuery.removeListener(handleResize)
+    }
+  }
+})
+
+const shouldShowNumbers = computed(() => {
+  if (!showNumbers.value) return false
+
+  return !fitToScreen.value || isLargeScreen.value
+})
 </script>
 
 <template>
@@ -670,9 +709,7 @@ function getItemTextColor(item: any): string {
                         `.trim()
                 "
               >
-                <span v-if="!fitToScreen && showNumbers">{{
-                  extractTaskNumber(item.name ?? '')
-                }}</span>
+                <span v-if="shouldShowNumbers">{{ extractTaskNumber(item.name ?? '') }}</span>
               </div>
             </div>
             <div :class="[styles.hNoteColumn, styles.fixedRight]">{{ getHNote(user) }}</div>
