@@ -192,7 +192,7 @@ function getItemStyle(item: any) {
     return {
       backgroundColor: '#EAEAEA',
       backgroundImage:
-        'linear-gradient(135deg, transparent calc(50% - 1px), #9e9e9e calc(50% - 0.5px), #9e9e9e calc(50% + 0.5px), transparent calc(50% + 1px))',
+        'linear-gradient(135deg, transparent calc(50% - 1px), #CDCDCD calc(50% - 0.5px), #CDCDCD calc(50% + 0.5px), transparent calc(50% + 1px))',
     }
   }
   if (currentViewMode.value === 'Allgemein') return { backgroundColor: '#008574' }
@@ -446,7 +446,7 @@ function getItemTextColor(item: any): string {
         <button
           :class="[styles.thirdRowBtn, groupWrongTasks && styles.active]"
           @click="toggleGroupWrongTasks"
-        >      
+        >
           <div :class="[styles.checkboxIcon, groupWrongTasks && styles.checkboxActive]">
             <CheckIcon v-if="groupWrongTasks" aria-hidden="true" />
           </div>
