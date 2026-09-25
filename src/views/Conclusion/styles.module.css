@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: subgrid;
   grid-column: 1 / -1;
+  row-gap: 24px;
 }
 
 .container {
@@ -24,7 +25,7 @@
 .card {
   /* max-width: 200px;
   min-width: 185px; */
-  flex: 1; 
+  flex: 1;
   width: 100%;
   background-color: var(--color-waterblue-10);
   border-radius: 8px;
@@ -182,18 +183,6 @@
   line-height: 1.06; /* 105.556% */
 }
 
-/* @media (max-width: 1024px) {
-  .card {
-    max-width: calc(33.33% - 16px);
-  }
-} */
-
-@media (max-width: 600px) {
-  .card {
-    max-width: 100%;
-  }
-}
-
 .resultCardsTitle {
   margin: unset;
 
@@ -322,4 +311,10 @@
   flex-direction: row;
   column-gap: 8px;
   align-items: center;
+}
+
+@media (min-height: 900px) {
+  .conclusionContainer {
+    row-gap: 48px;
+  }
 }

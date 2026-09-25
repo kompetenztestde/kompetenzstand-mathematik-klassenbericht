@@ -3,6 +3,9 @@
   grid-template-columns: subgrid;
   grid-column: 1 / -1;
   background: var(--waterblue_11, #eef5fe);
+
+  min-height: 100%;
+  align-content: center;
 }
 
 .container {

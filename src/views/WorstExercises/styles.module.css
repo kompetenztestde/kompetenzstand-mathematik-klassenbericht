@@ -215,3 +215,9 @@
 .arrowIcon {
   flex-shrink: 0;
 }
+
+@media (min-height: 900px) {
+  .page {
+    row-gap: 136px;
+  }
+}
