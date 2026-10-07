@@ -23,6 +23,8 @@ const form = reactive({
 
 const demoAccess = reactive({ enabled: false })
 
+const areCredentialsDisabled = computed(() => !demoAccess.enabled && !form.country)
+
 const errors = reactive({
   country: '',
   schoolNumber: '',
@@ -202,8 +204,9 @@ function login() {
                     v-model="form.schoolNumber"
                     type="text"
                     name="schoolNumber"
+                    placeholder="Schulnummer"
                     class="form-input"
-                    :disabled="!demoAccess.enabled && !form.country"
+                    :disabled="areCredentialsDisabled"
                     :class="{ 'input-error': errors.schoolNumber }"
                     autocomplete="username"
                   />
@@ -218,13 +221,16 @@ function login() {
                       v-model="form.password"
                       :type="showPassword ? 'text' : 'password'"
                       name="schoolPassword"
+                      placeholder="Passwort"
                       class="form-input"
+                      :disabled="areCredentialsDisabled"
                       :class="{ 'input-error': errors.password }"
                       autocomplete="current-password"
                     />
                     <button
                       type="button"
                       class="input-icon-button"
+                      :disabled="areCredentialsDisabled"
                       :aria-label="showPassword ? 'Passwort verbergen' : 'Passwort anzeigen'"
                       :title="showPassword ? 'Passwort verbergen' : 'Passwort anzeigen'"
                       @click="showPassword = !showPassword"
@@ -527,6 +533,13 @@ function login() {
   background: #fff5f5;
 }
 
+.form-input:disabled {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
 .form-input::placeholder {
   color: rgba(19, 63, 120, 0.48);
 }
@@ -557,7 +570,7 @@ function login() {
   cursor: pointer;
 }
 
-.input-icon-button:hover {
+.input-icon-button:hover:not(:disabled) {
   background: rgba(19, 63, 120, 0.08);
   color: var(--color-navigation-blue);
 }
@@ -565,6 +578,11 @@ function login() {
 .input-icon-button:focus-visible {
   outline: 2px solid var(--color-waterblue);
   outline-offset: 2px;
+}
+
+.input-icon-button:disabled {
+  color: #6b7280;
+  cursor: not-allowed;
 }
 
 .input-icon {

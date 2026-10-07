@@ -255,6 +255,10 @@ weiter.
 
 ## Anwendungsablauf
 
+Bei der regulären Anmeldung bleiben Schulnummer und Passwort ausgegraut und deaktiviert, bis ein
+Bundesland ausgewählt wurde. Auch die Passwortanzeige ist bis dahin deaktiviert. Der Demo-Zugang
+bleibt ohne Bundeslandauswahl verfügbar.
+
 Die Rückmeldung ist als lineare Abfolge von sieben Schritten aufgebaut (`src/router/index.ts`). Der Code der
 Schüler:in wird als Query-Parameter `?user=<code>` durch die Schritte mitgeführt (gesetzt beim Start in
 `HomeView`, ausgelesen z. B. in `App.vue` über `route.query.user`).
