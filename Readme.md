@@ -259,6 +259,18 @@ Bei der regulären Anmeldung bleiben Schulnummer und Passwort ausgegraut und dea
 Bundesland ausgewählt wurde. Auch die Passwortanzeige ist bis dahin deaktiviert. Der Demo-Zugang
 bleibt ohne Bundeslandauswahl verfügbar.
 
+Die reguläre Anmeldung sendet `{ region, schulNr, passwort }` an
+`POST /api-auth/school`. Der Auth-Proxy leitet auf `https://api.inio.de/auth` weiter.
+Nur eine erfolgreiche Antwort mit gültigen Sitzungsdaten (`{ success, message, data }`)
+gibt die geschützten Schritte frei. Das Passwort wird nicht gespeichert.
+Token und Ablaufzeit werden für die aktuelle Browser-Sitzung in `sessionStorage` hinterlegt.
+Report-Anfragen an die inio-API verwenden `Authorization: Bearer <token>`.
+Abgelaufene Sitzungen werden bei der Navigation gesperrt; API-Anfragen mit abgelaufenen
+Sitzungen werden ebenfalls abgewiesen. Nach dem Login wird der zuvor angeforderte Schritt geöffnet.
+Der Demo-Zugang verwendet weiterhin `X-API-KEY-SCHOOL` und benötigt keinen Schul-Login.
+Beim Abmelden oder Wechseln der Schule wird der Query-Cache geleert.
+Die Referenz-API (`/api-proxy`) bleibt unverändert; der inio-Token wird nicht an sie weitergegeben.
+
 Die Rückmeldung ist als lineare Abfolge von sieben Schritten aufgebaut (`src/router/index.ts`). Der Code der
 Schüler:in wird als Query-Parameter `?user=<code>` durch die Schritte mitgeführt (gesetzt beim Start in
 `HomeView`, ausgelesen z. B. in `App.vue` über `route.query.user`).

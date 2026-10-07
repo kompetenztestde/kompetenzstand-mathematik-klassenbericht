@@ -98,7 +98,7 @@ export default defineConfig({
                 rewrite: (path) => path.replace(/^\/api-inio/, ''),
             },
             '/api-auth': {
-                target: 'https://api.inio.de/report_data_tba3',
+                target: 'https://api.inio.de/auth',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api-auth/, ''),
             },
@@ -122,7 +122,7 @@ export default defineConfig({
                 rewrite: (path) => path.replace(/^\/api-inio/, ''),
             },
             '/api-auth': {
-                target: 'https://api.inio.de/report_data_tba3',
+                target: 'https://api.inio.de/auth',
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api-auth/, ''),
             },

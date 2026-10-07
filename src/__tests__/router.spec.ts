@@ -1,10 +1,38 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { createPinia, setActivePinia } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
 import router from '@/router'
 
 describe('Router Index', () => {
   beforeEach(async () => {
+    sessionStorage.clear()
+    setActivePinia(createPinia())
+    useAuthStore().login('12345', 'test-token', 28800)
     await router.push('/')
     await router.isReady()
+  })
+
+  afterEach(() => vi.useRealTimers())
+
+  it.each([1, 2, 3, 4, 5, 6, 7])('blocks step %s without authentication', async (step) => {
+    useAuthStore().logout()
+    await router.push(`/step-${step}?user=ABC`)
+    expect(router.currentRoute.value.name).toBe('login')
+    expect(router.currentRoute.value.query.redirect).toBe(`/step-${step}?user=ABC`)
+  })
+
+  it('blocks expired sessions and removes their credentials', async () => {
+    vi.useFakeTimers()
+    useAuthStore().login('12345', 'test-token', 1)
+    vi.advanceTimersByTime(1000)
+    await router.push('/step-2')
+    expect(router.currentRoute.value.name).toBe('login')
+    expect(useAuthStore().token).toBeNull()
+  })
+
+  it('redirects authenticated users away from login', async () => {
+    await router.push('/login')
+    expect(router.currentRoute.value.path).toBe('/step-1')
   })
 
   it('sollte von "/" nach "/step-1" weiterleiten', async () => {

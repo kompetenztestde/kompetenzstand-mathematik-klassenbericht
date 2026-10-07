@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { DEFAULT_DEMO_SCHOOL_NUMBER, useAuthStore } from '@/stores/auth'
+import { useSchoolLoginMutation } from '@/queries/useAuthMutations'
 
 type CustomWindow = Window & {
   appConfig?: {
@@ -12,7 +13,9 @@ type CustomWindow = Window & {
 }
 
 const router = useRouter()
+const route = useRoute()
 const auth = useAuthStore()
+const schoolLogin = useSchoolLoginMutation()
 const showPassword = ref(false)
 
 const form = reactive({
@@ -50,6 +53,7 @@ const isFormValid = computed(() => {
 watch(
   () => demoAccess.enabled,
   (enabled) => {
+    schoolLogin.reset()
     errors.schoolNumber = ''
     errors.country = ''
     errors.password = ''
@@ -83,6 +87,7 @@ watch(
 )
 
 function login() {
+  if (schoolLogin.isPending.value) return
   errors.country = ''
   errors.schoolNumber = ''
   errors.password = ''
@@ -98,20 +103,36 @@ function login() {
     return
   }
 
-  const apiKeySchool = demoAccess.enabled ? demoApiKeySchool.value : form.password.trim()
-
-  if (!apiKeySchool) {
-    errors.apiKeySchool = 'Der Demo-Zugang ist nicht konfiguriert.'
-    return
-  }
-
   if (!demoAccess.enabled && !form.password.trim()) {
     errors.password = 'Bitte gib das Passwort ein.'
     return
   }
 
-  auth.login(form.schoolNumber.trim(), apiKeySchool, demoAccess.enabled)
-  router.replace('/step-1')
+  const redirect = typeof route.query.redirect === 'string' &&
+    /^\/step-[1-7](?:[?#]|$)/.test(route.query.redirect)
+    ? route.query.redirect : '/step-1'
+
+  if (demoAccess.enabled) {
+    if (!demoApiKeySchool.value) {
+      errors.apiKeySchool = 'Der Demo-Zugang ist nicht konfiguriert.'
+      return
+    }
+    auth.loginDemo(form.schoolNumber.trim(), demoApiKeySchool.value)
+    router.replace(redirect)
+    return
+  }
+
+  const schoolNumber = form.schoolNumber.trim()
+  schoolLogin.mutate(
+    { region: form.country.toUpperCase(), schulNr: schoolNumber, passwort: form.password.trim() },
+    {
+      onSuccess: (data) => {
+        auth.login(schoolNumber, data.token, data.tokenExpiresIn)
+        form.password = ''
+        router.replace(redirect)
+      },
+    },
+  )
 }
 </script>
 
@@ -156,7 +177,7 @@ function login() {
         <div class="login-form-wrapper">
           <div class="login-form-container">
             <form class="login-form" @submit.prevent="login">
-              <fieldset class="form-fieldset">
+              <fieldset class="form-fieldset" :disabled="schoolLogin.isPending.value">
                 <div class="form-group demo-access-group">
                   <label id="demo-access-label" class="form-label">Demo-Zugang</label>
                   <div class="demo-access-options" role="group" aria-labelledby="demo-access-label">
@@ -268,8 +289,12 @@ function login() {
 
                 <p v-if="errors.apiKeySchool" class="error-message" role="alert">{{ errors.apiKeySchool }}</p>
 
-                <button type="submit" :disabled="!isFormValid" class="submit-button">
-                  <span>Anmelden</span>
+                <p v-if="schoolLogin.error.value" class="error-message" role="alert">
+                  {{ schoolLogin.error.value.message }}
+                </p>
+
+                <button type="submit" :disabled="!isFormValid || schoolLogin.isPending.value" class="submit-button">
+                  <span>{{ schoolLogin.isPending.value ? 'Anmeldung läuft…' : 'Anmelden' }}</span>
                   <svg
                     class="submit-button-icon"
                     xmlns="http://www.w3.org/2000/svg"

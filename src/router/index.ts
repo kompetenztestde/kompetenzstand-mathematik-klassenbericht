@@ -35,6 +35,11 @@ const router = createRouter({
 router.beforeEach((to) => {
   const auth = useAuthStore()
 
+  if (auth.isAuthenticated && auth.isSessionExpired()) {
+    auth.logout()
+    return { name: 'login', query: to.meta.requiresAuth ? { redirect: to.fullPath } : {} }
+  }
+
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
     return { name: 'login', query: { redirect: to.fullPath } }
   }

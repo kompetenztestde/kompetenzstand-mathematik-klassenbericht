@@ -1,16 +1,32 @@
-import { mount } from '@vue/test-utils'
-import { createPinia } from 'pinia'
-import { describe, expect, it, vi } from 'vitest'
+import { flushPromises, mount } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import LoginLayout from '@/layouts/LoginLayout.vue'
-import { DEFAULT_DEMO_SCHOOL_NUMBER } from '@/stores/auth'
+import { DEFAULT_DEMO_SCHOOL_NUMBER, useAuthStore } from '@/stores/auth'
 
+const { replace } = vi.hoisted(() => ({ replace: vi.fn() }))
 vi.mock('vue-router', () => ({
-  useRouter: () => ({ replace: vi.fn() }),
+  useRouter: () => ({ replace }),
+  useRoute: () => ({ query: { redirect: '/step-3?user=ABC' } }),
 }))
 
+vi.mock('@/queries/utils', () => ({
+  inioAuthApiConfiguration: async () => ({ basePath: '/api-auth' }),
+}))
+
+beforeEach(() => {
+  sessionStorage.clear()
+  vi.clearAllMocks()
+})
+
+afterEach(() => vi.unstubAllGlobals())
+
 function mountLogin() {
+  const pinia = createPinia()
+  setActivePinia(pinia)
   return mount(LoginLayout, {
-    global: { plugins: [createPinia()] },
+    global: { plugins: [pinia, [VueQueryPlugin, { queryClient: new QueryClient() }]] },
   })
 }
 
@@ -63,5 +79,86 @@ describe('LoginLayout', () => {
     expect(wrapper.get('#schoolNumber').attributes('disabled')).toBeDefined()
     expect(wrapper.get('#schoolPassword').attributes('disabled')).toBeDefined()
     expect(wrapper.get('.input-icon-button').attributes('disabled')).toBeDefined()
+  })
+
+  async function fillLogin() {
+    const wrapper = mountLogin()
+    await wrapper.get('#country').setValue('th')
+    await wrapper.get('#schoolNumber').setValue('12345')
+    await wrapper.get('#schoolPassword').setValue('test-password')
+    return wrapper
+  }
+
+  it('authenticates and navigates only after a successful server response', async () => {
+    let resolveResponse!: (response: Response) => void
+    const fetchMock = vi.fn().mockReturnValue(new Promise<Response>((resolve) => {
+      resolveResponse = resolve
+    }))
+    vi.stubGlobal('fetch', fetchMock)
+    const wrapper = await fillLogin()
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+
+    expect(useAuthStore().isAuthenticated).toBe(false)
+    expect(replace).not.toHaveBeenCalled()
+    expect(wrapper.get('fieldset').attributes('disabled')).toBeDefined()
+    expect(fetchMock).toHaveBeenCalledWith('/api-auth/school', expect.objectContaining({
+      method: 'POST',
+      body: JSON.stringify({ region: 'TH', schulNr: '12345', passwort: 'test-password' }),
+    }))
+
+    resolveResponse(new Response(JSON.stringify({
+      success: true,
+      message: '',
+      data: { token: 'test-token', tokenExpiresIn: 28800, tokenExpiresAt: '2099-10-07 23:46:33' },
+    }), { headers: { 'Content-Type': 'application/json' } }))
+    await flushPromises()
+
+    expect(useAuthStore().token).toBe('test-token')
+    expect(useAuthStore().apiKeySchool).toBeNull()
+    expect(replace).toHaveBeenCalledWith('/step-3?user=ABC')
+    expect(sessionStorage.getItem('api-key-school')).toBeNull()
+    wrapper.unmount()
+  })
+
+  it.each([
+    { body: { success: false, message: 'Zugangsdaten ungültig.' }, status: 401, message: 'Zugangsdaten ungültig.' },
+    { body: { success: true, data: {} }, status: 200, message: 'Ungültige Sitzungsdaten' },
+    { body: { success: true }, status: 500, message: 'Anmeldung fehlgeschlagen.' },
+  ])('does not navigate on invalid login: $message', async ({ body, status, message }) => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(body), {
+      status, headers: { 'Content-Type': 'application/json' },
+    })))
+    const wrapper = await fillLogin()
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+
+    expect(useAuthStore().isAuthenticated).toBe(false)
+    expect(replace).not.toHaveBeenCalled()
+    expect(wrapper.get('[role="alert"]').text()).toContain(message)
+    wrapper.unmount()
+  })
+
+  it('shows network errors without authenticating', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Network unavailable')))
+    const wrapper = await fillLogin()
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+    expect(wrapper.get('[role="alert"]').text()).toContain('Network unavailable')
+    expect(replace).not.toHaveBeenCalled()
+    expect(useAuthStore().isAuthenticated).toBe(false)
+    wrapper.unmount()
+  })
+
+  it('keeps demo login separate from the school authentication API', async () => {
+    const fetchMock = vi.fn()
+    vi.stubGlobal('fetch', fetchMock)
+    const wrapper = mountLogin()
+    await wrapper.get('.demo-access-option:last-child').trigger('click')
+    await wrapper.get('form').trigger('submit')
+    expect(useAuthStore().demoAccess).toBe(true)
+    expect(useAuthStore().isAuthenticated).toBe(true)
+    expect(fetchMock).not.toHaveBeenCalled()
+    wrapper.unmount()
   })
 })
