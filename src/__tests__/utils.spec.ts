@@ -28,6 +28,12 @@ vi.mock('@tba3/api-auth', () => ({
   }),
 }))
 
+vi.mock('@/stores/auth', () => ({
+  useAuthStore: () => ({
+    apiKeySchool: null,
+  }),
+}))
+
 describe('API Configuration Utilities', () => {
   const originalWindowAppConfig = (window as unknown as { appConfig?: unknown }).appConfig
 
@@ -81,6 +87,18 @@ describe('API Configuration Utilities', () => {
 
       const apiKeyFn = (config as unknown as { apiKey: (name: string) => string }).apiKey
       expect(apiKeyFn('X-API-KEY-SCHOOL')).toBe('TEST')
+    })
+
+    it('uses xApiKeySchool from window.appConfig before env fallback', async () => {
+      vi.stubEnv('VITE_X_API_KEY_SCHOOL', 'env-key')
+      ;(window as unknown as { appConfig: unknown }).appConfig = {
+        api: { xApiKeySchool: 'window-key' },
+      }
+
+      const config = await inioApiConfiguration()
+
+      const apiKeyFn = (config as unknown as { apiKey: (name: string) => string }).apiKey
+      expect(apiKeyFn('X-API-KEY-SCHOOL')).toBe('window-key')
     })
 
     it('falls back to empty string for basePath when window.appConfig is missing', async () => {

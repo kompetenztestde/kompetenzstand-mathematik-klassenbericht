@@ -32,6 +32,16 @@
   grid-column: 2 / 3;
 }
 
+.homeNavigationBar {
+  justify-content: flex-end;
+}
+
+.homeNavigationBar .navControls {
+  width: auto;
+  margin-left: auto;
+  justify-content: flex-end;
+}
+
 .navControls {
   display: flex;
   align-items: center;
@@ -153,9 +163,43 @@
 }
 
 .dot:focus-visible,
-.navBtn:focus-visible {
+.navBtn:focus-visible,
+.logoutBtn:focus-visible {
   outline: 2px solid var(--color-navigation-blue);
   outline-offset: 4px;
+}
+
+.logoutBtn {
+  position: absolute;
+  top: 50%;
+  right: clamp(12px, 3vw, 50px);
+  transform: translateY(-50%);
+  z-index: 110;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: calc(100vw - 24px);
+  border: 1px solid var(--color-navigation-blue);
+  border-radius: 4px;
+  padding: 6px 10px;
+  background: transparent;
+  color: var(--color-navigation-blue);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.logoutBtn:hover {
+  background-color: var(--color-navigation-blue);
+  color: var(--color-white);
+}
+
+.logoutIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .flexContainer {
@@ -307,6 +351,12 @@
     justify-content: center;
   }
 
+  .homeNavigationBar .navControls {
+    width: auto;
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+
   .dotContainer {
     width: 24px;
     height: 24px;
@@ -347,6 +397,12 @@
     position: static;
   }
 
+  .homeNavigationBar .navControls {
+    width: auto;
+    margin-left: auto;
+    justify-content: flex-end;
+  }
+
   .pageIndicator {
     position: absolute;
     left: 50%;
@@ -355,6 +411,7 @@
 }
 
 .navbarFooter {
+  position: relative;
   display: grid;
   grid-template-columns: subgrid;
   grid-column: 1 / -1;
