@@ -1,6 +1,7 @@
 {
   "home": {
-    "title": "Vera 8 Mathematik Rückmeldung 2026/27 Klasse 8a",
+    "title": "Vera 8 Mathematik Rückmeldung 2026/27",
+    "classTitle": "Klasse {groupName}",
     "next": "Weiter",
     "back": "Zurück",
     "chooseUser": "Wähle einen Test-User:",

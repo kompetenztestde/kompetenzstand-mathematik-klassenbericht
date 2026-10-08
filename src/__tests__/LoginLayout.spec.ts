@@ -116,7 +116,9 @@ describe('LoginLayout', () => {
 
     expect(useAuthStore().token).toBe('test-token')
     expect(useAuthStore().apiKeySchool).toBeNull()
-    expect(replace).toHaveBeenCalledWith('/step-3?user=ABC')
+    expect(replace).toHaveBeenCalledWith({
+      name: 'class-selection', query: { redirect: '/step-3?user=ABC' },
+    })
     expect(sessionStorage.getItem('api-key-school')).toBeNull()
     wrapper.unmount()
   })

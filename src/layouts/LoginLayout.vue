@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { DEFAULT_DEMO_SCHOOL_NUMBER, useAuthStore } from '@/stores/auth'
 import { useSchoolLoginMutation } from '@/queries/useAuthMutations'
+import ClassSelectionView from '@/views/ClassSelectionView.vue'
 
 type CustomWindow = Window & {
   appConfig?: {
@@ -14,6 +15,7 @@ type CustomWindow = Window & {
 
 const router = useRouter()
 const route = useRoute()
+const isClassSelection = computed(() => route.name === 'class-selection')
 const auth = useAuthStore()
 const schoolLogin = useSchoolLoginMutation()
 const showPassword = ref(false)
@@ -129,7 +131,7 @@ function login() {
       onSuccess: (data) => {
         auth.login(schoolNumber, data.token, data.tokenExpiresIn)
         form.password = ''
-        router.replace(redirect)
+        router.replace({ name: 'class-selection', query: { redirect } })
       },
     },
   )
@@ -176,7 +178,8 @@ function login() {
 
         <div class="login-form-wrapper">
           <div class="login-form-container">
-            <form class="login-form" @submit.prevent="login">
+            <ClassSelectionView v-if="isClassSelection" />
+            <form v-else class="login-form" @submit.prevent="login">
               <fieldset class="form-fieldset" :disabled="schoolLogin.isPending.value">
                 <div class="form-group demo-access-group">
                   <label id="demo-access-label" class="form-label">Demo-Zugang</label>

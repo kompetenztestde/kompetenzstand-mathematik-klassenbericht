@@ -2,24 +2,27 @@ import { inioApiConfiguration } from '@/queries/utils'
 import { GUIDE_MAP, type GuideKey, COMPETENCE_MAP, type CompetenceKey } from '@/types'
 import { useQuery, type UseQueryOptions } from '@tanstack/vue-query'
 import { ReportDataTba3Api, type AggregationItemsInner } from '@tba3/api-new'
+import { computed } from 'vue'
+import { useReportContext } from './useReportContext'
 
 export function useAllAggregations<TData = AggregationItemsInner[]>(
   options?: Omit<UseQueryOptions<AggregationItemsInner[], Error, TData>, 'queryKey' | 'queryFn'>,
 ) {
+  const report = useReportContext()
   return useQuery({
-    queryKey: ['user-aggregations-all'],
+    queryKey: computed(() => ['user-aggregations-all', ...report.queryScope.value]),
     queryFn: async () => {
+      const params = report.getParams()
       const config = await inioApiConfiguration()
       const api = new ReportDataTba3Api(config)
       const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdAggregationsGet({
-        tgId: 270,
-        groupId: 1001,
-        testId: 9524,
+        ...params,
       })
       return (response.data?.groupData?.aggregations ?? []) as AggregationItemsInner[]
     },
     staleTime: 1000 * 60 * 60,
     ...options,
+    enabled: report.isReady,
   })
 }
 
@@ -92,39 +95,3 @@ export function useHomogeneityAggregation() {
     },
   })
 }
-
-// export function useCoreIdeaAggregations() {
-//   const query = useQuery({
-//     queryKey: ['user-aggregations-base'],
-//     queryFn: async () => {
-//       const config = await inioApiConfiguration()
-//       const api = new ReportDataTba3Api(config)
-//       const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdAggregationsGet({
-//         tgId: 270,
-//         groupId: 1001,
-//         testId: 9524,
-//       })
-//       const allAggregations = response.data?.groupData?.aggregations ?? []
-//       const filteredAggregations = allAggregations.filter((item) => item.type === 'coreIdea')
-
-//       //   return filteredAggregations
-//       return allAggregations
-//         .filter((item) => item.type === 'coreIdea')
-//         .map((item) => {
-//           const key = ('L' + item.value) as GuideKey
-
-//           return {
-//             ...item,
-//             displayTitle: GUIDE_MAP[key] || item.value,
-//           }
-//         })
-//     },
-//     staleTime: 1000 * 60 * 60,
-//   })
-
-//   return {
-//     ...query,
-//   }
-// }
-
-

@@ -3,9 +3,11 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import styles from './styles.module.css'
+import { useGroupInfo } from '@/composables/useUserItems'
 const router = useRouter()
 const { t } = useI18n()
 const selectedUserCode = ref('')
+const { groupName } = useGroupInfo()
 
 const startAppWithCode = () => {
   router.push({
@@ -18,7 +20,10 @@ const startAppWithCode = () => {
 <template>
   <div :class="[styles.page, 'fullWidthPage', 'noPaddingPage', 'autoHeightPage']">
     <div :class="styles.container">
-      <h1 :class="styles.title">{{ t('home.title') }}</h1>
+      <h1 :class="styles.title">
+        {{ t('home.title') }}
+        <span v-if="groupName">{{ t('home.classTitle', { groupName }) }}</span>
+      </h1>
       <div :class="styles.question">
         <span class="text-body-big">{{ t('home.question') }}</span>
         <div :class="styles.questionIcon">

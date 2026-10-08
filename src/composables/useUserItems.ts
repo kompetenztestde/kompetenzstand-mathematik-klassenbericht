@@ -3,7 +3,8 @@ import { useQuery } from '@tanstack/vue-query'
 import { GroupsApi } from '@tba3/api-resources'
 import { ReportDataTba3Api } from '@tba3/api-new'
 import { computed, type ComputedRef } from 'vue'
-import { useAuthStore } from '@/stores/auth'
+import { useReportContext } from './useReportContext'
+import { useReportSelectionStore } from '@/stores/reportSelection'
 
 export function useUserItems(userName: ComputedRef<string | undefined>) {
   return useQuery({
@@ -28,23 +29,24 @@ interface UserItemsResponse {
 }
 
 export function useUserItemsNew(code?: ComputedRef<string | undefined>) {
+  const report = useReportContext()
   const query = useQuery<UserItemsResponse>({
-    queryKey: ['user-items-base', code?.value],
+    queryKey: computed(() => ['user-items-base', ...report.queryScope.value, code?.value]),
     queryFn: async () => {
       // if (!code.value) return []
       if (!code?.value) return { targetItems: [], allStudentsItems: [] }
+      const params = report.getParams()
+      const studentCode = code.value
       const config = await inioApiConfiguration()
       const api = new ReportDataTba3Api(config)
       const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdItemsGet({
-        tgId: 270,
-        groupId: 1001,
-        testId: 9524,
+        ...params,
         type: 'students',
-        studentCode: code.value,
+        studentCode,
       })
       const students = response.data?.studentsData ?? []
 
-      const targetUser = students.find((u) => u.code === code.value)
+      const targetUser = students.find((u) => u.code === studentCode)
       const targetItems = targetUser?.items ?? []
       const allStudentsItems = students
         .map((student) => student.items)
@@ -56,7 +58,7 @@ export function useUserItemsNew(code?: ComputedRef<string | undefined>) {
         allStudentsItems,
       }
     },
-    enabled: computed(() => !!code?.value),
+    enabled: computed(() => report.isReady.value && !!code?.value),
     staleTime: 1000 * 60 * 60,
   })
 
@@ -92,63 +94,67 @@ export const calculateUserStats = (items: any[] | undefined) => {
 }
 
 export function useSchoolForm(code: ComputedRef<string | undefined>) {
+  const report = useReportContext()
   return useQuery({
-    queryKey: ['school-form', code.value],
+    queryKey: computed(() => ['school-form', ...report.queryScope.value, code.value]),
     queryFn: async () => {
       if (!code.value) return null
 
+      const params = report.getParams()
+      const studentCode = code.value
       const config = await inioApiConfiguration()
       const api = new ReportDataTba3Api(config)
       const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdItemsGet({
-        tgId: 270,
-        groupId: 1001,
-        testId: 9524,
+        ...params,
         type: 'students',
-        studentCode: code.value,
+        studentCode,
       })
 
       return response.data?.groupData?.schoolForm ?? null
     },
-    enabled: computed(() => !!code.value),
+    enabled: computed(() => report.isReady.value && !!code.value),
     staleTime: 1000 * 60 * 60,
   })
 }
 
 export function useTestData(code: ComputedRef<string | undefined>) {
+  const report = useReportContext()
   return useQuery({
-    queryKey: ['testId', code.value],
+    queryKey: computed(() => ['testId', ...report.queryScope.value, code.value]),
     queryFn: async () => {
       if (!code.value) return null
 
+      const params = report.getParams()
       const config = await inioApiConfiguration()
       const api = new ReportDataTba3Api(config)
       const response = await api.testGroupsTgIdTestsGet({
-        tgId: 270,
-        testIds: '9524',
+        tgId: params.tgId,
+        testIds: String(params.testId),
       })
 
       return response.data ?? null
     },
-    enabled: computed(() => !!code.value),
+    enabled: computed(() => report.isReady.value && !!code.value),
     staleTime: 1000 * 60 * 60,
   })
 }
 
 export function useAllUserItemsNew() {
+  const report = useReportContext()
   const query = useQuery({
-    queryKey: ['user-items-all'],
+    queryKey: computed(() => ['user-items-all', ...report.queryScope.value]),
     queryFn: async () => {
+      const params = report.getParams()
       const config = await inioApiConfiguration()
       const api = new ReportDataTba3Api(config)
       const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdItemsGet({
-        tgId: 270,
-        groupId: 1001,
-        testId: 9524,
+        ...params,
         type: 'students',
       })
       const students = response.data?.studentsData ?? []
       return students
     },
+    enabled: report.isReady,
     staleTime: 1000 * 60 * 60,
   })
 
@@ -231,17 +237,17 @@ export function getBestAndWorstExercises() {
 
 
 export function useGroupInfo() {
-  const auth = useAuthStore()
+  const report = useReportContext()
+  const selection = useReportSelectionStore()
   const query = useQuery({
-    queryKey: ['group-info-base'],
+    queryKey: computed(() => ['group-info-base', ...report.queryScope.value]),
     queryFn: async () => {
+      const params = report.getParams()
       const config = await inioApiConfiguration()
       const api = new ReportDataTba3Api(config)
       
       const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdItemsGet({
-        tgId: 270,
-        groupId: 1001,
-        testId: 9524,
+        ...params,
         type: 'group',
       })
 
@@ -253,11 +259,11 @@ export function useGroupInfo() {
         studentsData: response.data?.studentsData ?? [],
       }
     },
-    enabled: computed(() => auth.isAuthenticated),
+    enabled: report.isReady,
     staleTime: 1000 * 60 * 60,
   })
 
-  const groupName = computed(() => query.data.value?.groupName ?? '')
+  const groupName = computed(() => query.data.value?.groupName || selection.groupName)
   const items = computed(() => query.data.value?.items ?? [])
 
   return {

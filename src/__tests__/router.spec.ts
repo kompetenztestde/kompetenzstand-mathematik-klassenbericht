@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
+import { useReportSelectionStore } from '@/stores/reportSelection'
 import router from '@/router'
 
 describe('Router Index', () => {
@@ -8,11 +9,46 @@ describe('Router Index', () => {
     sessionStorage.clear()
     setActivePinia(createPinia())
     useAuthStore().login('12345', 'test-token', 28800)
+    useReportSelectionStore().select(5460, 9522, '8A')
     await router.push('/')
     await router.isReady()
   })
 
   afterEach(() => vi.useRealTimers())
+
+  it.each([1, 2, 3, 4, 5, 6, 7])('requires class selection for step %s', async (step) => {
+    useReportSelectionStore().clear()
+    await router.push(`/step-${step}?user=ABC`)
+    expect(router.currentRoute.value.name).toBe('class-selection')
+    expect(router.currentRoute.value.query.redirect).toBe(`/step-${step}?user=ABC`)
+  })
+
+  it('sends a newly authenticated user to class selection instead of login', async () => {
+    useReportSelectionStore().clear()
+    await router.push('/login')
+    expect(router.currentRoute.value.name).toBe('class-selection')
+  })
+
+  it('does not require class selection for demo access', async () => {
+    useAuthStore().loginDemo('DEMO-TBA3-2026', 'DEMO-TBA3-2026')
+    await router.push('/step-2')
+    expect(router.currentRoute.value.name).toBe('step2')
+    await router.push('/class-selection')
+    expect(router.currentRoute.value.name).toBe('home')
+  })
+
+  it('allows changing class without logging out', async () => {
+    const token = useAuthStore().token
+    await router.push({ name: 'class-selection' })
+    expect(router.currentRoute.value.name).toBe('class-selection')
+    expect(useAuthStore().token).toBe(token)
+    expect(useAuthStore().isAuthenticated).toBe(true)
+    useReportSelectionStore().select(5462, 9524, '8B')
+    await router.push('/step-1')
+    expect(router.currentRoute.value.name).toBe('home')
+    expect(useReportSelectionStore().groupId).toBe(5462)
+    expect(useAuthStore().token).toBe(token)
+  })
 
   it.each([1, 2, 3, 4, 5, 6, 7])('blocks step %s without authentication', async (step) => {
     useAuthStore().logout()

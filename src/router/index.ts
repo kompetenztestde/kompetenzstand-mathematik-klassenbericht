@@ -7,6 +7,7 @@ import BestExercisesView from '@/views/BestExercises/BestExercisesView.vue'
 import WorstExercisesView from '@/views/WorstExercises/WorstExercisesView.vue'
 import IdeasForFutureView from '@/views/IdeasForFuture/IdeasForFutureView.vue'
 import { useAuthStore } from '@/stores/auth'
+import { useReportSelectionStore } from '@/stores/reportSelection'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -16,6 +17,12 @@ const router = createRouter({
         const auth = useAuthStore()
         return auth.isAuthenticated ? '/step-1' : { name: 'login', query: to.query }
       },
+    },
+    {
+      path: '/class-selection',
+      name: 'class-selection',
+      component: () => import('@/layouts/LoginLayout.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/login',
@@ -34,6 +41,7 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   const auth = useAuthStore()
+  const selection = useReportSelectionStore()
 
   if (auth.isAuthenticated && auth.isSessionExpired()) {
     auth.logout()
@@ -45,7 +53,15 @@ router.beforeEach((to) => {
   }
 
   if (to.name === 'login' && auth.isAuthenticated) {
-    return { path: '/step-1' }
+    return { name: auth.demoAccess || selection.hasSelection ? 'home' : 'class-selection' }
+  }
+
+  if (to.name === 'class-selection' && auth.demoAccess) {
+    return { name: 'home' }
+  }
+
+  if (to.meta.requiresAuth && to.name !== 'class-selection' && !auth.demoAccess && !selection.hasSelection) {
+    return { name: 'class-selection', query: { redirect: to.fullPath } }
   }
 })
 

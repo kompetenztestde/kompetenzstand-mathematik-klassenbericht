@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/vue-query'
 import { inioApiConfiguration } from '@/queries/utils'
 import competenceTexts from '../assets/competence_guidingideas_texts.json'
 import { ReportDataTba3Api } from '@tba3/api-new'
+import { useReportContext } from './useReportContext'
 
 export function useOverallResultsNew(code: ComputedRef<string | undefined>) {
     const { data: aggregations } = useUserAggregations(code)
@@ -38,28 +39,28 @@ export function useOverallResultsNew(code: ComputedRef<string | undefined>) {
 }
 
 function useUserAggregations(code: ComputedRef<string | undefined>) {
+    const report = useReportContext()
     return useQuery({
-        queryKey: ['user-aggregations-base', code.value],
+        queryKey: computed(() => ['user-aggregations-base', ...report.queryScope.value, code.value]),
         queryFn: async () => {
             if (!code.value) return []
+            const params = report.getParams()
+            const studentCode = code.value
             const config = await inioApiConfiguration()
             const api = new ReportDataTba3Api(config)
             const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdAggregationsGet({
-                tgId: 270,
-                groupId: 1001,
-                testId: 9524,
+                ...params,
                 type: 'students',
-                studentCode: code.value,
+                studentCode,
                 aggregation: 'generalMathematicalCompetence',
             })
 
             const students = response.data?.studentsData ?? []
 
-            const targetUser = students.find((u) => u.code === code.value)
+            const targetUser = students.find((u) => u.code === studentCode)
             return targetUser?.aggregations ?? []
         },
-        enabled: computed(() => !!code.value),
+        enabled: computed(() => report.isReady.value && !!code.value),
         staleTime: 1000 * 60 * 60,
     })
 }
-

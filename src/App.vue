@@ -93,6 +93,8 @@ const goTo = (newIndex: number) => {
 const isHome = computed(() => route.path === '/step-1' || route.path === '/')
 const isSecond = computed(() => route.path === '/step-2')
 const isLogin = computed(() => route.name === 'login')
+const isClassSelection = computed(() => route.name === 'class-selection')
+const showReportFooter = computed(() => auth.isAuthenticated && /^\/step-[1-7](?:\/|$)/.test(route.path))
 
 const modalStore = useModalStore()
 
@@ -117,13 +119,13 @@ const logout = () => {
 
 <template>
   <div :class="styles.grid">
-    <main :class="[styles.mainBody, styles.gridContent, { 'no-padding': isHome || isSecond || isLogin }]">
+    <main :class="[styles.mainBody, styles.gridContent, { 'no-padding': isHome || isSecond || isLogin || isClassSelection }]">
       <RouterView :key="route.fullPath" />
     </main>
 
     <SideModal />
 
-    <footer v-if="!isLogin" role="contentinfo" :class="styles.navbarFooter">
+    <footer v-if="showReportFooter" role="contentinfo" :class="styles.navbarFooter">
       <nav :aria-label="t('accessibility.pagination')" :class="[styles.navigationBar, { [styles.homeNavigationBar!]: isHome }]">
         <div v-if="!isHome" :class="styles.reportDiv">
           <div :class="styles.titleContainer">
@@ -176,6 +178,15 @@ const logout = () => {
         </div>
       </nav>
 
+      <div :class="styles.sessionActions">
+        <button
+          v-if="!auth.demoAccess"
+          type="button"
+          @click="router.push({ name: 'class-selection' })"
+          :class="styles.logoutBtn"
+        >
+          Klasse wechseln
+        </button>
       <button type="button" @click="logout" :class="styles.logoutBtn" aria-label="Abmelden" title="Abmelden">
         <svg
           :class="styles.logoutIcon"
@@ -191,6 +202,7 @@ const logout = () => {
         </svg>
         <span>Abmelden</span>
       </button>
+      </div>
     </footer>
   </div>
 </template>

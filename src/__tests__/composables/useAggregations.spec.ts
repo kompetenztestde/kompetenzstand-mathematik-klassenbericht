@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
 import {
   useAllAggregations,
   useCoreIdeaAggregations,
@@ -98,6 +100,9 @@ const mockAggregationsData = [
 describe('useAggregations Module', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    sessionStorage.clear()
+    setActivePinia(createPinia())
+    useAuthStore().loginDemo('DEMO-TBA3-2026', 'DEMO-TBA3-2026')
   })
 
   describe('useAllAggregations', () => {

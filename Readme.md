@@ -255,21 +255,29 @@ weiter.
 
 ## Anwendungsablauf
 
-Bei der regulären Anmeldung bleiben Schulnummer und Passwort ausgegraut und deaktiviert, bis ein
-Bundesland ausgewählt wurde. Auch die Passwortanzeige ist bis dahin deaktiviert. Der Demo-Zugang
-bleibt ohne Bundeslandauswahl verfügbar.
+### Anmeldung und Klassenauswahl
 
-Die reguläre Anmeldung sendet `{ region, schulNr, passwort }` an
-`POST /api-auth/school`. Der Auth-Proxy leitet auf `https://api.inio.de/auth` weiter.
-Nur eine erfolgreiche Antwort mit gültigen Sitzungsdaten (`{ success, message, data }`)
-gibt die geschützten Schritte frei. Das Passwort wird nicht gespeichert.
-Token und Ablaufzeit werden für die aktuelle Browser-Sitzung in `sessionStorage` hinterlegt.
-Report-Anfragen an die inio-API verwenden `Authorization: Bearer <token>`.
-Abgelaufene Sitzungen werden bei der Navigation gesperrt; API-Anfragen mit abgelaufenen
-Sitzungen werden ebenfalls abgewiesen. Nach dem Login wird der zuvor angeforderte Schritt geöffnet.
-Der Demo-Zugang verwendet weiterhin `X-API-KEY-SCHOOL` und benötigt keinen Schul-Login.
-Beim Abmelden oder Wechseln der Schule wird der Query-Cache geleert.
-Die Referenz-API (`/api-proxy`) bleibt unverändert; der inio-Token wird nicht an sie weitergegeben.
+Nach einem erfolgreichen regulären Login wird zunächst `/class-selection` geöffnet.
+Die Klassenauswahl ist als zweiter Schritt in das Login-Layout integriert und ersetzt dort
+das Anmeldeformular; Projektinformationen und Logos bleiben sichtbar. Die Auswahl lädt
+`/test-groups/270/participated-groups` und `/test-groups/270/tests` über die konfigurierte inio-API
+mit dem Bearer-Token der Anmeldung.
+Angezeigt werden ausschließlich Klassen mit `groupLevel = 8`, die mindestens an einem Test mit
+`subject = Mathematik` und `gradeLevel = 8` teilgenommen haben. Ein Klick auf den Klassennamen
+übernimmt die `groupId` und den zugehörigen Mathematiktest. Bei mehreren passenden Tests wird
+zusätzlich das Testheft ausgewählt. Ladefehler können erneut versucht werden; ohne passende
+Klassen wird ein ausdrücklicher Hinweis angezeigt.
+
+Klasse und Test werden in `sessionStorage` gespeichert und in allen inio-Reportabfragen verwendet.
+Ohne Auswahl ist kein Berichtsschritt erreichbar. Die Query-Cache-Schlüssel enthalten Schule,
+Klasse und Test, sodass die Daten unterschiedlicher Berichte getrennt bleiben. Abmelden und
+ein neuer Login löschen die Auswahl. Der Demo-Zugang überspringt die Auswahl und verwendet
+weiterhin die Fixture-IDs `groupId = 1001` und `testId = 9524`.
+
+Im regulären Bericht öffnet „Klasse wechseln“ die Auswahl erneut, ohne die Sitzung zu beenden.
+Nach der Auswahl einer anderen Klasse bzw. eines anderen Tests startet deren Bericht bei Schritt 1.
+
+### Berichtsschritte
 
 Die Rückmeldung ist als lineare Abfolge von sieben Schritten aufgebaut (`src/router/index.ts`). Der Code der
 Schüler:in wird als Query-Parameter `?user=<code>` durch die Schritte mitgeführt (gesetzt beim Start in

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { queryClient } from '@/queryClient'
+import { useReportSelectionStore } from './reportSelection'
 
 export const DEFAULT_DEMO_SCHOOL_NUMBER = 'DEMO-TBA3-2026'
 
@@ -46,6 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function logout() {
+    useReportSelectionStore().clear()
     schoolNumber.value = null
     apiKeySchool.value = null
     demoAccess.value = false

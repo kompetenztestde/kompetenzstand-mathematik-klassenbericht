@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { computed } from 'vue'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount, flushPromises } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
 import {
   useUserItems,
   useUserItemsNew,
@@ -67,6 +69,9 @@ function withVueQuery<T>(composableFn: () => T) {
 describe('useUserItems Module', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    sessionStorage.clear()
+    setActivePinia(createPinia())
+    useAuthStore().loginDemo('DEMO-TBA3-2026', 'DEMO-TBA3-2026')
   })
 
   describe('calculateUserStats', () => {
