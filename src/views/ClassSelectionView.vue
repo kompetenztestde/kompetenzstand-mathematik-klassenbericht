@@ -3,7 +3,11 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useReportSelectionStore } from '@/stores/reportSelection'
-import { useClassSelectionQuery, type SelectableClass, type MathTest } from '@/queries/useClassSelectionQuery'
+import {
+  useClassSelectionQuery,
+  type SelectableClass,
+  type MathTest,
+} from '@/queries/useClassSelectionQuery'
 
 const route = useRoute()
 const router = useRouter()
@@ -11,22 +15,32 @@ const auth = useAuthStore()
 const selection = useReportSelectionStore()
 const { data: classes, isPending, isFetching, error, refetch } = useClassSelectionQuery()
 const activeGroupId = ref<number | null>(null)
-const activeClass = computed(() => classes.value?.find(group => group.groupId === activeGroupId.value))
+const activeClass = computed(() =>
+  classes.value?.find((group) => group.groupId === activeGroupId.value),
+)
 const hasSingleClass = computed(() => classes.value?.length === 1)
-const isAutomaticSelection = computed(() => hasSingleClass.value && classes.value?.[0]?.tests.length === 1)
+const isAutomaticSelection = computed(
+  () => hasSingleClass.value && classes.value?.[0]?.tests.length === 1,
+)
 
-watch(classes, (availableClasses) => {
-  if (!availableClasses) return
-  selection.setClassCount(availableClasses.length)
-  if (availableClasses.length === 1 && availableClasses[0]) {
-    chooseClass(availableClasses[0])
-  }
-}, { immediate: true })
+watch(
+  classes,
+  (availableClasses) => {
+    if (!availableClasses) return
+    selection.setClassCount(availableClasses.length)
+    if (availableClasses.length === 1 && availableClasses[0]) {
+      chooseClass(availableClasses[0])
+    }
+  },
+  { immediate: true },
+)
 
 function openReport(group: SelectableClass, test: MathTest) {
   selection.select(group.groupId, test.testId, group.groupName)
-  const redirect = typeof route.query.redirect === 'string' &&
-    /^\/step-[1-7](?:[?#]|$)/.test(route.query.redirect) ? route.query.redirect : '/step-1'
+  const redirect =
+    typeof route.query.redirect === 'string' && /^\/step-[1-7](?:[?#]|$)/.test(route.query.redirect)
+      ? route.query.redirect
+      : '/step-1'
   router.replace(redirect)
 }
 
@@ -45,8 +59,13 @@ function logout() {
 </script>
 
 <template>
-  <section class="class-selection" :aria-labelledby="!isPending && !isAutomaticSelection ? 'class-selection-title' : undefined">
-    <h2 v-if="!isPending && !isAutomaticSelection" id="class-selection-title">{{ hasSingleClass ? 'Mathematiktest auswählen' : 'Klasse auswählen' }}</h2>
+  <section
+    class="class-selection"
+    :aria-labelledby="!isPending && !isAutomaticSelection ? 'class-selection-title' : undefined"
+  >
+    <h2 v-if="!isPending && !isAutomaticSelection" id="class-selection-title">
+      {{ hasSingleClass ? 'Mathematiktest auswählen' : 'Klasse auswählen' }}
+    </h2>
     <!-- <p>Bitte wählen Sie eine Klasse der Klassenstufe 8 aus.</p> -->
     <p v-if="isPending || isAutomaticSelection" role="status">Anmeldung wird abgeschlossen…</p>
     <div v-else-if="error" role="alert">
@@ -59,7 +78,11 @@ function logout() {
       </p>
       <ul v-if="!hasSingleClass" class="class-list" aria-label="Verfügbare Klassen">
         <li v-for="group in classes" :key="group.groupId">
-          <button type="button" :aria-pressed="activeGroupId === group.groupId" @click="chooseClass(group)">
+          <button
+            type="button"
+            :aria-pressed="activeGroupId === group.groupId"
+            @click="chooseClass(group)"
+          >
             {{ group.groupName }}
           </button>
         </li>

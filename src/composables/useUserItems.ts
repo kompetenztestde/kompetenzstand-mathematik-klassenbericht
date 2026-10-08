@@ -65,7 +65,7 @@ export function useUserItemsNew(code?: ComputedRef<string | undefined>) {
   // const stats = computed(() => calculateUserStats(query.data.value))
   const singleStudentItems = computed(() => query.data.value?.targetItems ?? [])
   const classItemsMatrix = computed(() => query.data.value?.allStudentsItems ?? [])
-  
+
   const stats = computed(() => calculateUserStats(singleStudentItems.value))
 
   // return {
@@ -74,8 +74,8 @@ export function useUserItemsNew(code?: ComputedRef<string | undefined>) {
   // }
   return {
     ...query,
-    data: singleStudentItems, 
-    classItemsMatrix,         
+    data: singleStudentItems,
+    classItemsMatrix,
     stats,
   }
 }
@@ -235,7 +235,6 @@ export function getBestAndWorstExercises() {
   })
 }
 
-
 export function useGroupInfo() {
   const report = useReportContext()
   const selection = useReportSelectionStore()
@@ -245,13 +244,13 @@ export function useGroupInfo() {
       const params = report.getParams()
       const config = await inioApiConfiguration()
       const api = new ReportDataTba3Api(config)
-      
+
       const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdItemsGet({
         ...params,
         type: 'group',
       })
 
-      console.log("GROUPNAME:",response.data )
+      console.log('GROUPNAME:', response.data)
 
       return {
         groupName: response.data?.groupData?.groupName ?? '',

@@ -28,10 +28,10 @@ export function useAllAggregations<TData = AggregationItemsInner[]>(
 
 export function useCoreIdeaAggregations() {
   return useAllAggregations({
-    select: (allAggregations:AggregationItemsInner[]) =>
+    select: (allAggregations: AggregationItemsInner[]) =>
       allAggregations
         .filter((item: AggregationItemsInner) => item.type === 'coreIdea')
-        .map((item:AggregationItemsInner) => {
+        .map((item: AggregationItemsInner) => {
           const key: GuideKey = ('L' + item.value) as GuideKey
           return {
             ...item,
@@ -43,7 +43,7 @@ export function useCoreIdeaAggregations() {
 
 export function useCompetencesAggregations() {
   return useAllAggregations({
-    select: (allAggregations: AggregationItemsInner[]) => 
+    select: (allAggregations: AggregationItemsInner[]) =>
       allAggregations
         .filter((item) => item.type === 'generalMathematicalCompetence')
         .map((item) => {
@@ -52,28 +52,28 @@ export function useCompetencesAggregations() {
             ...item,
             displayTitle: COMPETENCE_MAP[key] || item.value,
           }
-        })
+        }),
   })
 }
 
 export function useCompetenceLevelsAggregations() {
   return useAllAggregations({
-    select: (allAggregations: AggregationItemsInner[]) => 
-      allAggregations.filter((item) => item.type === 'competenceLevel')
+    select: (allAggregations: AggregationItemsInner[]) =>
+      allAggregations.filter((item) => item.type === 'competenceLevel'),
   })
 }
 
 export function useCognitiveDemandLevelAggregations() {
   return useAllAggregations({
-    select: (allAggregations: AggregationItemsInner[]) => 
-      allAggregations.filter((item) => item.type === 'cognitiveDemandLevel')
+    select: (allAggregations: AggregationItemsInner[]) =>
+      allAggregations.filter((item) => item.type === 'cognitiveDemandLevel'),
   })
 }
 
 export function useTotalResultAggregations() {
   return useAllAggregations({
-    select: (allAggregations: AggregationItemsInner[]) => 
-      allAggregations.filter((item) => item.type === 'total')
+    select: (allAggregations: AggregationItemsInner[]) =>
+      allAggregations.filter((item) => item.type === 'total'),
   })
 }
 

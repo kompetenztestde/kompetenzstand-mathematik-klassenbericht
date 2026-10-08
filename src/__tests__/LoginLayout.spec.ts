@@ -7,7 +7,7 @@ import { DEFAULT_DEMO_SCHOOL_NUMBER, useAuthStore } from '@/stores/auth'
 
 const { replace, loadClasses } = vi.hoisted(() => ({ replace: vi.fn(), loadClasses: vi.fn() }))
 vi.mock('@/queries/useClassSelectionQuery', async (importOriginal) => ({
-  ...await importOriginal<typeof import('@/queries/useClassSelectionQuery')>(),
+  ...(await importOriginal<typeof import('@/queries/useClassSelectionQuery')>()),
   loadSelectableClasses: loadClasses,
 }))
 vi.mock('vue-router', () => ({
@@ -99,12 +99,28 @@ describe('LoginLayout', () => {
 
   it('skips the class-selection route entirely for a single class and test', async () => {
     loadClasses.mockResolvedValue([
-      { groupId: 5460, groupName: '8A', tests: [{ testId: 9522, name: 'Mathematik', booklet: 'A' }] },
+      {
+        groupId: 5460,
+        groupName: '8A',
+        tests: [{ testId: 9522, name: 'Mathematik', booklet: 'A' }],
+      },
     ])
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({
-      success: true,
-      data: { token: 'test-token', tokenExpiresIn: 28800, tokenExpiresAt: '2099-10-07 23:46:33' },
-    }), { headers: { 'Content-Type': 'application/json' } })))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            success: true,
+            data: {
+              token: 'test-token',
+              tokenExpiresIn: 28800,
+              tokenExpiresAt: '2099-10-07 23:46:33',
+            },
+          }),
+          { headers: { 'Content-Type': 'application/json' } },
+        ),
+      ),
+    )
     const wrapper = await fillLogin()
     await wrapper.get('form').trigger('submit')
     await flushPromises()
@@ -114,9 +130,11 @@ describe('LoginLayout', () => {
 
   it('authenticates and navigates only after a successful server response', async () => {
     let resolveResponse!: (response: Response) => void
-    const fetchMock = vi.fn().mockReturnValue(new Promise<Response>((resolve) => {
-      resolveResponse = resolve
-    }))
+    const fetchMock = vi.fn().mockReturnValue(
+      new Promise<Response>((resolve) => {
+        resolveResponse = resolve
+      }),
+    )
     vi.stubGlobal('fetch', fetchMock)
     const wrapper = await fillLogin()
     await wrapper.get('form').trigger('submit')
@@ -125,35 +143,58 @@ describe('LoginLayout', () => {
     expect(useAuthStore().isAuthenticated).toBe(false)
     expect(replace).not.toHaveBeenCalled()
     expect(wrapper.get('fieldset').attributes('disabled')).toBeDefined()
-    expect(fetchMock).toHaveBeenCalledWith('/api-auth/school', expect.objectContaining({
-      method: 'POST',
-      body: JSON.stringify({ region: 'TH', schulNr: '12345', passwort: 'test-password' }),
-    }))
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api-auth/school',
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ region: 'TH', schulNr: '12345', passwort: 'test-password' }),
+      }),
+    )
 
-    resolveResponse(new Response(JSON.stringify({
-      success: true,
-      message: '',
-      data: { token: 'test-token', tokenExpiresIn: 28800, tokenExpiresAt: '2099-10-07 23:46:33' },
-    }), { headers: { 'Content-Type': 'application/json' } }))
+    resolveResponse(
+      new Response(
+        JSON.stringify({
+          success: true,
+          message: '',
+          data: {
+            token: 'test-token',
+            tokenExpiresIn: 28800,
+            tokenExpiresAt: '2099-10-07 23:46:33',
+          },
+        }),
+        { headers: { 'Content-Type': 'application/json' } },
+      ),
+    )
     await flushPromises()
 
     expect(useAuthStore().token).toBe('test-token')
     expect(useAuthStore().apiKeySchool).toBeNull()
     expect(replace).toHaveBeenCalledWith({
-      name: 'class-selection', query: { redirect: '/step-3?user=ABC' },
+      name: 'class-selection',
+      query: { redirect: '/step-3?user=ABC' },
     })
     expect(sessionStorage.getItem('api-key-school')).toBeNull()
     wrapper.unmount()
   })
 
   it.each([
-    { body: { success: false, message: 'Zugangsdaten ungültig.' }, status: 401, message: 'Zugangsdaten ungültig.' },
+    {
+      body: { success: false, message: 'Zugangsdaten ungültig.' },
+      status: 401,
+      message: 'Zugangsdaten ungültig.',
+    },
     { body: { success: true, data: {} }, status: 200, message: 'Ungültige Sitzungsdaten' },
     { body: { success: true }, status: 500, message: 'Anmeldung fehlgeschlagen.' },
   ])('does not navigate on invalid login: $message', async ({ body, status, message }) => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(body), {
-      status, headers: { 'Content-Type': 'application/json' },
-    })))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        new Response(JSON.stringify(body), {
+          status,
+          headers: { 'Content-Type': 'application/json' },
+        }),
+      ),
+    )
     const wrapper = await fillLogin()
     await wrapper.get('form').trigger('submit')
     await flushPromises()

@@ -14,11 +14,41 @@ vi.mock('vue-router', () => ({
 }))
 
 const tests = [
-  { testId: '9510', subject: 'Deutsch', gradeLevel: '6', nameDisplay: 'Deutsch Kl. 6', booklet: 'B' },
-  { testId: '9516', subject: 'Deutsch', gradeLevel: '8', nameDisplay: 'Deutsch Kl. 8', booklet: 'A' },
-  { testId: '9496', subject: 'Mathematik', gradeLevel: '6', nameDisplay: 'Mathematik Kl. 6', booklet: 'B' },
-  { testId: '9522', subject: 'Mathematik', gradeLevel: '8', nameDisplay: 'Mathematik Kl. 8', booklet: 'A' },
-  { testId: '9524', subject: 'Mathematik', gradeLevel: '8', nameDisplay: 'Mathematik Kl. 8', booklet: 'C' },
+  {
+    testId: '9510',
+    subject: 'Deutsch',
+    gradeLevel: '6',
+    nameDisplay: 'Deutsch Kl. 6',
+    booklet: 'B',
+  },
+  {
+    testId: '9516',
+    subject: 'Deutsch',
+    gradeLevel: '8',
+    nameDisplay: 'Deutsch Kl. 8',
+    booklet: 'A',
+  },
+  {
+    testId: '9496',
+    subject: 'Mathematik',
+    gradeLevel: '6',
+    nameDisplay: 'Mathematik Kl. 6',
+    booklet: 'B',
+  },
+  {
+    testId: '9522',
+    subject: 'Mathematik',
+    gradeLevel: '8',
+    nameDisplay: 'Mathematik Kl. 8',
+    booklet: 'A',
+  },
+  {
+    testId: '9524',
+    subject: 'Mathematik',
+    gradeLevel: '8',
+    nameDisplay: 'Mathematik Kl. 8',
+    booklet: 'C',
+  },
 ]
 const groups = [
   { groupId: '5456', groupLevel: '6', groupName: '6A', participatedTests: [9510, 9496] },
@@ -38,11 +68,17 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals())
 
 function mockLists(classList = groups) {
-  const fetchMock = vi.fn(async (url: string) => new Response(JSON.stringify({
-    success: true,
-    message: '',
-    data: url.endsWith('/participated-groups') ? classList : tests,
-  }), { headers: { 'Content-Type': 'application/json' } }))
+  const fetchMock = vi.fn(
+    async (url: string) =>
+      new Response(
+        JSON.stringify({
+          success: true,
+          message: '',
+          data: url.endsWith('/participated-groups') ? classList : tests,
+        }),
+        { headers: { 'Content-Type': 'application/json' } },
+      ),
+  )
   vi.stubGlobal('fetch', fetchMock)
   return fetchMock
 }
@@ -56,15 +92,26 @@ function mountSelection() {
 describe('class selection', () => {
   it('matches only grade-8 classes with participated grade-8 mathematics tests', () => {
     expect(matchClasses(groups, tests)).toEqual([
-      { groupId: 5460, groupName: '8A', tests: [{ testId: 9522, name: 'Mathematik Kl. 8', booklet: 'A' }] },
-      { groupId: 5462, groupName: '8B', tests: [{ testId: 9522, name: 'Mathematik Kl. 8', booklet: 'A' }] },
+      {
+        groupId: 5460,
+        groupName: '8A',
+        tests: [{ testId: 9522, name: 'Mathematik Kl. 8', booklet: 'A' }],
+      },
+      {
+        groupId: 5462,
+        groupName: '8B',
+        tests: [{ testId: 9522, name: 'Mathematik Kl. 8', booklet: 'A' }],
+      },
     ])
   })
 
   it('accepts numeric and string IDs and grade levels', () => {
-    expect(matchClasses([
-      { groupId: 5460, groupLevel: 8, groupName: '8A', participatedTests: ['9522'] },
-    ], tests)[0]?.tests[0]?.testId).toBe(9522)
+    expect(
+      matchClasses(
+        [{ groupId: 5460, groupLevel: 8, groupName: '8A', participatedTests: ['9522'] }],
+        tests,
+      )[0]?.tests[0]?.testId,
+    ).toBe(9522)
   })
 
   it('loads both authenticated endpoints and opens the selected report', async () => {
@@ -108,7 +155,9 @@ describe('class selection', () => {
   })
 
   it('skips the only class but still asks for its mathematics test', async () => {
-    mockLists([{ groupId: '5460', groupLevel: '8', groupName: '8A', participatedTests: [9522, 9524] }])
+    mockLists([
+      { groupId: '5460', groupLevel: '8', groupName: '8A', participatedTests: [9522, 9524] },
+    ])
     const wrapper = mountSelection()
     await flushPromises()
     expect(wrapper.find('[aria-label="Verfügbare Klassen"]').exists()).toBe(false)
@@ -133,9 +182,19 @@ describe('class selection', () => {
   })
 
   it('displays server failures and supports retry', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockImplementation(async () => new Response(JSON.stringify({
-      success: false, message: 'Sitzung abgelaufen.',
-    }), { status: 401, headers: { 'Content-Type': 'application/json' } })))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockImplementation(
+        async () =>
+          new Response(
+            JSON.stringify({
+              success: false,
+              message: 'Sitzung abgelaufen.',
+            }),
+            { status: 401, headers: { 'Content-Type': 'application/json' } },
+          ),
+      ),
+    )
     const wrapper = mountSelection()
     await flushPromises()
     expect(wrapper.get('[role="alert"]').text()).toContain('Sitzung abgelaufen.')
@@ -148,9 +207,12 @@ describe('class selection', () => {
   })
 
   it('rejects invalid IDs instead of silently falling back to demo data', () => {
-    expect(() => matchClasses([
-      { groupId: 'invalid', groupLevel: '8', groupName: '8A', participatedTests: [9522] },
-    ], tests)).toThrow('Ungültige Klassen- oder Test-ID')
+    expect(() =>
+      matchClasses(
+        [{ groupId: 'invalid', groupLevel: '8', groupName: '8A', participatedTests: [9522] }],
+        tests,
+      ),
+    ).toThrow('Ungültige Klassen- oder Test-ID')
   })
 
   it('persists selection across reloads and clears it on logout and school changes', () => {

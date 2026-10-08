@@ -4,7 +4,9 @@ import { apiConfiguration, inioApiConfiguration, inioAuthApiConfiguration } from
 import { DEFAULT_DEMO_SCHOOL_NUMBER, useAuthStore } from '@/stores/auth'
 import { ReportDataTba3Api } from '@tba3/api-new'
 
-type ConfigWindow = Window & { appConfig?: { api?: { baseUrl?: string; inioApiUrl?: string; inioAuthApiUrl?: string } } }
+type ConfigWindow = Window & {
+  appConfig?: { api?: { baseUrl?: string; inioApiUrl?: string; inioAuthApiUrl?: string } }
+}
 const configWindow = window as ConfigWindow
 const originalConfig = configWindow.appConfig
 
@@ -52,15 +54,20 @@ describe('API configuration', () => {
   it('sends the Bearer token on generated report API requests', async () => {
     useAuthStore().login('12345', 'test-token', 28800)
     configWindow.appConfig = { api: { inioApiUrl: '/api-inio' } }
-    const fetchMock = vi.fn().mockResolvedValue(new Response('{}', {
-      headers: { 'Content-Type': 'application/json' },
-    }))
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response('{}', {
+        headers: { 'Content-Type': 'application/json' },
+      }),
+    )
     vi.stubGlobal('fetch', fetchMock)
     const api = new ReportDataTba3Api(await inioApiConfiguration())
     await api.schoolInformationGetRaw({})
-    expect(fetchMock).toHaveBeenCalledWith('/api-inio/school-information', expect.objectContaining({
-      headers: expect.objectContaining({ Authorization: 'Bearer test-token' }),
-    }))
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api-inio/school-information',
+      expect.objectContaining({
+        headers: expect.objectContaining({ Authorization: 'Bearer test-token' }),
+      }),
+    )
     expect(fetchMock.mock.calls[0]?.[1].headers['X-API-KEY-SCHOOL']).toBeUndefined()
   })
 

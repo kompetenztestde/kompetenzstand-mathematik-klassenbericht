@@ -28,14 +28,8 @@ describe('useClassStatsNew', () => {
 
   it('sollte Treffer, Gesamtanzahl und Prozentwerte für Total, CoreIdeas und Competences korrekt berechnen', () => {
     const allStudentsItems = ref([
-      [
-        createItem(1, '1', '1'),
-        createItem(0, '1', '2'),
-      ],
-      [
-        createItem(1, '2', '1'),
-        createItem(-1, '2', '2'),
-      ],
+      [createItem(1, '1', '1'), createItem(0, '1', '2')],
+      [createItem(1, '2', '1'), createItem(-1, '2', '2')],
     ])
     const hiddenLabels = ref(new Set<string>())
 
@@ -69,11 +63,7 @@ describe('useClassStatsNew', () => {
 
   it('sollte gefilterte Items (aus hiddenLabels) aus den Stats ausschließen', () => {
     const allStudentsItems = ref([
-      [
-        createItem(1, '1', '1'),
-        createItem(1, '2', '2'),
-        createItem(1, '3', '3'),
-      ],
+      [createItem(1, '1', '1'), createItem(1, '2', '2'), createItem(1, '3', '3')],
     ])
     const hiddenLabels = ref(new Set<string>(['L1', 'K2']))
 

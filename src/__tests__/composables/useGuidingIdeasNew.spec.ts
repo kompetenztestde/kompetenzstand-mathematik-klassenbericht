@@ -97,7 +97,8 @@ describe('useGuidingIdeasNew', () => {
 
   it('sollte leere Initialwerte korrekt zurückgeben', () => {
     const userCode = computed(() => 'TEST_CODE')
-    const { guidingIdeaStats, topPerformers, badPerformers, extraStepsCount } = useGuidingIdeasNew(userCode)
+    const { guidingIdeaStats, topPerformers, badPerformers, extraStepsCount } =
+      useGuidingIdeasNew(userCode)
 
     expect(guidingIdeaStats.value['L1']?.hits).toBe(0)
     expect(guidingIdeaStats.value['L1']?.total).toBe(0)
@@ -127,11 +128,11 @@ describe('useGuidingIdeasNew', () => {
     mockItems.value = [
       {
         parameters: { coreIdea: { nameShort: '1' } },
-        descriptiveStatistics: { frequency: 1 }, 
+        descriptiveStatistics: { frequency: 1 },
       },
       {
         parameters: { coreIdea: { nameShort: '1' } },
-        descriptiveStatistics: { frequency: 0 }, 
+        descriptiveStatistics: { frequency: 0 },
       },
       {
         parameters: { coreIdea: { nameShort: '1' } },
@@ -145,7 +146,7 @@ describe('useGuidingIdeasNew', () => {
     const l1 = guidingIdeaStats.value['L1']
     expect(l1?.total).toBe(3)
     expect(l1?.hits).toBe(1)
-    expect(l1?.percentage).toBe(33) 
+    expect(l1?.percentage).toBe(33)
   })
 
   it('sollte badPerformers identifizieren, wenn hits <= lowerThreshold', () => {

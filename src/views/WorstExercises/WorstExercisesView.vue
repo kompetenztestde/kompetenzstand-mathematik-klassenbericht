@@ -47,7 +47,9 @@ const exercisesAnalysis = getBestAndWorstExercises()
                       { [`${styles.isHigher}`]: task.currentMean >= task.referenceValue },
                     ]"
                     :aria-label="
-                      t('worstExercises.classResult', { percent: (task.currentMean * 100).toFixed(1) })
+                      t('worstExercises.classResult', {
+                        percent: (task.currentMean * 100).toFixed(1),
+                      })
                     "
                   >
                     {{ (task.currentMean * 100).toFixed(1) }}%

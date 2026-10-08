@@ -8,139 +8,144 @@ import { useUserItemsNew } from './useUserItems'
 import { useReportContext } from './useReportContext'
 
 export function useSpecialCasesNew(code: ComputedRef<string | undefined>) {
-    const { properties } = useUserProperties(code)
-    const { data: aggregations } = useUserAggregations(code)
-    const { data: items } = useUserItemsNew(code)
-    const processingDuration = computed(() => {
-        const startProp = properties.value.find((p) => p.key === 'startTime')
-        const endProp = properties.value.find((p) => p.key === 'endTime')
+  const { properties } = useUserProperties(code)
+  const { data: aggregations } = useUserAggregations(code)
+  const { data: items } = useUserItemsNew(code)
+  const processingDuration = computed(() => {
+    const startProp = properties.value.find((p) => p.key === 'startTime')
+    const endProp = properties.value.find((p) => p.key === 'endTime')
 
-        if (!startProp?.value || !endProp?.value) return null
+    if (!startProp?.value || !endProp?.value) return null
 
-        const start = dayjs(startProp.value)
-        const end = dayjs(endProp.value)
+    const start = dayjs(startProp.value)
+    const end = dayjs(endProp.value)
 
-        const durationInMinutes = end.diff(start, 'minute')
+    const durationInMinutes = end.diff(start, 'minute')
 
-        return durationInMinutes
-    })
-    const specialCaseResult = computed(() => {
-        if (!aggregations.value || aggregations.value.length === 0) return null
+    return durationInMinutes
+  })
+  const specialCaseResult = computed(() => {
+    if (!aggregations.value || aggregations.value.length === 0) return null
 
-        const mean = aggregations.value[aggregations.value.length - 1]?.descriptiveStatistics.mean ?? 0
+    const mean = aggregations.value[aggregations.value.length - 1]?.descriptiveStatistics.mean ?? 0
 
-        console.log('ProcessingDuration in Minutes', processingDuration.value)
+    console.log('ProcessingDuration in Minutes', processingDuration.value)
 
-        const duration = processingDuration.value
-        const totalScore = aggregations.value.reduce((acc, curr) => {
-            const val = curr.descriptiveStatistics?.frequency ?? 0
-            const max = curr.descriptiveStatistics?.total ?? 1
-            const res = Math.round(val / max)
-            return acc + res
-        }, 0)
+    const duration = processingDuration.value
+    const totalScore = aggregations.value.reduce((acc, curr) => {
+      const val = curr.descriptiveStatistics?.frequency ?? 0
+      const max = curr.descriptiveStatistics?.total ?? 1
+      const res = Math.round(val / max)
+      return acc + res
+    }, 0)
 
-        const currentItems = items.value ?? []
+    const currentItems = items.value ?? []
 
-        const totalItemsCount = currentItems.length
-        const notWorkedOnCount = currentItems.filter((item) => item.descriptiveStatistics?.frequency === -1).length
-        const correctCount = currentItems.filter((item) => item.descriptiveStatistics?.frequency === 1).length
-        const workedOnCount = totalItemsCount - notWorkedOnCount
-        const notWorkedOnRatio = totalItemsCount > 0 ? notWorkedOnCount / totalItemsCount : 0
-        const correctRatioOfWorkedOn = workedOnCount > 0 ? correctCount / workedOnCount : 0
+    const totalItemsCount = currentItems.length
+    const notWorkedOnCount = currentItems.filter(
+      (item) => item.descriptiveStatistics?.frequency === -1,
+    ).length
+    const correctCount = currentItems.filter(
+      (item) => item.descriptiveStatistics?.frequency === 1,
+    ).length
+    const workedOnCount = totalItemsCount - notWorkedOnCount
+    const notWorkedOnRatio = totalItemsCount > 0 ? notWorkedOnCount / totalItemsCount : 0
+    const correctRatioOfWorkedOn = workedOnCount > 0 ? correctCount / workedOnCount : 0
 
-        // let key = ''
-        // if (totalScore >= 35) key = 'K5'
-        // else if (totalScore >= 29) key = 'K4'
-        // else if (totalScore >= 22) key = 'K3'
-        // else if (totalScore >= 15) key = 'K2'
-        // else if (totalScore >= 9) key = 'K1B'
-        // else key = 'K1A'
+    // let key = ''
+    // if (totalScore >= 35) key = 'K5'
+    // else if (totalScore >= 29) key = 'K4'
+    // else if (totalScore >= 22) key = 'K3'
+    // else if (totalScore >= 15) key = 'K2'
+    // else if (totalScore >= 9) key = 'K1B'
+    // else key = 'K1A'
 
-        let key: keyof typeof competenceTexts.specialCases = 'K4'
-        if (mean >= 90) {
-            key = 'K5'
-        } else if (mean <= 10) {
-            key = 'K3'
-        } else if (totalScore === 0) {
-            key = 'K2'
-        } else if (duration !== null && duration < 60 && duration > 40) {
-            key = 'K1A'
-        } else if (duration !== null && duration > 70) {
-            if (notWorkedOnRatio < 0.5 && correctRatioOfWorkedOn >= 2 / 3) {
-                key = 'K1B'
-            } else {
-                key = 'K4'
-            }
-        } else {
-            key = 'K4'
-        }
-
-        return {
-            score: totalScore,
-            key: key,
-            text: competenceTexts.specialCases[key as keyof typeof competenceTexts.specialCases],
-            resultAndAdvice: competenceTexts.specialCasesAdvices[key as keyof typeof competenceTexts.specialCases],
-        }
-    })
+    let key: keyof typeof competenceTexts.specialCases = 'K4'
+    if (mean >= 90) {
+      key = 'K5'
+    } else if (mean <= 10) {
+      key = 'K3'
+    } else if (totalScore === 0) {
+      key = 'K2'
+    } else if (duration !== null && duration < 60 && duration > 40) {
+      key = 'K1A'
+    } else if (duration !== null && duration > 70) {
+      if (notWorkedOnRatio < 0.5 && correctRatioOfWorkedOn >= 2 / 3) {
+        key = 'K1B'
+      } else {
+        key = 'K4'
+      }
+    } else {
+      key = 'K4'
+    }
 
     return {
-        specialCaseResult,
+      score: totalScore,
+      key: key,
+      text: competenceTexts.specialCases[key as keyof typeof competenceTexts.specialCases],
+      resultAndAdvice:
+        competenceTexts.specialCasesAdvices[key as keyof typeof competenceTexts.specialCases],
     }
+  })
+
+  return {
+    specialCaseResult,
+  }
 }
 
 function useUserAggregations(code: ComputedRef<string | undefined>) {
-    const report = useReportContext()
-    return useQuery({
-        queryKey: computed(() => ['user-aggregations-base', ...report.queryScope.value, code.value]),
-        queryFn: async () => {
-            if (!code.value) return []
-            const params = report.getParams()
-            const studentCode = code.value
-            const config = await inioApiConfiguration()
-            const api = new ReportDataTba3Api(config)
-            const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdAggregationsGet({
-                ...params,
-                type: 'students',
-                studentCode,
-                aggregation: 'generalMathematicalCompetence',
-            })
+  const report = useReportContext()
+  return useQuery({
+    queryKey: computed(() => ['user-aggregations-base', ...report.queryScope.value, code.value]),
+    queryFn: async () => {
+      if (!code.value) return []
+      const params = report.getParams()
+      const studentCode = code.value
+      const config = await inioApiConfiguration()
+      const api = new ReportDataTba3Api(config)
+      const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdAggregationsGet({
+        ...params,
+        type: 'students',
+        studentCode,
+        aggregation: 'generalMathematicalCompetence',
+      })
 
-            const students = response.data?.studentsData ?? []
+      const students = response.data?.studentsData ?? []
 
-            const targetUser = students.find((u) => u.code === studentCode)
-            return targetUser?.aggregations ?? []
-        },
-        enabled: computed(() => report.isReady.value && !!code.value),
-        staleTime: 1000 * 60 * 60,
-    })
+      const targetUser = students.find((u) => u.code === studentCode)
+      return targetUser?.aggregations ?? []
+    },
+    enabled: computed(() => report.isReady.value && !!code.value),
+    staleTime: 1000 * 60 * 60,
+  })
 }
 
 export function useUserProperties(code: ComputedRef<string | undefined>) {
-    const report = useReportContext()
-    const query = useQuery({
-        queryKey: computed(() => ['user-properties-base', ...report.queryScope.value, code.value]),
-        queryFn: async () => {
-            if (!code.value) return null
-            const params = report.getParams()
-            const studentCode = code.value
-            const config = await inioApiConfiguration()
-            const api = new ReportDataTba3Api(config)
-            const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdItemsGet({
-                ...params,
-                type: 'students',
-                studentCode,
-            })
-            const students = response.data?.studentsData ?? []
-            return students.find((u) => u.code === studentCode) || null
-        },
-        enabled: computed(() => report.isReady.value && !!code.value),
-        staleTime: 1000 * 60 * 60,
-    })
+  const report = useReportContext()
+  const query = useQuery({
+    queryKey: computed(() => ['user-properties-base', ...report.queryScope.value, code.value]),
+    queryFn: async () => {
+      if (!code.value) return null
+      const params = report.getParams()
+      const studentCode = code.value
+      const config = await inioApiConfiguration()
+      const api = new ReportDataTba3Api(config)
+      const response = await api.testGroupsTgIdTestsTestIdGroupsGroupIdItemsGet({
+        ...params,
+        type: 'students',
+        studentCode,
+      })
+      const students = response.data?.studentsData ?? []
+      return students.find((u) => u.code === studentCode) || null
+    },
+    enabled: computed(() => report.isReady.value && !!code.value),
+    staleTime: 1000 * 60 * 60,
+  })
 
-    const properties = computed(() => query.data.value?.properties ?? [])
+  const properties = computed(() => query.data.value?.properties ?? [])
 
-    return {
-        ...query,
-        properties,
-    }
+  return {
+    ...query,
+    properties,
+  }
 }

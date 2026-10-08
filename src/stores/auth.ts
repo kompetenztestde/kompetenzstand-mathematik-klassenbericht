@@ -13,7 +13,9 @@ export const useAuthStore = defineStore('auth', () => {
   const expiresAt = ref(Number(sessionStorage.getItem('auth-expires-at')) || 0)
 
   const isAuthenticated = computed(
-    () => !!schoolNumber.value && (demoAccess.value ? !!apiKeySchool.value : !!token.value && expiresAt.value > 0),
+    () =>
+      !!schoolNumber.value &&
+      (demoAccess.value ? !!apiKeySchool.value : !!token.value && expiresAt.value > 0),
   )
 
   function isSessionExpired() {
@@ -21,7 +23,12 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function login(newSchoolNumber: string, newToken: string, tokenExpiresIn: number) {
-    if (!newSchoolNumber.trim() || !newToken.trim() || !Number.isFinite(tokenExpiresIn) || tokenExpiresIn <= 0) {
+    if (
+      !newSchoolNumber.trim() ||
+      !newToken.trim() ||
+      !Number.isFinite(tokenExpiresIn) ||
+      tokenExpiresIn <= 0
+    ) {
       throw new Error('Ungültige Sitzungsdaten vom Anmeldeserver.')
     }
     logout()

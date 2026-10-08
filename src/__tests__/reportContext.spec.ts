@@ -5,13 +5,21 @@ import { computed, defineComponent, ref } from 'vue'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useAuthStore } from '@/stores/auth'
 import { useReportSelectionStore } from '@/stores/reportSelection'
-import { useAllUserItemsNew, useGroupInfo, useSchoolForm, useTestData, useUserItemsNew } from '@/composables/useUserItems'
+import {
+  useAllUserItemsNew,
+  useGroupInfo,
+  useSchoolForm,
+  useTestData,
+  useUserItemsNew,
+} from '@/composables/useUserItems'
 import { useAllAggregations } from '@/composables/useAggregations'
 import { useOverallResultsNew } from '@/composables/useOverallResultsNew'
 import { useSpecialCasesNew, useUserProperties } from '@/composables/useSpecialCasesNew'
 
 const { items, aggregations, tests } = vi.hoisted(() => ({
-  items: vi.fn(), aggregations: vi.fn(), tests: vi.fn(),
+  items: vi.fn(),
+  aggregations: vi.fn(),
+  tests: vi.fn(),
 }))
 
 vi.mock('@/queries/utils', () => ({ inioApiConfiguration: async () => ({}) }))
@@ -37,20 +45,23 @@ function mountReports() {
   const codeValue = ref('ABC')
   const code = computed(() => codeValue.value)
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } })
-  const wrapper = mount(defineComponent({
-    setup() {
-      useAllUserItemsNew()
-      useGroupInfo()
-      useSchoolForm(code)
-      useTestData(code)
-      useUserItemsNew(code)
-      useAllAggregations()
-      useOverallResultsNew(code)
-      useSpecialCasesNew(code)
-      useUserProperties(code)
-      return () => null
-    },
-  }), { global: { plugins: [[VueQueryPlugin, { queryClient: client }]] } })
+  const wrapper = mount(
+    defineComponent({
+      setup() {
+        useAllUserItemsNew()
+        useGroupInfo()
+        useSchoolForm(code)
+        useTestData(code)
+        useUserItemsNew(code)
+        useAllAggregations()
+        useOverallResultsNew(code)
+        useSpecialCasesNew(code)
+        useUserProperties(code)
+        return () => null
+      },
+    }),
+    { global: { plugins: [[VueQueryPlugin, { queryClient: client }]] } },
+  )
   return { wrapper, client, codeValue }
 }
 

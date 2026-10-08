@@ -87,13 +87,16 @@ describe('Router Index', () => {
     { path: '/step-5', expectedName: 'step5' },
     { path: '/step-6', expectedName: 'step6' },
     { path: '/step-7', expectedName: 'step7' },
-  ])('sollte die Route $path auflösen und den Namen $expectedName haben', async ({ path, expectedName }) => {
-    await router.push(path)
-    await router.isReady()
+  ])(
+    'sollte die Route $path auflösen und den Namen $expectedName haben',
+    async ({ path, expectedName }) => {
+      await router.push(path)
+      await router.isReady()
 
-    expect(router.currentRoute.value.path).toBe(path)
-    expect(router.currentRoute.value.name).toBe(expectedName)
-  })
+      expect(router.currentRoute.value.path).toBe(path)
+      expect(router.currentRoute.value.name).toBe(expectedName)
+    },
+  )
 
   it.each([
     { routeName: 'home', expectedPath: '/step-1' },
@@ -103,10 +106,13 @@ describe('Router Index', () => {
     { routeName: 'step5', expectedPath: '/step-5' },
     { routeName: 'step6', expectedPath: '/step-6' },
     { routeName: 'step7', expectedPath: '/step-7' },
-  ])('sollte über den Routennamen $routeName nach $expectedPath navigieren', async ({ routeName, expectedPath }) => {
-    await router.push({ name: routeName })
-    await router.isReady()
+  ])(
+    'sollte über den Routennamen $routeName nach $expectedPath navigieren',
+    async ({ routeName, expectedPath }) => {
+      await router.push({ name: routeName })
+      await router.isReady()
 
-    expect(router.currentRoute.value.path).toBe(expectedPath)
-  })
+      expect(router.currentRoute.value.path).toBe(expectedPath)
+    },
+  )
 })

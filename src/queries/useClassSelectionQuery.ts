@@ -21,10 +21,13 @@ function parseId(value: unknown): number {
 
 async function loadList(path: string, signal: AbortSignal): Promise<unknown[]> {
   const config = await inioApiConfiguration()
-  const response = await fetch(`${config.basePath.replace(/\/$/, '')}/test-groups/${TEST_GROUP_ID}/${path}`, {
-    headers: config.headers,
-    signal,
-  })
+  const response = await fetch(
+    `${config.basePath.replace(/\/$/, '')}/test-groups/${TEST_GROUP_ID}/${path}`,
+    {
+      headers: config.headers,
+      signal,
+    },
+  )
   if (!response.headers.get('content-type')?.includes('application/json')) {
     throw new Error(`Unerwartete Antwort bei der Klassenauswahl (${response.status}).`)
   }
@@ -32,7 +35,8 @@ async function loadList(path: string, signal: AbortSignal): Promise<unknown[]> {
   if (!isRecord(body) || !response.ok || body.success !== true || !Array.isArray(body.data)) {
     throw new Error(
       isRecord(body) && typeof body.message === 'string' && body.message
-        ? body.message : `Klassen und Tests konnten nicht geladen werden (${response.status}).`,
+        ? body.message
+        : `Klassen und Tests konnten nicht geladen werden (${response.status}).`,
     )
   }
   return body.data
@@ -50,12 +54,15 @@ export function matchClasses(groups: unknown[], tests: unknown[]): SelectableCla
   return groups.flatMap((group): SelectableClass[] => {
     if (!isRecord(group)) throw new Error('Ungültige Klassendaten vom Server.')
     if (String(group.groupLevel) !== '8') return []
-    if (typeof group.groupName !== 'string' || !group.groupName.trim() ||
-        !Array.isArray(group.participatedTests)) {
+    if (
+      typeof group.groupName !== 'string' ||
+      !group.groupName.trim() ||
+      !Array.isArray(group.participatedTests)
+    ) {
       throw new Error('Ungültige Klassendaten vom Server.')
     }
     const participatedTests = group.participatedTests.map(parseId)
-    const matchingTests = mathTests.filter(test => participatedTests.includes(test.testId))
+    const matchingTests = mathTests.filter((test) => participatedTests.includes(test.testId))
     if (!matchingTests.length) return []
     return [{ groupId: parseId(group.groupId), groupName: group.groupName, tests: matchingTests }]
   })

@@ -115,9 +115,10 @@ function login() {
     return
   }
 
-  const redirect = typeof route.query.redirect === 'string' &&
-    /^\/step-[1-7](?:[?#]|$)/.test(route.query.redirect)
-    ? route.query.redirect : '/step-1'
+  const redirect =
+    typeof route.query.redirect === 'string' && /^\/step-[1-7](?:[?#]|$)/.test(route.query.redirect)
+      ? route.query.redirect
+      : '/step-1'
 
   if (demoAccess.enabled) {
     if (!demoApiKeySchool.value) {
@@ -155,7 +156,8 @@ function login() {
             await router.replace({ name: 'class-selection', query: { redirect } })
           }
         } catch (error) {
-          errors.apiKeySchool = error instanceof Error ? error.message : 'Klassen konnten nicht geladen werden.'
+          errors.apiKeySchool =
+            error instanceof Error ? error.message : 'Klassen konnten nicht geladen werden.'
           auth.logout()
         } finally {
           completingLogin.value = false
@@ -187,7 +189,8 @@ function login() {
           </p>
 
           <p class="info-text-secondary">
-            Dieses Portal dient zu Evaluations- und Demonstrationszwecken. Wenn Sie nicht Teil der Evaluation sind, können Sie sich mit dem Demo-Zugang anmelden.
+            Dieses Portal dient zu Evaluations- und Demonstrationszwecken. Wenn Sie nicht Teil der
+            Evaluation sind, können Sie sich mit dem Demo-Zugang anmelden.
           </p>
 
           <div class="logos-section">
@@ -196,11 +199,7 @@ function login() {
               alt="Logo der Universität Jena"
               class="logo-image"
             />
-            <img
-              src="@/assets/images/kt-logo.png"
-              alt="Logo kompetenztest.de"
-              class="logo-image"
-            />
+            <img src="@/assets/images/kt-logo.png" alt="Logo kompetenztest.de" class="logo-image" />
           </div>
         </div>
 
@@ -318,13 +317,19 @@ function login() {
                   <p v-if="errors.password" class="error-message">{{ errors.password }}</p>
                 </div>
 
-                <p v-if="errors.apiKeySchool" class="error-message" role="alert">{{ errors.apiKeySchool }}</p>
+                <p v-if="errors.apiKeySchool" class="error-message" role="alert">
+                  {{ errors.apiKeySchool }}
+                </p>
 
                 <p v-if="schoolLogin.error.value" class="error-message" role="alert">
                   {{ schoolLogin.error.value.message }}
                 </p>
 
-                <button type="submit" :disabled="!isFormValid || isLoginPending" class="submit-button">
+                <button
+                  type="submit"
+                  :disabled="!isFormValid || isLoginPending"
+                  class="submit-button"
+                >
                   <span>{{ isLoginPending ? 'Anmeldung läuft…' : 'Anmelden' }}</span>
                   <svg
                     class="submit-button-icon"
@@ -685,7 +690,9 @@ function login() {
 
 .submit-button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(92, 124, 253, 0.18), 0 14px 22px rgba(15, 46, 126, 0.18);
+  box-shadow:
+    0 0 0 4px rgba(92, 124, 253, 0.18),
+    0 14px 22px rgba(15, 46, 126, 0.18);
 }
 
 .submit-button:disabled {

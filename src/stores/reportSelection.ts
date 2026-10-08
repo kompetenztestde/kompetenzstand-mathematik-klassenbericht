@@ -19,8 +19,13 @@ export const useReportSelectionStore = defineStore('report-selection', () => {
   const hasSelection = computed(() => groupId.value !== null && testId.value !== null)
 
   function select(newGroupId: number, newTestId: number, newGroupName: string) {
-    if (!Number.isSafeInteger(newGroupId) || newGroupId <= 0 ||
-        !Number.isSafeInteger(newTestId) || newTestId <= 0 || !newGroupName.trim()) {
+    if (
+      !Number.isSafeInteger(newGroupId) ||
+      newGroupId <= 0 ||
+      !Number.isSafeInteger(newTestId) ||
+      newTestId <= 0 ||
+      !newGroupName.trim()
+    ) {
       throw new Error('Ungültige Klassen- oder Testauswahl.')
     }
     groupId.value = newGroupId
@@ -50,5 +55,15 @@ export const useReportSelectionStore = defineStore('report-selection', () => {
     sessionStorage.setItem('report-class-count', String(count))
   }
 
-  return { groupId, testId, groupName, hasSelection, classCount, canChangeClass, setClassCount, select, clear }
+  return {
+    groupId,
+    testId,
+    groupName,
+    hasSelection,
+    classCount,
+    canChangeClass,
+    setClassCount,
+    select,
+    clear,
+  }
 })

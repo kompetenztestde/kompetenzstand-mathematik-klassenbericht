@@ -31,7 +31,7 @@ export async function inioApiConfiguration(): Promise<Configuration2> {
   const config = new Configuration2({
     basePath: configFromWindow,
     ...(auth.demoAccess
-      ? { apiKey: (name: string) => name === 'X-API-KEY-SCHOOL' ? auth.apiKeySchool! : '' }
+      ? { apiKey: (name: string) => (name === 'X-API-KEY-SCHOOL' ? auth.apiKeySchool! : '') }
       : { headers: { Authorization: `Bearer ${auth.token}` } }),
   })
   return config

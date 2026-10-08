@@ -31,8 +31,18 @@ const router = createRouter({
     },
     { path: '/step-1', name: 'home', component: HomeView, meta: { requiresAuth: true } },
     { path: '/step-2', name: 'step2', component: ConclusionView, meta: { requiresAuth: true } },
-    { path: '/step-3', name: 'step3', component: ClassResultsSubTopicsView, meta: { requiresAuth: true } },
-    { path: '/step-4', name: 'step4', component: ResultsInDetailView, meta: { requiresAuth: true } },
+    {
+      path: '/step-3',
+      name: 'step3',
+      component: ClassResultsSubTopicsView,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/step-4',
+      name: 'step4',
+      component: ResultsInDetailView,
+      meta: { requiresAuth: true },
+    },
     { path: '/step-5', name: 'step5', component: BestExercisesView, meta: { requiresAuth: true } },
     { path: '/step-6', name: 'step6', component: WorstExercisesView, meta: { requiresAuth: true } },
     { path: '/step-7', name: 'step7', component: IdeasForFutureView, meta: { requiresAuth: true } },
@@ -60,7 +70,12 @@ router.beforeEach((to) => {
     return { name: 'home' }
   }
 
-  if (to.meta.requiresAuth && to.name !== 'class-selection' && !auth.demoAccess && !selection.hasSelection) {
+  if (
+    to.meta.requiresAuth &&
+    to.name !== 'class-selection' &&
+    !auth.demoAccess &&
+    !selection.hasSelection
+  ) {
     return { name: 'class-selection', query: { redirect: to.fullPath } }
   }
 })

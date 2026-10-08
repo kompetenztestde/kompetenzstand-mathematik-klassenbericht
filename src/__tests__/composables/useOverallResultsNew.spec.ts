@@ -87,9 +87,7 @@ describe('useOverallResultsNew', () => {
   })
 
   it('sollte K5 zurückgeben bei einem Score >= 35', async () => {
-    setupMockAggregations([
-      { descriptiveStatistics: { frequency: 35, total: 1 } },
-    ])
+    setupMockAggregations([{ descriptiveStatistics: { frequency: 35, total: 1 } }])
     const code = computed(() => 'CODE_123')
     const { overallResult } = withVueQuery(() => useOverallResultsNew(code))
 
@@ -103,9 +101,7 @@ describe('useOverallResultsNew', () => {
   })
 
   it('sollte K4 zurückgeben bei einem Score von 29 bis 34', async () => {
-    setupMockAggregations([
-      { descriptiveStatistics: { frequency: 29, total: 1 } },
-    ])
+    setupMockAggregations([{ descriptiveStatistics: { frequency: 29, total: 1 } }])
     const code = computed(() => 'CODE_123')
     const { overallResult } = withVueQuery(() => useOverallResultsNew(code))
 
@@ -117,9 +113,7 @@ describe('useOverallResultsNew', () => {
   })
 
   it('sollte K3 zurückgeben bei einem Score von 22 bis 28', async () => {
-    setupMockAggregations([
-      { descriptiveStatistics: { frequency: 22, total: 1 } },
-    ])
+    setupMockAggregations([{ descriptiveStatistics: { frequency: 22, total: 1 } }])
     const code = computed(() => 'CODE_123')
     const { overallResult } = withVueQuery(() => useOverallResultsNew(code))
 
@@ -129,9 +123,7 @@ describe('useOverallResultsNew', () => {
   })
 
   it('sollte K2 zurückgeben bei einem Score von 15 bis 21', async () => {
-    setupMockAggregations([
-      { descriptiveStatistics: { frequency: 15, total: 1 } },
-    ])
+    setupMockAggregations([{ descriptiveStatistics: { frequency: 15, total: 1 } }])
     const code = computed(() => 'CODE_123')
     const { overallResult } = withVueQuery(() => useOverallResultsNew(code))
 
@@ -141,9 +133,7 @@ describe('useOverallResultsNew', () => {
   })
 
   it('sollte K1B zurückgeben bei einem Score von 9 bis 14', async () => {
-    setupMockAggregations([
-      { descriptiveStatistics: { frequency: 9, total: 1 } },
-    ])
+    setupMockAggregations([{ descriptiveStatistics: { frequency: 9, total: 1 } }])
     const code = computed(() => 'CODE_123')
     const { overallResult } = withVueQuery(() => useOverallResultsNew(code))
 
@@ -153,9 +143,7 @@ describe('useOverallResultsNew', () => {
   })
 
   it('sollte K1A zurückgeben bei einem Score unter 9', async () => {
-    setupMockAggregations([
-      { descriptiveStatistics: { frequency: 8, total: 1 } },
-    ])
+    setupMockAggregations([{ descriptiveStatistics: { frequency: 8, total: 1 } }])
     const code = computed(() => 'CODE_123')
     const { overallResult } = withVueQuery(() => useOverallResultsNew(code))
 
