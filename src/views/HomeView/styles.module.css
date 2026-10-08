@@ -38,6 +38,8 @@
 }
 
 .questionIcon {
+  border: none;
+  cursor: pointer;
   display: flex;
   width: 18px;
   height: 18px;
@@ -50,6 +52,11 @@
   border-radius: 50px;
   background: var(--white, #fff);
   box-shadow: 0 0 6px 0 rgba(0, 32, 137, 0.25);
+}
+
+.questionIcon:focus-visible {
+  outline: 2px solid var(--color-navigation-blue);
+  outline-offset: 4px;
 }
 
 .questionIconFontstyles {

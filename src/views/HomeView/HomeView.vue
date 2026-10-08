@@ -4,10 +4,12 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import styles from './styles.module.css'
 import { useGroupInfo } from '@/composables/useUserItems'
+import { useReportInfo } from '@/composables/useReportInfo'
 const router = useRouter()
 const { t } = useI18n()
 const selectedUserCode = ref('')
 const { groupName } = useGroupInfo()
+const { showReportInfo } = useReportInfo()
 
 const startAppWithCode = () => {
   router.push({
@@ -26,9 +28,14 @@ const startAppWithCode = () => {
       </h1>
       <div :class="styles.question">
         <span class="text-body-big">{{ t('home.question') }}</span>
-        <div :class="styles.questionIcon">
-          <span :class="styles.questionIconFontstyles">?</span>
-        </div>
+        <button
+          type="button"
+          :class="styles.questionIcon"
+          :aria-label="t('home.question')"
+          @click="showReportInfo"
+        >
+          <span :class="styles.questionIconFontstyles" aria-hidden="true">?</span>
+        </button>
       </div>
       <button :class="styles.btn" class="startBtn" @click="startAppWithCode">
         <Speaker />

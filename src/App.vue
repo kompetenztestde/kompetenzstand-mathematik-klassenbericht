@@ -13,8 +13,7 @@ import styles from './styles.module.css'
 import IconPageLeft from '@/assets/svgs/page_left.svg?component'
 import IconPageRight from '@/assets/svgs/page_right.svg?component'
 import InfoIcon from '@/themes/icons/info.svg?component'
-import competenceTexts from '@/assets/competence_guidingideas_texts.json'
-import { useModalStore } from './stores/modalStore'
+import { useReportInfo } from './composables/useReportInfo'
 import { useGroupInfo } from './composables/useUserItems.ts'
 import { useAuthStore } from './stores/auth'
 import { useReportSelectionStore } from './stores/reportSelection'
@@ -98,20 +97,7 @@ const isLogin = computed(() => route.name === 'login')
 const isClassSelection = computed(() => route.name === 'class-selection')
 const showReportFooter = computed(() => auth.isAuthenticated && /^\/step-[1-7](?:\/|$)/.test(route.path))
 
-const modalStore = useModalStore()
-
-const title = competenceTexts.start.title
-const infoText = competenceTexts.start.info.text
-const importantText = competenceTexts.start.info.important
-
-const showDetails = () => {
-  const formattedBody = infoText.replace(/\.($|\s+)/g, '.<br><br>').trim()
-  const combinedContent = importantText
-    ? `${formattedBody}<br><br><strong>${importantText}</strong>`
-    : formattedBody
-
-  modalStore.openModal(title, combinedContent)
-}
+const { showReportInfo: showDetails } = useReportInfo()
 
 const logout = () => {
   auth.logout()
