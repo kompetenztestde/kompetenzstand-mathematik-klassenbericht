@@ -39,6 +39,13 @@ function mountLogin() {
 }
 
 describe('LoginLayout', () => {
+  it('identifies the class report in the portal heading', () => {
+    const wrapper = mountLogin()
+    const heading = wrapper.get('h1')
+    expect(heading.text()).toBe('Kompetenzstand-Mathematik: Klassenbericht')
+    expect(heading.get('.login-report-type').text()).toBe('Klassenbericht')
+  })
+
   it('disables credentials and password visibility until a country is selected', () => {
     const wrapper = mountLogin()
 
