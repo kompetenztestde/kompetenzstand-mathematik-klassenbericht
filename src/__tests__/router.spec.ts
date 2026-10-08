@@ -16,6 +16,11 @@ describe('Router Index', () => {
 
   afterEach(() => vi.useRealTimers())
 
+  it('uses hash URLs only for GitHub Pages builds', () => {
+    const href = router.resolve('/login').href
+    expect(href.includes('#/login')).toBe(import.meta.env.VITE_GITHUB_PAGES === 'true')
+  })
+
   it.each([1, 2, 3, 4, 5, 6, 7])('requires class selection for step %s', async (step) => {
     useReportSelectionStore().clear()
     await router.push(`/step-${step}?user=ABC`)

@@ -1,9 +1,16 @@
+const isLocalDevelopment = ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname)
+
 window.appConfig = {
-    api: {
-        baseUrl: '/api-proxy', // test3-Referenz-API (@test3/api-resources)
-        inioApiUrl: '/api-inio', // inio-Reportdaten (@test3/api-new)
-        inioAuthApiUrl: '/api-auth', // inio-Authentifizierung (@test3/api-auth)
-        xApiKeySchool: 'TEST', // Header X-API-KEY-SCHOOL (hier echten Key eintragen)
-    },
-    defaultPageSize: 20,
+  api: isLocalDevelopment
+    ? {
+        baseUrl: '/api-proxy',
+        inioApiUrl: '/api-inio',
+        inioAuthApiUrl: '/api-auth',
+      }
+    : {
+        baseUrl: 'https://apps.indibit.eu/tba3-api',
+        inioApiUrl: 'https://api.inio.de/report_data_tba3',
+        inioAuthApiUrl: 'https://api.inio.de/auth',
+      },
+  defaultPageSize: 20,
 }

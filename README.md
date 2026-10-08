@@ -31,6 +31,30 @@ generierte API-Clients aus der **TBA3-Schnittstelle** bzw. der **inio-Reportdate
 
 ## Entwicklungsumgebung
 
+### GitHub Pages
+
+Der Workflow `.github/workflows/deploy-pages.yml` baut und veroeffentlicht die App
+bei einem Push nach `main` oder manuell ueber GitHub Actions, analog zum Projekt
+`report-outermedia`. In GitHub unter **Settings > Pages > Build and deployment**
+die Quelle **GitHub Actions** auswaehlen.
+
+Der Build verwendet den Repository-Namen als Basispfad und aktiviert nur fuer
+GitHub Pages Hash-Routing. Dadurch funktionieren direkte Links und Reloads
+wie `/kompetenzstand-mathematik-klassenbericht/#/login` ohne serverseitige
+SPA-Rewrites. Lokale Entwicklung und bisherige Deployments behalten ihre
+normalen Routen.
+
+Die Laufzeit-Konfiguration wird im Workflow aus `public/config.example.js`
+erstellt. Auf GitHub Pages werden die oeffentlichen API-Endpunkte direkt
+angesprochen; Vite-Proxys sind dort nicht verfuegbar. Die APIs muessen CORS fuer
+`https://kompetenztestde.github.io` erlauben, einschliesslich der Header
+`Authorization`, `Content-Type` und `X-API-KEY-SCHOOL`.
+
+Keine geheimen Zugangsdaten in die Konfiguration oder in `VITE_*`-Variablen
+eintragen: Beide sind im Browser oeffentlich sichtbar. Vor der Freigabe muss
+serverseitig bestaetigt sein, dass der Demo-Zugang ausschliesslich
+oeffentliche, synthetische Daten liefert.
+
 ### Voraussetzungen
 
 - [Node.js](https://nodejs.org/) ≥ 20.19 oder ≥ 22.12 (s. `engines` in `package.json`)

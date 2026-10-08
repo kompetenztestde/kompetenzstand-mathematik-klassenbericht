@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 import HomeView from '@/views/HomeView/HomeView.vue'
 import ConclusionView from '@/views/Conclusion/ConclusionView.vue'
 import ClassResultsSubTopicsView from '@/views/ClassResultsSubTopics/ClassResultsSubTopicsView.vue'
@@ -9,7 +9,10 @@ import IdeasForFutureView from '@/views/IdeasForFuture/IdeasForFutureView.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useReportSelectionStore } from '@/stores/reportSelection'
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history:
+    import.meta.env.VITE_GITHUB_PAGES === 'true'
+      ? createWebHashHistory(import.meta.env.BASE_URL)
+      : createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
