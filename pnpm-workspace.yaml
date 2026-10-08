@@ -1,6 +1,9 @@
 packages:
   - packages/*
 
+overrides:
+  source-map-js: '>=1.2.2 <2'
+
 #minimumReleaseAge: 10080
 
 onlyBuiltDependencies:
