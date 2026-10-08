@@ -5,7 +5,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import LoginLayout from '@/layouts/LoginLayout.vue'
 import { DEFAULT_DEMO_SCHOOL_NUMBER, useAuthStore } from '@/stores/auth'
 
-const { replace } = vi.hoisted(() => ({ replace: vi.fn() }))
+const { replace, loadClasses } = vi.hoisted(() => ({ replace: vi.fn(), loadClasses: vi.fn() }))
+vi.mock('@/queries/useClassSelectionQuery', async (importOriginal) => ({
+  ...await importOriginal<typeof import('@/queries/useClassSelectionQuery')>(),
+  loadSelectableClasses: loadClasses,
+}))
 vi.mock('vue-router', () => ({
   useRouter: () => ({ replace }),
   useRoute: () => ({ query: { redirect: '/step-3?user=ABC' } }),
@@ -18,6 +22,10 @@ vi.mock('@/queries/utils', () => ({
 beforeEach(() => {
   sessionStorage.clear()
   vi.clearAllMocks()
+  loadClasses.mockResolvedValue([
+    { groupId: 5460, groupName: '8A', tests: [{ testId: 9522, name: 'Mathematik', booklet: 'A' }] },
+    { groupId: 5462, groupName: '8B', tests: [{ testId: 9522, name: 'Mathematik', booklet: 'A' }] },
+  ])
 })
 
 afterEach(() => vi.unstubAllGlobals())
@@ -88,6 +96,21 @@ describe('LoginLayout', () => {
     await wrapper.get('#schoolPassword').setValue('test-password')
     return wrapper
   }
+
+  it('skips the class-selection route entirely for a single class and test', async () => {
+    loadClasses.mockResolvedValue([
+      { groupId: 5460, groupName: '8A', tests: [{ testId: 9522, name: 'Mathematik', booklet: 'A' }] },
+    ])
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({
+      success: true,
+      data: { token: 'test-token', tokenExpiresIn: 28800, tokenExpiresAt: '2099-10-07 23:46:33' },
+    }), { headers: { 'Content-Type': 'application/json' } })))
+    const wrapper = await fillLogin()
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+    expect(replace).toHaveBeenCalledExactlyOnceWith('/step-3?user=ABC')
+    wrapper.unmount()
+  })
 
   it('authenticates and navigates only after a successful server response', async () => {
     let resolveResponse!: (response: Response) => void

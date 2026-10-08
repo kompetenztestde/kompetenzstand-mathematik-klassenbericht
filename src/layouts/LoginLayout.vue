@@ -4,6 +4,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { DEFAULT_DEMO_SCHOOL_NUMBER, useAuthStore } from '@/stores/auth'
 import { useSchoolLoginMutation } from '@/queries/useAuthMutations'
 import ClassSelectionView from '@/views/ClassSelectionView.vue'
+import { loadSelectableClasses } from '@/queries/useClassSelectionQuery'
+import { useReportSelectionStore } from '@/stores/reportSelection'
+import { queryClient } from '@/queryClient'
 
 type CustomWindow = Window & {
   appConfig?: {
@@ -18,6 +21,8 @@ const route = useRoute()
 const isClassSelection = computed(() => route.name === 'class-selection')
 const auth = useAuthStore()
 const schoolLogin = useSchoolLoginMutation()
+const completingLogin = ref(false)
+const isLoginPending = computed(() => schoolLogin.isPending.value || completingLogin.value)
 const showPassword = ref(false)
 
 const form = reactive({
@@ -89,7 +94,7 @@ watch(
 )
 
 function login() {
-  if (schoolLogin.isPending.value) return
+  if (isLoginPending.value) return
   errors.country = ''
   errors.schoolNumber = ''
   errors.password = ''
@@ -128,10 +133,33 @@ function login() {
   schoolLogin.mutate(
     { region: form.country.toUpperCase(), schulNr: schoolNumber, passwort: form.password.trim() },
     {
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         auth.login(schoolNumber, data.token, data.tokenExpiresIn)
         form.password = ''
-        router.replace({ name: 'class-selection', query: { redirect } })
+        completingLogin.value = true
+        try {
+          const classes = await queryClient.fetchQuery({
+            queryKey: ['class-selection', schoolNumber],
+            queryFn: ({ signal }) => loadSelectableClasses(signal),
+            staleTime: 5 * 60 * 1000,
+            retry: false,
+          })
+          const selection = useReportSelectionStore()
+          selection.setClassCount(classes.length)
+          const onlyClass = classes.length === 1 ? classes[0] : undefined
+          const onlyTest = onlyClass?.tests.length === 1 ? onlyClass.tests[0] : undefined
+          if (onlyClass && onlyTest) {
+            selection.select(onlyClass.groupId, onlyTest.testId, onlyClass.groupName)
+            await router.replace(redirect)
+          } else {
+            await router.replace({ name: 'class-selection', query: { redirect } })
+          }
+        } catch (error) {
+          errors.apiKeySchool = error instanceof Error ? error.message : 'Klassen konnten nicht geladen werden.'
+          auth.logout()
+        } finally {
+          completingLogin.value = false
+        }
       },
     },
   )
@@ -180,7 +208,7 @@ function login() {
           <div class="login-form-container">
             <ClassSelectionView v-if="isClassSelection" />
             <form v-else class="login-form" @submit.prevent="login">
-              <fieldset class="form-fieldset" :disabled="schoolLogin.isPending.value">
+              <fieldset class="form-fieldset" :disabled="isLoginPending">
                 <div class="form-group demo-access-group">
                   <label id="demo-access-label" class="form-label">Demo-Zugang</label>
                   <div class="demo-access-options" role="group" aria-labelledby="demo-access-label">
@@ -296,8 +324,8 @@ function login() {
                   {{ schoolLogin.error.value.message }}
                 </p>
 
-                <button type="submit" :disabled="!isFormValid || schoolLogin.isPending.value" class="submit-button">
-                  <span>{{ schoolLogin.isPending.value ? 'Anmeldung läuft…' : 'Anmelden' }}</span>
+                <button type="submit" :disabled="!isFormValid || isLoginPending" class="submit-button">
+                  <span>{{ isLoginPending ? 'Anmeldung läuft…' : 'Anmelden' }}</span>
                   <svg
                     class="submit-button-icon"
                     xmlns="http://www.w3.org/2000/svg"

@@ -80,15 +80,39 @@ describe('class selection', () => {
     await wrapper.get('[aria-label="Verfügbare Klassen"] button').trigger('click')
     expect(useReportSelectionStore().groupId).toBe(5460)
     expect(useReportSelectionStore().testId).toBe(9522)
+    expect(useReportSelectionStore().canChangeClass).toBe(true)
     expect(replace).toHaveBeenCalledWith('/step-3?user=ABC')
     wrapper.unmount()
   })
 
-  it('asks for a test when the selected class has multiple mathematics tests', async () => {
+  it('automatically selects the only class and test', async () => {
+    mockLists([groups[1]!])
+    const wrapper = mountSelection()
+    await flushPromises()
+    expect(useReportSelectionStore().groupId).toBe(5460)
+    expect(useReportSelectionStore().testId).toBe(9522)
+    expect(useReportSelectionStore().canChangeClass).toBe(false)
+    expect(replace).toHaveBeenCalledWith('/step-3?user=ABC')
+    expect(wrapper.find('[aria-label="Verfügbare Klassen"]').exists()).toBe(false)
+    expect(wrapper.find('#class-selection-title').exists()).toBe(false)
+    wrapper.unmount()
+  })
+
+  it('does not show class selection while the available classes are loading', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockReturnValue(new Promise<Response>(() => {})))
+    const wrapper = mountSelection()
+    expect(wrapper.find('#class-selection-title').exists()).toBe(false)
+    expect(wrapper.find('[aria-label="Verfügbare Klassen"]').exists()).toBe(false)
+    expect(wrapper.get('[role="status"]').text()).toBe('Anmeldung wird abgeschlossen…')
+    wrapper.unmount()
+  })
+
+  it('skips the only class but still asks for its mathematics test', async () => {
     mockLists([{ groupId: '5460', groupLevel: '8', groupName: '8A', participatedTests: [9522, 9524] }])
     const wrapper = mountSelection()
     await flushPromises()
-    await wrapper.get('[aria-label="Verfügbare Klassen"] button').trigger('click')
+    expect(wrapper.find('[aria-label="Verfügbare Klassen"]').exists()).toBe(false)
+    expect(useReportSelectionStore().canChangeClass).toBe(false)
     expect(replace).not.toHaveBeenCalled()
     expect(useReportSelectionStore().hasSelection).toBe(false)
     const testButtons = wrapper.findAll('[aria-label="Teilgenommene Mathematiktests"] button')
@@ -130,12 +154,16 @@ describe('class selection', () => {
   })
 
   it('persists selection across reloads and clears it on logout and school changes', () => {
+    useReportSelectionStore().setClassCount(1)
     useReportSelectionStore().select(5460, 9522, '8A')
     setActivePinia(createPinia())
     expect(useReportSelectionStore().groupId).toBe(5460)
     expect(useReportSelectionStore().testId).toBe(9522)
+    expect(useReportSelectionStore().classCount).toBe(1)
+    expect(useReportSelectionStore().canChangeClass).toBe(false)
     useAuthStore().login('54321', 'another-token', 28800)
     expect(useReportSelectionStore().hasSelection).toBe(false)
+    expect(useReportSelectionStore().classCount).toBeNull()
     useReportSelectionStore().select(5462, 9524, '8B')
     useAuthStore().logout()
     expect(useReportSelectionStore().hasSelection).toBe(false)

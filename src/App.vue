@@ -17,10 +17,12 @@ import competenceTexts from '@/assets/competence_guidingideas_texts.json'
 import { useModalStore } from './stores/modalStore'
 import { useGroupInfo } from './composables/useUserItems.ts'
 import { useAuthStore } from './stores/auth'
+import { useReportSelectionStore } from './stores/reportSelection'
 
 const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()
+const reportSelection = useReportSelectionStore()
 const { t } = useI18n()
 
 const currentUserCode = computed(() => route.query.user as string)
@@ -180,7 +182,7 @@ const logout = () => {
 
       <div :class="styles.sessionActions">
         <button
-          v-if="!auth.demoAccess"
+          v-if="!auth.demoAccess && reportSelection.canChangeClass"
           type="button"
           @click="router.push({ name: 'class-selection' })"
           :class="styles.logoutBtn"

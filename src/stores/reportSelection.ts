@@ -14,6 +14,8 @@ export const useReportSelectionStore = defineStore('report-selection', () => {
   const groupId = ref(readId('report-group-id'))
   const testId = ref(readId('report-test-id'))
   const groupName = ref(sessionStorage.getItem('report-group-name') || '')
+  const classCount = ref(readId('report-class-count'))
+  const canChangeClass = computed(() => classCount.value !== null && classCount.value > 1)
   const hasSelection = computed(() => groupId.value !== null && testId.value !== null)
 
   function select(newGroupId: number, newTestId: number, newGroupName: string) {
@@ -33,10 +35,20 @@ export const useReportSelectionStore = defineStore('report-selection', () => {
     groupId.value = null
     testId.value = null
     groupName.value = ''
+    classCount.value = null
     sessionStorage.removeItem('report-group-id')
     sessionStorage.removeItem('report-test-id')
     sessionStorage.removeItem('report-group-name')
+    sessionStorage.removeItem('report-class-count')
   }
 
-  return { groupId, testId, groupName, hasSelection, select, clear }
+  function setClassCount(count: number) {
+    if (!Number.isSafeInteger(count) || count < 0) {
+      throw new Error('Ungültige Anzahl verfügbarer Klassen.')
+    }
+    classCount.value = count
+    sessionStorage.setItem('report-class-count', String(count))
+  }
+
+  return { groupId, testId, groupName, hasSelection, classCount, canChangeClass, setClassCount, select, clear }
 })

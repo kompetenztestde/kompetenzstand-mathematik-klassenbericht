@@ -275,6 +275,9 @@ ein neuer Login löschen die Auswahl. Der Demo-Zugang überspringt die Auswahl u
 weiterhin die Fixture-IDs `groupId = 1001` und `testId = 9524`.
 
 Im regulären Bericht öffnet „Klasse wechseln“ die Auswahl erneut, ohne die Sitzung zu beenden.
+Wenn nur eine passende Klasse verfügbar ist, wird sie automatisch übernommen und
+„Klasse wechseln“ ausgeblendet. Bei mehreren Mathematiktests dieser Klasse bleibt die
+Testheft-Auswahl erforderlich; bei genau einem passenden Test öffnet sich direkt der Bericht.
 Nach der Auswahl einer anderen Klasse bzw. eines anderen Tests startet deren Bericht bei Schritt 1.
 
 ### Berichtsschritte

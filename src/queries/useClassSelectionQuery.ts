@@ -66,14 +66,16 @@ export function useClassSelectionQuery() {
   return useQuery({
     queryKey: computed(() => ['class-selection', auth.schoolNumber]),
     enabled: computed(() => auth.isAuthenticated && !auth.demoAccess),
-    queryFn: async ({ signal }) => {
-      const [groups, tests] = await Promise.all([
-        loadList('participated-groups', signal),
-        loadList('tests', signal),
-      ])
-      return matchClasses(groups, tests)
-    },
+    queryFn: ({ signal }) => loadSelectableClasses(signal),
     retry: false,
     staleTime: 5 * 60 * 1000,
   })
+}
+
+export async function loadSelectableClasses(signal: AbortSignal) {
+  const [groups, tests] = await Promise.all([
+    loadList('participated-groups', signal),
+    loadList('tests', signal),
+  ])
+  return matchClasses(groups, tests)
 }
