@@ -3,7 +3,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import LoginLayout from '@/layouts/LoginLayout.vue'
-import { DEFAULT_DEMO_SCHOOL_NUMBER, useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth'
 
 const { replace, loadClasses } = vi.hoisted(() => ({ replace: vi.fn(), loadClasses: vi.fn() }))
 vi.mock('@/queries/useClassSelectionQuery', async (importOriginal) => ({
@@ -55,6 +55,7 @@ describe('LoginLayout', () => {
     await wrapper.get('#country').setValue(country)
 
     expect(wrapper.get('#schoolNumber').attributes('disabled')).toBeUndefined()
+    expect(wrapper.get<HTMLInputElement>('#schoolNumber').element.readOnly).toBe(false)
     expect(wrapper.get('#schoolPassword').attributes('disabled')).toBeUndefined()
     expect(wrapper.get('.input-icon-button').attributes('disabled')).toBeUndefined()
     expect(wrapper.get('[type="submit"]').attributes('disabled')).toBeDefined()
@@ -75,15 +76,13 @@ describe('LoginLayout', () => {
 
     expect(wrapper.find('#country').exists()).toBe(false)
     expect(wrapper.find('#schoolPassword').exists()).toBe(false)
-    expect(wrapper.get('#schoolNumber').attributes('disabled')).toBeUndefined()
-    expect(wrapper.get<HTMLInputElement>('#schoolNumber').element.value).toBe(
-      DEFAULT_DEMO_SCHOOL_NUMBER,
-    )
+    expect(wrapper.find('#schoolNumber').exists()).toBe(false)
     expect(wrapper.get('[type="submit"]').attributes('disabled')).toBeUndefined()
 
     await wrapper.get('.demo-access-option:first-child').trigger('click')
 
     expect(wrapper.get<HTMLSelectElement>('#country').element.value).toBe('')
+    expect(wrapper.get<HTMLInputElement>('#schoolNumber').element.readOnly).toBe(false)
     expect(wrapper.get('#schoolNumber').attributes('disabled')).toBeDefined()
     expect(wrapper.get('#schoolPassword').attributes('disabled')).toBeDefined()
     expect(wrapper.get('.input-icon-button').attributes('disabled')).toBeDefined()

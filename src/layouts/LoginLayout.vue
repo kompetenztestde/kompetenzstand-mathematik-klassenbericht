@@ -248,7 +248,7 @@ function login() {
                   <p v-if="errors.country" class="error-message">{{ errors.country }}</p>
                 </div>
 
-                <div class="form-group">
+                <div v-if="!demoAccess.enabled" class="form-group">
                   <label for="schoolNumber" class="form-label">Schulnummer</label>
                   <input
                     id="schoolNumber"
