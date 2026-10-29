@@ -434,7 +434,7 @@ Darüber hinaus besteht der Wunsch, die Ergebnisse aus VERA mit denen anderer di
 
 Im Rahmen des Projekts wurden zunächst vielfältige Ideen gesammelt. Anschließend lag der Schwerpunkt auf der konkreten Entwicklung von Rückmeldungen, die sich innerhalb der bestehenden Strukturen umsetzen lassen. Dabei wurden zwei zentrale Adressat:innengruppen identifiziert: Schüler:innen und Lehrkräfte.
 
-Für diese beiden Gruppen wurden jeweils eigene Prototypen entwickelt (s. kompetenzstand-mathematik-schueler:innenbericht und kompetenzstand-mathematik-klassenbericht). Sie berücksichtigen die unterschiedlichen Informationsbedürfnisse und können unabhängig voneinander eingesetzt werden. Gleichzeitig verbindet sie ein gemeinsames visuelles Gestaltungskonzept.
+Für diese beiden Gruppen wurden jeweils eigene Prototypen entwickelt (s. [Schüler:innenbericht](https://github.com/kompetenztestde/kompetenzstand-mathematik-schuelerinnenbericht) und [Klassenbericht](https://github.com/kompetenztestde/kompetenzstand-mathematik-klassenbericht)). Sie berücksichtigen die unterschiedlichen Informationsbedürfnisse und können unabhängig voneinander eingesetzt werden. Gleichzeitig verbindet sie ein gemeinsames visuelles Gestaltungskonzept.
 
 ### Vorüberlegungen
 
@@ -460,7 +460,7 @@ In der aktuellen Umsetzung erfolgt der Zugang über eine separate Login-Seite. L
 
 ### Aufbau und Gestaltung des Berichts
 
-Der Klassenbericht greift das grundlegende Gestaltungskonzept des Schüler:innenberichts auf **(Link)**. Die Farben und grafischen Elemente werden in einer zurückhaltenderen Form verwendet. Dadurch entsteht ein Wiedererkennungswert zwischen den beiden Prototypen, während der Klassenbericht zugleich auf die Informationsbedürfnisse der Lehrkräfte ausgerichtet ist.
+Der Klassenbericht greift das grundlegende Gestaltungskonzept des Schüler:innenberichts auf (s. [Schüler:innenbericht](https://github.com/kompetenztestde/kompetenzstand-mathematik-schuelerinnenbericht)). Die Farben und grafischen Elemente werden in einer zurückhaltenderen Form verwendet. Dadurch entsteht ein Wiedererkennungswert zwischen den beiden Prototypen, während der Klassenbericht zugleich auf die Informationsbedürfnisse der Lehrkräfte ausgerichtet ist.
 
 Die Inhalte sind von einer ersten Ergebnisübersicht über detaillierte Analysen bis hin zu Hinweisen für die Weiterarbeit gegliedert. Lehrkräfte, die sich zunächst einen schnellen Überblick verschaffen möchten, finden auf den ersten Seiten die wichtigsten Informationen. Weitere Seiten ermöglichen eine vertiefte Auseinandersetzung mit den Ergebnissen.
 
@@ -558,7 +558,7 @@ Auch die Abschlussseite könnte künftig stärker auf die Ergebnisse der jeweili
 
 ### Ausblick
 
-Beide Prototypen (s. [Schüler:innenbericht](kompetenzstand-mathematik.md) und [Klassenbericht](kompetenzstand-mathematik-klassenbericht.md)) wurden für den Einsatz im Fach Mathematik in Jahrgangsstufe 8 konzipiert. Eine Übertragung auf andere Fächer oder Jahrgangsstufen ist grundsätzlich denkbar, erfordert jedoch eine fachliche Prüfung und entsprechende Anpassungen. Dazu gehören insbesondere die inhaltliche Abstimmung der Rückmeldungen, die Auswahl geeigneter Vergleichswerte, die Überprüfung der Berechnungsgrundlagen sowie gegebenenfalls Anpassungen des Designs.
+Beide Prototypen (s. [Schüler:innenbericht](https://github.com/kompetenztestde/kompetenzstand-mathematik-schuelerinnenbericht) und [Klassenbericht](https://github.com/kompetenztestde/kompetenzstand-mathematik-klassenbericht)) wurden für den Einsatz im Fach Mathematik in Jahrgangsstufe 8 konzipiert. Eine Übertragung auf andere Fächer oder Jahrgangsstufen ist grundsätzlich denkbar, erfordert jedoch eine fachliche Prüfung und entsprechende Anpassungen. Dazu gehören insbesondere die inhaltliche Abstimmung der Rückmeldungen, die Auswahl geeigneter Vergleichswerte, die Überprüfung der Berechnungsgrundlagen sowie gegebenenfalls Anpassungen des Designs.
 
 Die entwickelten Prototypen zeigen, wie Rückmeldungen aus VERA stärker an den Informationsbedürfnissen der jeweiligen Zielgruppen ausgerichtet werden können. Der Schüler:innenbericht stellt eine verständliche und motivierende Einordnung der individuellen Testergebnisse in den Mittelpunkt. Der Klassenbericht bietet Lehrkräften differenzierte Auswertungsmöglichkeiten und Ansatzpunkte für die weitere Unterrichtsentwicklung.
 
