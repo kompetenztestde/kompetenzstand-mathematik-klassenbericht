@@ -395,6 +395,150 @@ pnpm run lint                 # Linter-Prüfung und automatische Fixes (oxlint/E
 
 ## Inhaltliche Dokumentation
 
+### Ausgangslage und Zielsetzung
+
+Zu Beginn der Entwicklung der Prototypen wurden der Ablauf von VERA und die beteiligten Akteur:innen aus Schulsicht systematisch betrachtet. Dabei wurde untersucht, welchen Nutzen die bestehenden Rückmeldungen bieten und an welchen Stellen sich ihr Mehrwert weiter erhöhen lässt.
+
+Dabei haben sich mehrere Ansatzpunkte herauskristallisiert, die im Folgenden erläutert werden. Sie bilden die Grundlage für das Verständnis der entwickelten Prototypen und der ihnen zugrunde liegenden Entscheidungen.
+
+Aus Sicht der Lehrkräfte sind Rückmeldungen ein wichtiger Baustein, um den Nutzen von VERA zu erhöhen. Sie bieten eine Orientierung für die pädagogische Arbeit und können Impulse für die Weiterentwicklung des Unterrichts geben. Entscheidend ist dabei, dass die Ergebnisse möglichst zeitnah vorliegen, die Informationen auf die jeweiligen Adressat:innen zugeschnitten sind und konkrete Anhaltspunkte für die weitere Arbeit bieten.
+
+Darüber hinaus besteht der Wunsch, die Ergebnisse aus VERA mit denen anderer diagnostischer Verfahren zu verknüpfen. Auch Längsschnittbetrachtungen wären hilfreich, sowohl auf Ebene der einzelnen Schüler:innen als auch auf Ebene der Lehrkräfte und Schulen.
+
+Im Rahmen des Projekts wurden zunächst vielfältige Ideen gesammelt. Anschließend lag der Schwerpunkt auf der konkreten Entwicklung von Rückmeldungen, die sich innerhalb der bestehenden Strukturen umsetzen lassen. Dabei wurden zwei zentrale Adressat:innengruppen identifiziert: Schüler:innen und Lehrkräfte.
+
+Für diese beiden Gruppen wurden jeweils eigene Prototypen entwickelt (s. kompetenzstand-mathematik-schueler:innenbericht und kompetenzstand-mathematik-klassenbericht). Sie berücksichtigen die unterschiedlichen Informationsbedürfnisse und können unabhängig voneinander eingesetzt werden. Gleichzeitig verbindet sie ein gemeinsames visuelles Gestaltungskonzept.
+
+### Vorüberlegungen
+
+Lehrkräfte bilden eine zentrale Adressat:innengruppe von VERA. Für sie wurde ein Klassenbericht entwickelt, der die Ergebnisse übersichtlich darstellt und Anhaltspunkte für die weitere Unterrichtsentwicklung bietet.
+
+Auch für diesen Bericht ist eine zeitnahe Bereitstellung wünschenswert. Anders als beim Schüler:innenbericht kommt der Einordnung anhand fairer Vergleichswerte jedoch eine besondere Bedeutung zu. Deshalb sollte der Klassenbericht erst veröffentlicht werden, wenn die entsprechenden Vergleichswerte berechnet wurden.
+
+Eine frühere Bereitstellung ohne diese Vergleichswerte wäre grundsätzlich denkbar. Aus Sicht der Entwicklungsgruppe besteht allerdings das Risiko, dass Lehrkräfte den Bericht später nicht erneut aufrufen, um die ergänzten Informationen zu berücksichtigen. Die zeitnahe Veröffentlichung und die vollständige Einordnung der Ergebnisse müssen daher gemeinsam betrachtet werden.
+
+### Berechnung und Einordnung der Ergebnisse
+
+Die Ergebnisse der Klasse werden durch faire Vergleichswerte ergänzt. Diese ermöglichen eine differenziertere Einordnung der Leistungen und berücksichtigen relevante Merkmale der Schüler:innen.
+
+Dazu werden die Ergebnisse der Klasse mit den Mittelwerten anderer Klassen verglichen, deren Zusammensetzung hinsichtlich der berücksichtigten Merkmale ähnlich ist. Auf diese Weise sollen Unterschiede in der Zusammensetzung der Lerngruppen bei der Interpretation der Ergebnisse berücksichtigt werden.
+
+Die Lehrkräfte erhalten dadurch nicht nur Informationen darüber, wie ihre Klasse bei VERA abgeschnitten hat, sondern auch Anhaltspunkte dafür, wie die Ergebnisse im Verhältnis zu einer geeigneten Vergleichsgruppe einzuordnen sind.
+
+### Zugriff auf den Bericht
+
+Der Klassenbericht ist so konzipiert, dass er perspektivisch in gängige Schulportale eingebunden werden kann.
+
+In der aktuellen Umsetzung erfolgt der Zugang über eine separate Login-Seite. Lehrkräfte melden sich dort mit ihrem Schulzugang an und wählen anschließend die gewünschte Klasse aus.
+
+### Aufbau und Gestaltung des Berichts
+
+Der Klassenbericht greift das grundlegende Gestaltungskonzept des Schüler:innenberichts auf **(Link)**. Die Farben und grafischen Elemente werden in einer zurückhaltenderen Form verwendet. Dadurch entsteht ein Wiedererkennungswert zwischen den beiden Prototypen, während der Klassenbericht zugleich auf die Informationsbedürfnisse der Lehrkräfte ausgerichtet ist.
+
+Die Inhalte sind von einer ersten Ergebnisübersicht über detaillierte Analysen bis hin zu Hinweisen für die Weiterarbeit gegliedert. Lehrkräfte, die sich zunächst einen schnellen Überblick verschaffen möchten, finden auf den ersten Seiten die wichtigsten Informationen. Weitere Seiten ermöglichen eine vertiefte Auseinandersetzung mit den Ergebnissen.
+
+Die einzelnen Informationen sind übersichtlich und möglichst eindeutig dargestellt. Ergänzende Hintergrundinformationen und Interpretationshilfen sind über entsprechende Hilfsicons abrufbar.
+
+Die Ergebnisse der Klasse und die korrigierten Landesmittelwerte werden durchgängig in unterschiedlichen, jeweils gleichbleibenden Farben dargestellt. Dadurch lassen sich die beiden Werte in den verschiedenen Ansichten schnell unterscheiden.
+
+### Zusammenfassung der Ergebnisse
+
+Im Anschluss an die Startseite erhalten die Lehrkräfte eine Zusammenfassung der wichtigsten Ergebnisse.
+
+Für das Fach Mathematik wurden neben dem Gesamtergebnis insbesondere die Rückmeldungen zu den Leitideen als relevant eingeschätzt. Sie bilden zentrale inhaltliche Bereiche des Fachs ab und ermöglichen eine differenzierte Betrachtung der Ergebnisse. Anders als im Schüler:innenbericht werden die Leitideen hier stets in derselben Reihenfolge dargestellt. Das erleichtert den Vergleich zwischen den einzelnen Bereichen.
+
+Zusätzlich wird die Homogenität der Klasse ausgewiesen. Die Information über die Leistungsunterschiede innerhalb der Lerngruppe ist für die weitere Unterrichtsentwicklung besonders interessant. Sie ermöglicht es, die Streuung der Ergebnisse innerhalb der Klasse mit derjenigen einer geeigneten Vergleichsgruppe beziehungsweise dem Landesdurchschnitt in Beziehung zu setzen.
+
+### Ergebnisse in den Teilbereichen
+
+Auf die Zusammenfassung folgt eine Übersicht über die Ergebnisse in den einzelnen Teilbereichen. Neben dem Gesamtergebnis und den Leitideen werden hier auch prozessbezogene Kompetenzen, Anforderungsbereiche und Kompetenzstufen der Aufgaben berücksichtigt.
+
+Im Verlauf der Entwicklungsarbeit zeigten sich deutliche Unterschiede zwischen den Bundesländern hinsichtlich der verwendeten Konzepte und ihrer Verankerung in der schulischen Praxis. Während in einigen Ländern vor allem Kompetenzstufen genutzt werden, stehen in anderen die Anforderungsbereiche stärker im Vordergrund. Die Vertrautheit mit den jeweiligen Konzepten unterscheidet sich entsprechend.
+
+Auch in dieser Ansicht werden der Klassenwert und der faire Vergleichswert gegenübergestellt. Darüber hinaus wäre es für schulinterne Abstimmungen, beispielsweise in Schul- oder Fachbereichskonferenzen, sinnvoll, zusätzlich den Schulwert darzustellen.
+
+Die Grafik ist interaktiv gestaltet. Die einzelnen Vergleichswerte lassen sich nach Bedarf ein- und ausblenden. Beim Überfahren der Grafik mit dem Mauszeiger werden die genauen Werte der jeweiligen Teilbereiche angezeigt.
+
+Eine weitere Funktion ermöglicht es, einzelne Teilbereiche aus der Darstellung auszublenden. Die übrigen Teilbereiche werden anschließend auf Grundlage der verbleibenden Auswahl neu berechnet. Dadurch können Lehrkräfte die Ergebnisse gezielt aus unterschiedlichen Perspektiven betrachten.
+
+### Ergebnisse im Detail
+
+Das Kernstück des Klassenberichts ist die detaillierte Ergebnisansicht. Sie bietet verschiedene Möglichkeiten, die Ergebnisse der gesamten Klasse, ausgewählter Gruppen oder einzelner Schüler:innen zu betrachten und systematisch auszuwerten.
+
+Im Verlauf der Entwicklung des Prototyps zeigte sich insbesondere für das Fach Mathematik, dass die Ebene der einzelnen Aufgaben für die Interpretation der Ergebnisse besonders wichtig ist. Deshalb werden die Aufgaben in der Detailansicht einzeln in Form von Kästchen dargestellt.
+
+In der Ausgangsansicht sind die Schüler:innen absteigend nach ihren Testergebnissen sortiert. Die Aufgaben werden nach gelösten und nicht gelösten Aufgaben gruppiert. Diese Darstellung bietet einen schnellen Überblick über die Leistungen innerhalb der Klasse und zeigt, wie sich die einzelnen Schüler:innen im Verhältnis zueinander einordnen.
+Sofern entsprechende Daten vorliegen, werden ergänzend Merkmale der Schüler:innen und ihre Halbjahresnoten angezeigt.
+
+Die Grafik lässt sich an unterschiedliche Fragestellungen anpassen. Über Farbskalen können Informationen zu den einzelnen Aufgaben dargestellt werden. Dabei ist ein Wechsel zwischen verschiedenen fachlichen Perspektiven möglich, etwa nach Leitideen, Kompetenzstufen oder Anforderungsbereichen.
+
+Darüber hinaus können die Aufgabennamen eingeblendet werden, um die einzelnen Aufgaben leichter zu identifizieren. Die Aufgaben lassen sich entweder gruppiert oder in ihrer tatsächlichen Reihenfolge anzeigen.
+
+Auch die Sortierung kann angepasst werden. Möglich sind Sortierungen nach Schüler:innen, nach der Lösungshäufigkeit der Aufgaben oder nach den Halbjahresnoten.
+
+Diese Funktionen unterstützen Lehrkräfte dabei, Muster in den Ergebnissen zu erkennen und konkrete Fragestellungen zu untersuchen. Dazu gehören beispielsweise:
+
+* Welche Leitideen wurden von der Klasse besonders gut bearbeitet?
+* Bei welchen Aufgaben aus dem Anforderungsbereich III zeigen sich Schwierigkeiten?
+* Gibt es Aufgaben, die von niemandem gelöst oder überhaupt bearbeitet wurden?
+* Erzielen Schüler:innen mit schwächeren Halbjahresnoten bessere Ergebnisse als erwartet?
+* Lassen sich innerhalb der Klasse Gruppen mit ähnlichen Ergebnismustern erkennen?
+
+Durch einen Klick auf einzelne Aufgabenkästchen können zusätzliche Informationen zu den jeweiligen Aufgaben aufgerufen werden, beispielsweise der Aufgabenname oder ausgewählte Aufgabenparameter.
+
+Die Detailansicht verbindet damit eine kompakte Übersicht über die gesamte Klasse mit Möglichkeiten zur gezielten Analyse einzelner Aufgaben und Schüler:innengruppen.
+
+### Besonders gut und weniger gut gelöste Aufgaben
+
+Im Anschluss an die detaillierte Ergebnisansicht werden die drei Aufgaben hervorgehoben, bei denen die Klasse im Vergleich zum korrigierten Landesmittelwert besonders gut beziehungsweise weniger gut abgeschnitten hat.
+
+Im Mittelpunkt stehen dabei konkrete Ansatzpunkte für die Weiterarbeit. Entscheidend ist nicht allein, welche Aufgaben absolut betrachtet besonders häufig oder selten gelöst wurden. Vielmehr wird untersucht, bei welchen Aufgaben die Ergebnisse der Klasse im Verhältnis zum korrigierten Landesmittelwert auffällig ausfallen.
+
+Diese Einordnung ist wichtig, da die Lösungshäufigkeit auch vom Schwierigkeitsgrad einer Aufgabe beeinflusst wird. Einfache Aufgaben werden häufig von vielen Schüler:innen richtig gelöst, während anspruchsvolle Aufgaben insgesamt eine geringere Lösungshäufigkeit aufweisen können. Erst der Vergleich mit dem korrigierten Landesmittelwert ermöglicht es, solche Unterschiede differenzierter zu betrachten.
+
+Für die drei besonders gut und die drei weniger gut gelösten Aufgaben werden jeweils der Klassenwert und der Landesmittelwert dargestellt.
+
+Die Beschränkung auf maximal drei Aufgaben pro Kategorie ist bewusst gewählt. Sie soll die Ergebnisse auf die wesentlichen Auffälligkeiten konzentrieren und Lehrkräften konkrete Hinweise für die weitere Unterrichtsarbeit geben.
+
+### Abschlussseite
+
+Die letzte Seite bündelt Anregungen für den Umgang mit den Ergebnissen. Dazu werden konkrete Fragestellungen für die Auseinandersetzung mit den Testergebnissen auf unterschiedlichen Ebenen vorgestellt.
+
+Ergänzend enthält die Seite eine Checkliste mit möglichen nächsten Handlungsschritten. Sie soll Lehrkräfte dabei unterstützen, aus der Analyse der Ergebnisse konkrete Ansatzpunkte für die weitere Arbeit abzuleiten.
+
+### Mögliche Weiterentwicklungen
+
+Der Klassenbericht bildet einen ersten funktionsfähigen Ansatz, dessen Potenzial durch weitere Funktionen und Verknüpfungen noch besser ausgeschöpft werden könnte. Einige der ursprünglich vorgesehenen Funktionen konnten im Rahmen des Prototyps noch nicht umgesetzt werden.
+
+Ergänzung der Homogenitätsdarstellung
+Die Darstellung der Klassenhomogenität könnte um einen entsprechenden Landeswert ergänzt werden. Auf dieser Grundlage ließen sich abhängig von den Ergebnissen passende Handlungsempfehlungen bereitstellen. Diese könnten entweder unmittelbar an der Skala oder dynamisch auf der Abschlussseite angezeigt werden.
+
+Erweiterung der Detailansicht
+Insbesondere die Detailansicht bietet zahlreiche Möglichkeiten für eine Weiterentwicklung. Ein wichtiger Wunsch aus der Entwicklungsgruppe war, durch einen Klick auf einzelne Schüler:innen direkt zu ihrem bearbeiteten Online-Test zu gelangen. Dadurch könnten Lehrkräfte die Ergebnisse anhand der konkreten Aufgabenbearbeitung genauer nachvollziehen.
+Auch eine Verknüpfung mit dem Bericht für die jeweiligen Schüler:innen wäre sinnvoll. Sie könnte eine gemeinsame Grundlage für Lernentwicklungsgespräche und Elterngespräche schaffen und dabei helfen, die Perspektiven der Lehrkräfte und der Lernenden zusammenzuführen.
+Darüber hinaus wäre es hilfreich, bei einem Klick auf eine einzelne Aufgabe nicht nur deren Parameter, sondern auch die Aufgabe selbst und die zugehörige Korrekturvorschrift aufrufen zu können.
+
+Unterstützung bei der Interpretation
+Um die Nutzung der Detailansicht zu erleichtern, könnten ein kurzes Erklärvideo oder ein integrierter Guide entwickelt werden. Diese Hilfen würden die Funktionen erläutern und den Einstieg in die Arbeit mit der Grafik erleichtern.
+Ergänzend wären automatische Hinweise auf auffällige Muster in den Ergebnissen denkbar. In Verbindung mit passenden Handlungsempfehlungen könnten sie Lehrkräfte dabei unterstützen, aus den Analysen konkrete nächste Schritte abzuleiten.
+
+Verknüpfung mit Aufgaben und Weiterarbeitshinweisen
+Bei den besonders gut beziehungsweise weniger gut gelösten Aufgaben wäre es hilfreich, die jeweilige Onlineansicht einschließlich der Korrekturvorschrift direkt aufrufen zu können.
+Insbesondere bei den weniger gut gelösten Aufgaben könnte zusätzlich eine Verknüpfung mit dem Aufgabenbrowser oder mit konkreten Hinweisen zur Weiterarbeit einen Mehrwert bieten. Dadurch ließen sich die Analyse der Ergebnisse und die Planung weiterer Unterrichtsschritte enger miteinander verbinden.
+
+Dynamische Gestaltung der Abschlussseite
+Auch die Abschlussseite könnte künftig stärker auf die Ergebnisse der jeweiligen Klasse abgestimmt werden. Eine dynamische Auswahl von Fragestellungen und Handlungsempfehlungen würde es ermöglichen, die Hinweise gezielter an den festgestellten Ergebnismustern auszurichten.
+
+### Ausblick
+
+Beide Prototypen (s. [Schüler:innenbericht](kompetenzstand-mathematik.md) und [Klassenbericht](kompetenzstand-mathematik-klassenbericht.md)) wurden für den Einsatz im Fach Mathematik in Jahrgangsstufe 8 konzipiert. Eine Übertragung auf andere Fächer oder Jahrgangsstufen ist grundsätzlich denkbar, erfordert jedoch eine fachliche Prüfung und entsprechende Anpassungen. Dazu gehören insbesondere die inhaltliche Abstimmung der Rückmeldungen, die Auswahl geeigneter Vergleichswerte, die Überprüfung der Berechnungsgrundlagen sowie gegebenenfalls Anpassungen des Designs.
+
+Die entwickelten Prototypen zeigen, wie Rückmeldungen aus VERA stärker an den Informationsbedürfnissen der jeweiligen Zielgruppen ausgerichtet werden können. Der Schüler:innenbericht stellt eine verständliche und motivierende Einordnung der individuellen Testergebnisse in den Mittelpunkt. Der Klassenbericht bietet Lehrkräften differenzierte Auswertungsmöglichkeiten und Ansatzpunkte für die weitere Unterrichtsentwicklung.
+
+Beide Ansätze verfolgen damit das Ziel, Testergebnisse nicht nur bereitzustellen, sondern ihre Einordnung und Nutzung zu erleichtern. Zugleich bilden die Prototypen eine Grundlage für weitere Entwicklungen, insbesondere für die Verknüpfung mit bestehenden diagnostischen Angeboten und konkreten Möglichkeiten zur Weiterarbeit.
+
+Für die nächsten Schritte empfehlen wir, beide Prototypen unter realen Einsatzbedingungen zu erproben und systematisch zu evaluieren. Dabei sollte insbesondere untersucht werden, wie verständlich die Rückmeldungen für die jeweiligen Zielgruppen sind, wie sie im schulischen Alltag genutzt werden und welche Funktionen den größten Mehrwert bieten. Die Ergebnisse einer solchen Evaluation können dazu beitragen, die Prototypen gezielt weiterzuentwickeln und ihre Eignung für einen breiteren Einsatz zu prüfen.
+
 ## Lizenz
 
 Der **Quellcode** steht unter der [MIT-Lizenz](LICENSE), eigene **Illustrationen** unter
