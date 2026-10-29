@@ -10,12 +10,17 @@ Weiterarbeit.
 Das Projekt ist eine reine **Vue 3 + Vite Single-Page-App** (kein eigenes Backend). Die Testdaten kommen über
 generierte API-Clients aus der **TBA3-Schnittstelle** bzw. der **inio-Reportdaten-API**.
 
-> Diese Datei ist die ausführliche technische Dokumentation für Einrichtung, Entwicklung und Nutzung des Projekts.
+> Diese Datei ist die ausführliche technische und inhaltliche Dokumentation für Einrichtung, Entwicklung und Nutzung des Projekts.
 > Eine kurze Projektübersicht befindet sich in [README.md](README.md).
+
+* [Technische Dokumentation](#technische-dokumentation)
+* [Inhaltliche Dokumentation](#inhaltliche-dokumentation)
 
 ---
 
-## Inhaltsverzeichnis
+## Technische Dokumentation
+
+### Inhaltsverzeichnis
 
 1. [Entwicklungsumgebung](#entwicklungsumgebung)
 2. [Konfiguration](#konfiguration)
@@ -29,9 +34,9 @@ generierte API-Clients aus der **TBA3-Schnittstelle** bzw. der **inio-Reportdate
 
 ---
 
-## Entwicklungsumgebung
+### Entwicklungsumgebung
 
-### GitHub Pages
+#### GitHub Pages
 
 Der Workflow `.github/workflows/deploy-pages.yml` baut und veroeffentlicht die App
 bei einem Push nach `main` oder manuell ueber GitHub Actions, analog zum Projekt
@@ -55,14 +60,14 @@ eintragen: Beide sind im Browser oeffentlich sichtbar. Vor der Freigabe muss
 serverseitig bestaetigt sein, dass der Demo-Zugang ausschliesslich
 oeffentliche, synthetische Daten liefert.
 
-### Voraussetzungen
+#### Voraussetzungen
 
 - [Node.js](https://nodejs.org/) ≥ 20.19 oder ≥ 22.12 (s. `engines` in `package.json`)
 - [pnpm](https://pnpm.io/) (via `corepack enable pnpm`)
 - Optional: [Docker](https://www.docker.com/) ≥ 24 für die containerisierte Entwicklung
 - Optional: Java 21 – nur nötig, wenn die API-Clients neu generiert werden (s. [TBA3-Schnittstelle](#tba3-schnittstelle))
 
-### Einrichtung
+#### Einrichtung
 
 Zwei Konfigurationsdateien werden zur Laufzeit bzw. beim Build erwartet und sind **nicht im Repository** enthalten
 (s. `.gitignore`, Abschnitt [Konfiguration](#konfiguration)):
@@ -81,7 +86,7 @@ Danach die Abhängigkeiten installieren:
 pnpm install
 ```
 
-### Starten
+#### Starten
 
 ```sh
 # Compile und Hot-Reload für Entwicklung
@@ -102,7 +107,7 @@ docker compose exec node pnpm run dev
 > lokal angepasst werden, ohne dass die Änderungen versioniert werden. Das Image wird aus `docker/Dockerfile` gebaut
 > (Node 24 Alpine + Java 21 für die API-Client-Generierung).
 
-### Skripte
+#### Skripte
 
 | Skript                            | Beschreibung                                                                              |
 | --------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -118,7 +123,7 @@ docker compose exec node pnpm run dev
 | `pnpm run generate:api-new`       | API-Client für die inio-Reportdaten neu generieren                                        |
 | `pnpm run generate:api-auth`      | API-Client für die inio-Authentifizierung neu generieren                                  |
 
-### Code-Konventionen
+#### Code-Konventionen
 
 - Prettier: keine Semikolons, einfache Anführungszeichen, Zeilenlänge 100 (`.prettierrc.json`)
 - Linting: oxlint (Kategorie `correctness` als Fehler, Plugins `eslint`/`typescript`/`unicorn`/`oxc`/`vue`/`vitest`)
@@ -128,12 +133,12 @@ docker compose exec node pnpm run dev
 
 ---
 
-## Konfiguration
+### Konfiguration
 
 Die App ist so gebaut, dass die API-Endpunkte **ohne Rebuild** ausgetauscht werden können. Die Datei liegt in
 `public/` und ist bewusst nicht versioniert.
 
-### `public/config.js` – Laufzeit-Endpunkte
+#### `public/config.js` – Laufzeit-Endpunkte
 
 Wird in `index.html` als klassisches Script eingebunden und setzt `window.appConfig`. Ausgelesen wird sie in
 `src/queries/utils.ts`:
@@ -157,7 +162,7 @@ Dev-Betrieb gegen die Vite-Proxys, s. [Dev-Proxys](#dev-proxys)) angefragt. Der 
 **Ersteinrichtung:** Kopiere für die lokale Entwicklung die Vorlage `public/config.example.js` nach
 `public/config.js` und passe die Werte bei Bedarf an.
 
-#### Optional: `.env` als Build-Fallback
+##### Optional: `.env` als Build-Fallback
 
 Standardmäßig wird der API-Key zur Laufzeit über `public/config.js` geladen (kein Rebuild erforderlich). Falls du
 ihn stattdessen zur Build-Zeit fest in das Bundle einbrennen möchtest, kannst du eine `.env`-Datei auf Basis von
@@ -171,7 +176,7 @@ VITE_X_API_KEY_SCHOOL=TEST
 der `xApiKeySchool` für Endnutzer im Browser jederzeit einsehbar. Trage hier niemals geheime Server-Keys oder
 Admin-Credentials ein, sondern ausschließlich dafür vorgesehene Public-/Schul-API-Keys.
 
-### Redaktionelle Texte & Schwellenwerte
+#### Redaktionelle Texte & Schwellenwerte
 
 Anders als der Name vermuten lässt, ist `src/assets/competence_guidingideas_texts.json` **kein** zur Laufzeit
 nachladbares Konfigurationsobjekt, sondern wird aktuell direkt in `App.vue` per statischem Import eingebunden und
@@ -193,7 +198,7 @@ Oberflächentexte (Labels, Buttons, feste UI-Strings) liegen dagegen in `src/loc
 
 ---
 
-## Technologien & Bibliotheken
+### Technologien & Bibliotheken
 
 - [Vue 3](https://vuejs.org/) – JavaScript-Frontend-Framework, Composition API mit `<script setup>`
 - [Vite](https://vitejs.dev/) – Dev- und Build-Tool
@@ -211,7 +216,7 @@ Oberflächentexte (Labels, Buttons, feste UI-Strings) liegen dagegen in `src/loc
 
 ---
 
-## Projektstruktur
+### Projektstruktur
 
 Das Repository ist ein **pnpm-Workspace**: die App liegt im Wurzelverzeichnis, die generierten API-Clients in
 `packages/`.
@@ -236,7 +241,7 @@ Das Repository ist ein **pnpm-Workspace**: die App liegt im Wurzelverzeichnis, d
 └── LICENSES.md                 # Übersicht, welcher Projektteil unter welcher Lizenz steht
 ```
 
-### App-Struktur
+#### App-Struktur
 
 ```
 src/
@@ -254,7 +259,7 @@ src/
 └── main.ts         # App-Bootstrap (Pinia, Router, Vue Query, I18n)
 ```
 
-### Komponenten- und View-Struktur
+#### Komponenten- und View-Struktur
 
 Views und Komponenten liegen jeweils in einem **eigenen Unterordner** nach demselben Muster:
 
@@ -277,7 +282,7 @@ weiter.
 
 ---
 
-## Anwendungsablauf
+### Anwendungsablauf
 
 Die Rückmeldung ist als lineare Abfolge von sieben Schritten aufgebaut (`src/router/index.ts`). Der Code der
 Schüler:in wird als Query-Parameter `?user=<code>` durch die Schritte mitgeführt (gesetzt beim Start in
@@ -298,7 +303,7 @@ die Seitenindikatoren sowie die Vor-/Zurück-Navigation (`goNext`/`goBack`) verw
 
 ---
 
-## Composables & fachliche Logik
+### Composables & fachliche Logik
 
 | Composable             | Aufgabe                                                                                                                             |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -317,20 +322,20 @@ verwendet werden die `New`-Varianten gegen die inio-Reportdaten.
 
 ---
 
-## TBA3-Schnittstelle
+### TBA3-Schnittstelle
 
 Die TBA3-Schnittstelle soll die Daten für Abbildungen möglichst standardisieren. Die Schnittstelle muss zwingend für
 Abbildungen bedient werden (Projektziel von TBA3).
 
-### Dokumentation
+#### Dokumentation
 
 Die Dokumentation der Schnittstelle liegt hier vor: https://apps.indibit.eu/tba3-api/docs
 
-### Mock Server
+#### Mock Server
 
 Beispieldaten können hier abgerufen werden: https://apps.indibit.eu/tba3-api
 
-### API-Clients
+#### API-Clients
 
 Die Clients werden **nicht von Hand geschrieben**, sondern mit dem OpenAPI Generator (`typescript-fetch`) aus den
 jeweiligen Spezifikationen erzeugt und als Workspace-Pakete eingebunden. Jedes Paket enthält unter `src/` die Ordner
@@ -346,7 +351,7 @@ Die Generierung benötigt **Java 21** (der OpenAPI Generator ist ein Java-Tool);
 bringt es bereits mit. Die erzeugten Dateien werden anschließend automatisch mit Prettier formatiert. Generierter
 Code sollte nicht manuell verändert werden – stattdessen die Spezifikation anpassen und neu generieren.
 
-### Dev-Proxys
+#### Dev-Proxys
 
 Um CORS im Entwicklungsbetrieb zu umgehen, leitet Vite drei Pfade weiter (identisch konfiguriert für `dev` und
 `preview`, s. `vite.config.ts`):
@@ -361,11 +366,11 @@ Im Production-Betrieb müssen die Endpunkte stattdessen über `public/config.js`
 
 ---
 
-## Tests & Qualitätssicherung
+### Tests & Qualitätssicherung
 
 Die Anwendung nutzt **Vitest** in Kombination mit **Vue Test Utils** und **jsdom** für Unit- und Komponententests.
 
-### Commands
+#### Commands
 
 ```sh
 pnpm run test:unit            # Führt alle Unit-Tests einmalig aus
@@ -379,7 +384,7 @@ pnpm run lint                 # Linter-Prüfung und automatische Fixes (oxlint/E
 > Vitest-Standard (`*.spec.ts`/`*.test.ts`, z. B. neben der zu testenden Komponente oder in einem `__tests__/`-Ordner)
 > ergänzt werden – `vitest.config.ts` ist bereits mit `jsdom`-Umgebung vorkonfiguriert.
 
-### Empfohlener Scope für künftige Tests
+#### Empfohlener Scope für künftige Tests
 
 - **Komponenten (`src/components/`)**: Visualisierung, Accessibility (Focus Traps, ARIA-Attribute), Event-Handling
   (z. B. `SideModal`).
@@ -387,6 +392,8 @@ pnpm run lint                 # Linter-Prüfung und automatische Fixes (oxlint/E
 - **Composables (`src/composables/`)**: Geschäftslogik, Daten-Aggregation und Berechnungen.
 
 ---
+
+## Inhaltliche Dokumentation
 
 ## Lizenz
 
